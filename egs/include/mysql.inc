@@ -5,7 +5,7 @@ class DB_CONNECT{
 
  public static function db_conn(){
 	if(!self::$DBInstance){
-		$dsn =  "mysql://sge:sgeshiegs@localhost/egs_itest";
+		$dsn =  "mysql://root:whxroot@localhost/egs_itest";
 		self::$DBInstance = & DB::connect($dsn);
 		self::$DBInstance->setFetchMode(DB_FETCHMODE_OBJECT);
 		self::$DBInstance->query('set names utf8');
