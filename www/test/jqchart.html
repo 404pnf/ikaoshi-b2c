@@ -1,0 +1,104 @@
+<html>
+<head>
+<title>jqChart demo</title>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<script type="text/javascript" src="../libs/jquery/jquery-1.4.2.js"></script>
+
+<!--[if IE]>
+<script type="text/javascript" src="../libs/jqchartlib/excanvas.js"></script>
+<![endif]-->
+
+<script type="text/javascript" src="../libs/jqchartlib/jquery.jqchart.js" charset="utf-8"></script>
+
+</head><body>
+
+<style>
+
+body { 
+	margin: 20px; 
+	font-family: "Myriad Web","Trebuchet MS","Tahoma","Helvetica","Arial","sans-serif"; 
+}
+
+#myBgBox{
+	background-color:#3f464c;
+	padding:30px;
+	padding-top:5px;
+	text-align:center;
+	color:white;
+}
+#myBgBox h5{
+	margin :15px;
+	font-size : 18px;
+}
+.jQchart{
+	font-size : 12px;
+}
+.jQchart-bg{
+	margin-left  : auto ;
+	margin-right : auto ;
+}
+.jQchart-labelData{
+	font-size : 9px;
+}
+.jQchart-title{
+	font-size : 12px;
+}
+
+</style>
+<script type="text/javascript">
+/*
+var data = [
+  	[234,555,234],
+  	[300,700,600],
+  	[789,666,887],
+  	[456,890,226],
+  	[336,666,776],
+  	[458,788,888],
+  	[123,333,567],
+  	[786,221,777],
+  	[666,567,789],
+  	[895,654,888],
+  	[333,222,444],
+  	[456,123,789],
+  	[543,235,999],
+  	[444,666,227],
+  	[123,234,222]
+  ];
+  */
+  
+  var data = [
+  	[100,30,40,80,90,40,
+  	50,20,70,
+  	30,60,10]
+  ];
+</script>
+
+<div id="myBgBox">
+	<h5>jQchart + use:gradient</h5>
+	<canvas id="canvasMyID1" width="500" height="220"></canvas>
+</div>
+
+<script type="text/javascript">
+
+var chartSetting1={
+  config:{
+    title    : '<b>type : "bar"</b>,setting.config.colorSet : $.jQchart.colorSets.gray',
+    type     : 'bar',
+    labelX : ["一月","一月","一月","一月","二月","二月","二月","二月","一月","一月","一月","二月"],
+    scaleY : {min: 0,max:100,gap:10},
+    bgGradient : {
+      from  : '#00aaaa',
+      to    : '#00aa00'
+    },
+    colorSet : $.jQchart.colorSets.rikyu
+  },
+  data : data
+};
+
+jQuery(function($){
+	$('#canvasMyID1').jQchart(chartSetting1);
+})
+
+</script>
+</body>

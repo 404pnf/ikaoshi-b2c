@@ -1,0 +1,71 @@
+<script language="javascript" type="text/javascript" src="libs/item/jquery.exam_settings.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/jquery.exam_attribution_settings.js"></script>
+
+<script>
+$(function(){
+	parent.showTagsManage('#content-wrapper','comments');
+	
+});
+function exam_default_comments_setting(){
+	$('#content-wrapper').exam_default_comments_setting(0,'');
+}
+function exam_default_attr_comments_setting(){
+	$('#content-wrapper').exam_default_attribution_comments_setting(0,'');
+}
+function showExamComments(){
+	parent.showTagsManage('#content-wrapper','comments');
+}
+function showExamAttrComments(){
+	parent.showTagsManage('#content-wrapper','attr_comments');
+}
+
+function exam_structrue_comments_setting(){
+	$('#content-wrapper').load('settings/exam_structrue_comments_resources.html');
+}
+function exam_structrue_attribution_comments_setting(){
+	$('#content-wrapper').load('settings/exam_attribution_comments_resources.html');
+}
+</script>
+
+<div id="mainContentInner">
+	<div class="clearfix" id="tabs-wrapper">  
+		<ul class="tabs">
+			<li><a href="javascript:void(0);" onclick="showExamComments();">试卷评语</a></li>
+			<li><a href="javascript:void(0);" onclick="showExamAttrComments();">考点评语</a></li>
+			<li><a href="javascript:void(0);" onclick="exam_default_comments_setting();">默认试卷评语等级</a></li>
+			<li><a href="javascript:void(0);" onclick="exam_default_attr_comments_setting();">默认考点评语等级</a></li>
+			<li><a href="javascript:void(0);" onclick="exam_structrue_comments_setting()">按试卷类型设置评语及资源</a></li>
+			<li><a href="javascript:void(0);" onclick="exam_structrue_attribution_comments_setting()">按考点设置评语及资源</a></li>
+		</ul>
+	</div>
+	<div id="content-wrapper">
+	<div class="paper_title title">
+    	<span id="title_f">
+			
+        </span>
+	</div>
+	<div id="globalmessage" class="messages"></div>
+	
+	<div class="paper_content content">
+	
+	<div class="paper_search_condition search_condition clearfix">
+	
+	</div>
+	   
+	 <div class="paper_search_result result">
+		<table id="paper_search_result">
+			<thead>
+				<th  class="name">试卷名</th><th class="created">做题时间</th><th class="score">分数/总分（客观题）</th><th class="exam_points">试卷总分</th><th class="operate">操作</th>
+			</thead>
+			<tbody class="paper_list">
+			</tbody>
+		</table>
+	 </div> 
+	</div>
+
+	</div>
+
+	<div id="bottom-message"></div>
+
+
+</div><!--//mainContentInner-->

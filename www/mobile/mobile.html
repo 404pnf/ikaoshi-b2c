@@ -1,0 +1,123 @@
+<!DOCTYPE html >
+<html >
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width;"/>
+
+
+<title>EGS测试系统</title>
+
+<link type="text/css" rel="Stylesheet" href="../css/common.css" />
+<link type="text/css" rel="Stylesheet" href="../css/txegs.css" />
+<link type="text/css" rel="Stylesheet" href="../css/mobile.css" />
+
+
+<script language="javascript" type="text/javascript" src="../libs/json/json2.js" ></script>
+<script language="javascript" type="text/javascript" src="../libs/jquery/jquery-1.4.2.js"></script>
+<script language="javascript" type="text/javascript" src="../libs/jquery/jquery.jplayer.min.js"></script>
+<script language="javascript" type="text/javascript" src="../libs/jquery/jquery.getURLparam.js"></script>
+<script language="javascript" type="text/javascript" src="../libs/jquery/jquery.form.js"></script>
+<script language="javascript" type="text/javascript" src="../libs/tx/txgenerictools.js" ></script>
+
+<script language="javascript" type="text/javascript" src="../libs/common/jquery.extend.js"></script>
+
+
+<script language="javascript" type="text/javascript" src="../data/serial_number.js"></script>
+<script language="javascript" type="text/javascript" src="../libs/item/jquery.timer.js"></script>
+<script language="javascript" type="text/javascript" src="../libs/item/my.jplayer.js"></script>
+
+<script language="javascript" type="text/javascript" src="../libs/item/mobile.view_wrong_answer.js"></script>
+<script language="javascript" type="text/javascript" src="../libs/item/mobile.view_userresult.js"></script>
+<script language="javascript" type="text/javascript" src="../libs/item/mobile.viewpaper.js"></script>
+<script language="javascript" type="text/javascript" src="../libs/item/jquery.createpaper1.js"></script>
+<script type="text/javascript">
+
+$(function(){
+
+	// 处理从drupal过来的请求
+	var op = $.query.get('op');
+	var id = $.query.get('id'); //模板module id 或 paper id
+	var uid = $.query.get('uid');
+
+	/*如果地址中没有给用户uid，则从当前cookie中获取*/
+	var user_id=0,temp_uid=tx.setCookie("uid");
+	if(temp_uid!=null)
+		user_id=temp_uid;
+
+	uid = (uid!='' && uid != undefined && uid != null) ? uid:user_id;
+
+
+	if(op != '' && op != undefined && op != null)
+	{
+
+		switch(op)
+	   {
+			case 'create_paper_by_module':
+				$(".paper_content").create_paper(id,{titleContent:".paper_title",user_id:uid});
+				break;
+
+			case  'paper_info':
+				$(".paper_content").view_paper(id,{titleContent:".paper_title",user_id:uid});
+				break;
+   			 case 'user_wrong':
+   				$(".paper_content").view_wrong_answer(uid,{titleContent:".paper_title"});
+				break;
+   			case 'user_result':
+   				$(".paper_content").view_userresult(id,{operation:"detail",titleContent:".paper_title",uid:uid});
+				break;
+				/* $('#mainContent').load('user_exam.html');
+				lb_height();
+				break; */
+	   }
+
+	}
+
+
+});
+
+
+</script>
+</head>
+
+<body >
+<div id="main">
+<div id="mainContent">
+
+	<div id="mainContentInner">
+		<div class="titlebar">
+			<div class="back fleft">
+				<input class="backbutton" type="button" value="返回" onclick="javascript:history.go(-1)">
+			</div>
+			<div class="paper_title title">
+
+			</div>
+		</div>
+
+		<div class="messages" id="globalmessage"></div>
+		<div class="paper_content content">
+			<div class="loadging"><img width="25px" height="25px" src="../images/loading.gif"></div>
+		</div>
+	</div><!---end mainContentInner-->
+
+</div><!---end mainContent-->
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+
+ var _gaq = _gaq || [];
+ _gaq.push(['_setAccount', 'UA-8352134-1']);
+ _gaq.push(['_setDomainName', '.com.cn']);
+ _gaq.push(['_trackPageview']);
+
+ (function() {
+   var ga = document.createElement('script'); ga.type =
+'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' :
+'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(ga, s);
+ })();
+
+</script>

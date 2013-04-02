@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>2U4U EGS测试系统</title>
+</head>
+<link rel="stylesheet" href="css/index.css" />
+
+
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery-1.4.2.js"></script>
+
+
+<script type="text/javascript" src="libs/common/jquery.extend.js"></script>
+<script language="javascript" type="text/javascript" src="libs/tx/txgenerictools.js" ></script>
+
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery.getURLparam.js"></script>
+
+
+
+
+<script type="text/javascript">
+	// 处理从drupal过来的请求
+
+	var destination = $.query.get('destination');
+
+
+	var userroleid=1,roleidcookie='';
+		roleidcookie=tx.setCookie("userroleid");
+	if(roleidcookie!=null && roleidcookie!=undefined && roleidcookie!='')
+		userroleid=roleidcookie;
+
+	$(document).ready(function(){
+
+		var uid=tx.setCookie("uid");
+
+		var username=tx.setCookie("username");
+		//var username=tx.setCookie("username")+tx.setCookie("userrolename")+uid;
+		if(uid!=''&&uid!=null&&uid!=-1) location.href = "main.html";
+
+		tx.showConsoleMessage("Started");
+		//parent.$('#navigationPanel').height(this.height+20);
+	});
+
+
+
+function checkForm()
+{
+	var name = $("#username").val();
+	if(name.length<=0)
+	{
+		$("#msgName").html("*");
+		return false;
+	}
+	else
+	{
+		$("#msgName").html("");
+	}
+
+	var pass = $("#password").val();
+	if(pass.length<=0)
+	{
+		$("#msgPass").html("*");
+		return false;
+	}
+	else
+	{
+		$("#msgPass").html("");
+	}
+
+	var url = "/itest/egs/mobile.php?c=user&f=back";
+	var postData = {username:name, password:pass};
+
+	postjson(url, postData, "登录",function(data){  //请求成功后回调函数。
+
+		if (data != undefined)
+		{
+			if(data.status == 0)
+				$('#msg').html('登录失败'+data);
+			else if(data.status == 1){
+
+				tx.setCookie("uid", data.uid);
+				tx.setCookie("username", data.username);
+				tx.setCookie("userroleid", data.role);
+
+				if(destination.length>0)
+					location.href = destination;
+				else
+					location.href = "main.html";
+				//如果是弹出框，怎么做
+			}
+			else
+				$('#msg').html('未知错误，请联系管理员'+data);
+
+		}
+		else
+			$('#msg').html('数据为空:'+data);
+
+
+	});
+	return false;
+
+}
+
+
+</script>
+
+
+<body>
+
+<div id="mainContentInner">
+  <div id="loginDialog" style="display:block;">
+
+<div id="login_bg">
+	<div id="login_bg2">
+    <div id="login">
+
+    <form action="" method="post" onSubmit="return checkForm()">
+   	  <div id="login_name"><label for="name">用户名：</label> <input type="text" class="required username" value="" id="username" name="username" maxlength="60" /><span id="msgName" style="color: red"></span></div>
+
+      <div id="login_password"><label for="password">密&nbsp;&nbsp;&nbsp;&nbsp;码：</label> <input type="password" class="required password" maxlength="60" id="password" name="password" /><span id="msgPass" style="color:red"></span></div>
+      <input type="submit" class="pointerbutton" value="登录" id="btn_login" name="button" />
+
+        <div id="msg" style="color: red;text-align:center;"></div>
+       </form>
+       </div>
+    </div>
+</div>
+    </div>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+
+ var _gaq = _gaq || [];
+ _gaq.push(['_setAccount', 'UA-8352134-1']);
+ _gaq.push(['_setDomainName', '.com.cn']);
+ _gaq.push(['_trackPageview']);
+
+ (function() {
+   var ga = document.createElement('script'); ga.type =
+'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' :
+'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(ga, s);
+ })();
+
+</script>

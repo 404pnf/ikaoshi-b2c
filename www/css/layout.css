@@ -1,0 +1,78 @@
+/*layout控制页面整体框架的css*/
+#wrapper {
+	height:100%;
+	padding:0;
+	position:relative;
+	width:100%;
+	min-width:1024px;
+}
+#topFrame{
+	clear:both;
+    width:100%;
+    height:129px;
+    border:0;
+    overflow:hidden;
+}
+
+#centerRegion {
+	clear:both;
+	position:relative;
+	height:100%;
+	width:100%;
+	min-width:1024px;
+	float:left;
+}
+#leftFrame {
+	border:0px;
+	float:left;
+	height:100%;
+	position:relative;
+	width:219px;
+}
+#mainContent {
+    border: 0 none;
+    height: 100%;
+    float: left;
+    position: relative;
+    min-width: 800px;
+    width: 77%;
+}
+#mainContentInner {
+	height:auto;
+	padding: 20px 30px;
+}
+#footer {
+    background: none repeat scroll 0 0 #F3F3F3;
+    border-top: 1px solid #D59614;
+    clear: both;
+    height: 50px;
+    max-height: 100px;
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+#footerInner {
+	height:100%;
+	position:relative;
+	width:auto;
+}
+
+#top_bg {
+    background: url("../images/top_bg.gif") repeat-x scroll 0 0 transparent;
+    clear: both;
+    height: 129px;
+}
+#banner_right {
+    position: absolute;
+    right: 10px;
+    text-align: right;
+}
+#nav {
+    background: url("../images/top_bg.gif") repeat-x scroll 0 bottom transparent;
+    float: left;
+    font-size: 16px;
+    line-height: 39px;
+    width: 100%;
+}
+#nav_01{margin-left:60px; font-size:16px; font-family:'黑体';}
+#nav span a{ font-size:14px;font-family:'黑体';line-height:39px;}

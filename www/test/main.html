@@ -1,0 +1,775 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>EGS</title>
+<link type="text/css" rel="Stylesheet" href="css/layout.css" />
+<link rel="stylesheet" media="all" type="text/css" href="libs/jquery/impromptu.css">
+<link type="text/css" rel="Stylesheet" href="css/common.css" />
+<link type="text/css" rel="Stylesheet" href="css/txegs.css" />
+<!--media=print 这个属性可以在打印时有效-->
+<style media="print">
+	.notprint{display:none;}
+	.PageNext{page-break-after: always;}
+	.allSubques{display:block;}
+</style>
+
+
+
+<script language="javascript" type="text/javascript" src="libs/json/json2.js" ></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery-1.4.2.js"></script>
+<script language="javascript" type="text/javascript" src="libs/tx/txgenerictools.js" ></script>
+
+<script language="javascript" type="text/javascript" src="data/leftBanner10.js"></script>
+
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery-impromptu.js"></script>
+<!--<script language="javascript" type="text/javascript" src="libs/item/impromptu_content.js"></script>
+
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery.overtr.js"></script>
+-->
+<script language="javascript" type="text/javascript" src="libs/ckeditor/ckeditor.js"></script>
+<script language="javascript" type="text/javascript" src="libs/ckfinder/ckfinder.js"></script>
+
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery.getURLparam.js"></script>
+
+<script type="text/javascript">
+	function doPrint() {   
+		OpenWindow = window.open("");
+		
+　　
+　　		OpenWindow.document.write($('head')+$('#mainContentInner').html());
+	/*
+		bdhtml=window.document.body.innerHTML;   
+		sprnstr="<!--startprint-->";   
+		eprnstr="<!--endprint-->";   
+		prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);   
+		prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));   
+		=prnhtml;   
+	*/	
+		//$('body').html($('#mainContentInner').html());
+		
+		OpenWindow.print();   
+	}   
+</script> 
+
+
+<script type="text/javascript">
+	
+	var userroleid=1,roleidcookie='';
+		roleidcookie=tx.setCookie("userroleid");
+	if(roleidcookie!=null && roleidcookie!=undefined && roleidcookie!='')
+		userroleid=roleidcookie;
+	var user_id=0,temp_uid=tx.setCookie("uid");
+	if(temp_uid!=null)
+		user_id=temp_uid;
+	var session=tx.setCookie("SESS8687a77abae7a389136b7bef78e980e9");
+
+	var userpoints = tx.setCookie("userpoints");
+	var username=tx.setCookie("username");
+	
+	
+
+function logout()
+{		
+	var uid=tx.setCookie("uid");
+	
+	if(uid!=''&&uid!=null&&uid!=-1)
+	{		
+		
+		tx.setCookie("uid",null, {domain: "2u4u.com.cn", path: "/" });
+		tx.setCookie("SESS8687a77abae7a389136b7bef78e980e9",null, {domain: "2u4u.com.cn", path: "/" });
+		tx.setCookie("username",null);
+		tx.setCookie("userroleid",null);
+		tx.setCookie("userrolename",null);	
+		tx.setCookie("userpoints",null);		
+		
+	}
+	
+	location.href = "index.html";
+	return false;
+}
+
+function getUserByUid(uid,session){
+	
+		// 提交到后台进行验证
+	$.ajax({ type: "POST",// 指定是post还是get,当然此处要提交,当然就要用post了   
+cache: "false",// 默认: true,dataType为script时默认为false) jQuery 1.2 新功能，设置为 false 将不会从浏览器缓存中加载请求信息。   
+url: "/itest/test/egs/2u4u_api.php?op=user_login&",// 发送请求的地址。   
+data: 'uid='+uid+'&sess_id='+session+'&key=aa',//发送到服务器的数据   
+dataType: "text",// 返回纯文本字符串 
+timeout:20000,// 设置请求超时时间（毫秒）。 
+error: function () {// 请求失败时调用函数。  
+$("#globalmessage").html(" 请求失败!");
+ }, 
+success: function(message) 
+{  //请求成功后回调函数。
+
+	var resp;
+	
+	try
+	{
+		resp = JSON.parse(message);//{"sessid":"c63e0a88f34ff4bb18e0beb3a04ac3c4","userid":"18561","username":"whx0820","email":"whx0820@sina.com","roles":{"2":"authenticated user","7":"\u6280\u672f\u4eba\u5458"},"status":"Success","errorMessage":""} 
+	}
+	catch (err)
+	{
+		resp = undefined;
+	}
+	
+	//		var resp=data;
+			if (resp != undefined)
+			{
+				
+				if (resp.status.toLowerCase() == "success")
+				{
+					userpoints = resp.userpoints;
+					username = resp.username;
+					userroleid = 2;
+					userrolename = '';
+					
+					
+					tx.setCookie("username", resp.username);  //本域的cookie设置：用户名
+					tx.setCookie("userpoints", resp.userpoints); //本域的cookie设置：积分
+							
+					$.each(resp.roles,function(roleid,rolename){
+						
+						if(roleid==22)	{//EGS系统编辑
+							userroleid=roleid;
+							userrolename=rolename;
+						}
+						else	if(roleid==21)	{//EGS系统管理员
+							userroleid=roleid;
+							userrolename=rolename;
+							
+							return false; //跳出循环 
+						}
+						else	if(roleid==2)	{//EGS系统普通用户
+							userroleid=roleid;
+							userrolename=rolename;
+						}
+							
+					});	
+					
+						tx.setCookie("userroleid", userroleid);  //本域的cookie设置：用户名
+						tx.setCookie("userrolename", userrolename);  //本域的cookie设置：用户名	
+						//location.href = "main.html";
+						
+							
+				}
+				else
+				{
+					$("#globalmessage").html("通讯失败，错误：" + resp.errorMessage); 
+				}
+			}
+			else
+			{
+				$("#globalmessage").html("通讯失败！" + message);  
+			}
+}
+		}); 
+		
+	}
+
+	
+   
+	 if(user_id!=''&&user_id!=null&&user_id!=-1) { 
+			getUserByUid(user_id,session);
+	 }
+	else if(user_id==''||user_id==null||user_id==-1)
+	{
+		logout();
+		location.href = "index.html";
+	}
+	
+	
+	
+
+function impromptu_content(type, title){
+	
+	var title='<div class="'+type+'_title title">'+title+'</div>';	
+	var content='<div class="content">抱歉，没有找到！</div>';
+	
+	if(type == 'bangzhu'){
+	//帮助中心	
+		content = '<div class="bangzhu_content"><div>    大家好！欢迎大家使用外研社EGS考试训练系统，希望能够为备考试的您提供帮助！ </div><p>    EGS系统最大的特点是<font color="red">随机组卷</font>功能，即用户所做的不是固定的试卷，而是实时生成的，每个人的试卷都不同！每个人都可以去体验一键生成试卷的快感！ </p><div style="background:none repeat scroll 0 0 #F8EFBC;">专项测试                                                                       </div>  <p>    EGS系统为用户提供英语词汇、语法、听力、快速阅读、阅读理解、完形填空、改错、翻译、写作等所有考试题型的专项训练，用户可以根据自己的弱点有针对性的进行强化训练。</p>  <div style="background:none repeat scroll 0 0 #F8EFBC;">模考测试 </div>	<p>    EGS系统为用户提供了大学英语四级、大学英语六级、英语专业四级、英语专业八级、考研英语、PETS、高等学校英语应用能力考试、商务英语、雅思、托福、托业等大量外语考试的在线模拟。 </p>			<div style="background:none repeat scroll 0 0 #F8EFBC;">我的历史记录</div>	<p>    用户可以查看自己的所有做题记录，为复习提供更多的参考。 </p></div>';
+	}
+	else if(type == 'user_active'){
+	//活跃用户
+		content='<div class="user_active_content"><table><tr><th>序号</th><th>用户</th><th>生成试卷数量</th><th>做过的试卷</th></tr></table></div>';
+		
+		$.getJSON('/itest/test/egs/index.php?op=active_users',function(data){	
+			
+			$.each(data,function(index,item){
+				
+				var  num = 0, name = '', id = 0, paper_id = 0, paper_name = '';				
+				num = item['num'];
+				
+				$.each(item['info'],function(info_id,info_name){
+					id = info_id;
+					name = info_name;
+				});
+				paper_id = item['paper_id'];
+				paper_name = item['paper_name'];
+				//content += id+name+num;
+				
+				$('.user_active_content table').append('<tr><td>'+(index+1)+'</td><td>'+name+'</td><td>'+num+'</td><td><a href="javascript:void(0);" onclick=\'$.prompt.close();$(".paper_content").view_paper('+paper_id+',{titleContent:".paper_title",user_id:"'+user_id+'"});return false;\'> '+paper_name+' </a></td></tr>');
+				
+			});
+		
+		});	
+		
+		
+	}
+	else if(type == 'user_score'){	
+		//用户排行榜	{"1":"\u56db\u7ea7","4":"\u516d\u7ea7","5":"GMAT\u8003\u8bd5","6":"GRE\u8003\u8bd5","7":"LSAT\u8003\u8bd5","8":"\u96c5\u601d","9":"TOEFL","10":"\u4e13\u4e1a\u82f1\u8bed\u56db\u7ea7","11":"\u6d4b\u8bd5\u7c7b\u8bd5\u5377","14":"\u97e9\u8bed\u6c34\u5e73\u8003\u8bd5"}
+		
+		content='<div class="user_score_content"><div class="loadging"><img width="25px" height="25px" src="images/loading.gif"></div></div>';
+		
+		//按试卷类型分组输出得分排行榜，默认显示10条数据，需要增加数据量加入 '&num=20'
+		$.getJSON('/itest/test/egs/index.php?op=user_rate_rank&id=0',function(data){	
+			if(data){
+				$('.user_score_content').html('');
+				
+					$.each(data,function(index,data_i){
+						tid = data_i["term"]["tid"];
+						name = data_i["term"]["name"];
+						
+						$('.user_score_content').append('<table class="tid_'+tid+'"><caption>'+name+'</caption><tr><th>序号</th><th>用户</th><th>客观题分数</th> <th>客观题正确率</th></tr></table>');
+						if(data_i['status'] == 1){
+							$.each(data_i['listcontent'],function(index,item){
+								var  rate = 0, name = '', id = 0, score = 0, time = '';
+								tem_rate = item['rate']*100;
+								rate = tem_rate.toString().substring(0, 5)+'%';
+								
+
+								//rate = tem_rate*100+'%'+tem_rate;
+								
+								score = item['score'];
+								time = item['time_end'];
+								$.each(item['info'],function(info_id,info_name){
+									user_id = info_id;
+									user_name = info_name;
+								});	
+								
+								$('.user_score_content .tid_'+tid).append('<tr><td>'+(index+1)+'</td><td>'+user_name+'</td><td>'+score+'</td><td>'+rate+'</td></tr>');
+								
+							});
+						}
+						else if(data_i['status'] == 0){
+							$('.user_score_content .tid_'+tid).css({'display':'none'});
+						}
+						
+					});
+			   }
+					
+			});	
+	}
+	else {
+		alert('抱歉，没有找到！');
+		return false;
+	}
+		
+		$.prompt(title+content,{ buttons:{'关闭':true} });
+							
+	
+}       
+
+
+
+
+$(function(){
+		
+   
+	window.setTimeout(function(){
+		$(".userlogin").html('<a href="http://2u4u.com.cn/user/'+user_id+'" target="_blank">'+username+"积分("+userpoints+")</a>");
+	
+		
+		 
+	//-------左边栏显示，以及折叠效果
+		var menu=root_menu;
+		if(userroleid == 1){//未登录用户
+			logout();
+			location.href = "index.html";
+			menu = root_menu[2];
+		}
+		else
+			menu = root_menu[userroleid];
+		$('#left_bg').html(listMenu(menu));
+		lb_height();
+	
+		//左栏向左收缩与展开	
+		$('#fold_unfold').toggle(
+			function(){
+				$('#left_bg').hide();
+				$('#leftFrame').width(9);
+				$('#mainContent').width('99%');			
+				$('#un_f_button').removeClass('fold_button');
+				$('#un_f_button').addClass('unfold_button');
+			},
+			function(){
+				$('#left_bg').show();
+				$('#leftFrame').width(219);
+				$('#mainContent').width('77%');
+				$('#un_f_button').removeClass('unfold_button');
+				$('#un_f_button').addClass('fold_button');
+			}
+		);		
+		
+		//左栏向上折叠与展开
+		$('.layer1 .toggle').toggle(
+			function(event){
+				if(!$(event.target).is('a')){
+					$(this).parent().next().slideUp('slow');
+					$(this).removeClass('fold');
+					$(this).addClass('unfold');
+				}
+			},
+			function(event){
+				if(!$(event.target).is('a')){
+					$(this).parent().next().slideDown('slow');
+					$(this).removeClass('unfold');
+					$(this).addClass('fold');
+				}
+			}
+		);	
+	
+		//---end 左边栏	
+
+	}, 1000);
+
+
+});
+
+	//显示左边栏第一层级的函数
+	function listMenu(menu){
+	
+		var leftbanner = '<dl id="left_banner">';
+
+		$.each(menu,function(index,imenu){
+
+			var mtitle = imenu["title"];
+			var mlink = imenu["link"];
+			var mlayer2 = imenu["layer2"];
+
+			if(mlayer2 != undefined && mlayer2 != ''){
+	
+				if(mlink != undefined && mlink != '' && mtitle != undefined && mtitle != '') 
+					leftbanner += '<dt class="layer1"><div class="headline toggle fold"><a href="javascript:void(0);" onclick="'+mlink+'">'+ mtitle +'</a></div></dt>';
+				else if(mtitle != undefined && mtitle != '') 
+					leftbanner += '<dt class="layer1"><div class="headline toggle fold">'+ mtitle +'</div></dt>';
+				else	
+					leftbanner += '<dt class="layer1"><div class="headline fold">    其它    </div></dt>';
+					
+				leftbanner += listMenu2(mlayer2);
+				
+			}
+			else{
+			
+				if(mlink != undefined && mlink != '' && mtitle != undefined && mtitle != '') 
+					leftbanner += '<dt class="layer1"><div class="headline"><a href="javascript:void(0);" onclick="'+mlink+'">'+ mtitle +'</a></div></dt>';
+				else if(mtitle != undefined && mtitle != '') 
+					leftbanner += '<dt class="layer1"><div class="headline">'+ mtitle +'</div></dt>';
+				else	
+					leftbanner += '<dt class="layer1"><div class="headline">    其它    </div></dt>';
+					
+			}
+			
+		});
+		
+		leftbanner += '</dl>';
+		
+		return leftbanner;	
+
+
+	}
+	
+	//显示左边栏第二层级的函数
+	function listMenu2(menu2){
+
+		var leftbanner2 = '<div class="layer2">';
+
+		$.each(menu2,function(index,imenu2){
+
+			var mtitle2 = imenu2["title"];
+			var mlink2 = imenu2["link"];
+		
+			if(mlink2 != undefined && mlink2 != '' && mtitle2 != undefined && mtitle2 != '') 
+				leftbanner2 += '<dd class="headline"><a href="javascript:void(0);" onclick="'+mlink2+'">'+ mtitle2 +'</a> </dd>';
+			else if(mtitle2 != undefined && mtitle2 != '') 
+				leftbanner2 += '<dd class="headline">'+ mtitle +'</dd>';
+		
+		});
+		
+		leftbanner2 += '</div>';
+			
+		return leftbanner2;
+
+	}
+	
+	//左边栏背景高度控制
+	function lb_height(){
+		window.setTimeout(function(){
+			var main_height = $('#mainContent').height();
+			var lb_height = $('#left_banner').height();
+			if(lb_height < main_height) $('#leftFrame').animate({'height':main_height});
+			else $('#leftFrame').animate({'height':lb_height + 100});
+		}, 800);
+	}
+	
+	//控制显示各种标签、分类、试卷类型等
+	function showTagsManage(type){
+		$('#mainContent').load("manage_all_tags.html");
+		if(type=="tags") 
+		{	
+			window.setTimeout(function(){				
+				parent.manage_title("tag_info");
+				parent.$("#tags_content").tags_list("tag_info");
+				
+			},3000);
+		}
+		if(type=="exam") 
+		{	
+			window.setTimeout(function(){
+				parent.manage_title("exam");
+				parent.$("#tags_content").tags_list("exam");
+			},3000);
+		}
+		if(type=="item_type") 
+		{	
+			window.setTimeout(function(){
+				parent.manage_title("item_type");
+				parent.$("#tags_content").tags_list("item_type");
+			},3000);
+		}
+		if(type=="basic") 
+		{	
+			window.setTimeout(function(){
+				parent.manage_title("basic");
+				parent.$("#tags_content").tags_list("basic");
+			},3000);
+		}
+		if(type=="comments")
+		{
+			window.setTimeout(function(){
+				parent.manage_title("comments");
+				parent.$("#tags_content").tags_list("exam_comments");
+			},3000);
+		}
+	}
+	
+	//试卷与模版列表
+	function listPaper(op,tid,options){
+		var settings=$.extend({
+			other_status : false,
+			other_op : "",
+			other_tid : "0"
+		},options||{});
+	
+		$('#mainContent').load("user_modules.html");
+		
+		window.setTimeout(function(){	
+				$('.paper_content').paper_list(op,{add_way:'clear',type:'detail',id:tid});
+				if(settings.other_status)
+					$('.paper_content').paper_list(settings.other_op,{add_way:'append',type:'detail',id:settings.other_tid});
+			
+		},3000);
+		/**/
+	}
+	
+	function managePaper(op,tid,options){
+		var settings=$.extend({
+			other_status : false,
+			other_op : "",
+			other_tid : "0"
+		},options||{});
+	
+		$('#mainContent').load("manage_exam.html");
+		
+		window.setTimeout(function(){	
+			$('.paper_content').paper_list(op,{add_way:'clear',type:'detail',id:tid,admin:1});
+				
+			
+		},3000);
+		
+	}
+	
+	//专项练习 模板列表
+	function specialModuleList(op){
+			$('#mainContent').specialModuleList(op);
+	}
+	
+	//menuEGS tree 点击后更新index页面的mainContent的内容。
+	function loadurl(url){
+	
+		$('#mainContent').load(url);
+		lb_height();
+	}
+
+	
+	
+
+</script>
+
+</head>
+
+<body>
+<div id="wrapper">
+	<!--<iframe name="topFrame" id="topFrame" src="top.html"></iframe>-->
+	<div id="topFrame">
+	
+
+        <div id="top_bg">
+           <a href="javascript:void(0);" onclick="javascript:listPaper(\'exam_structure_list\');"><img style="float:left" src="images/banner_left.gif" /></a>
+            <div id="banner_right">
+                <div><img src="images/banner_right.gif"></div>
+                <div>
+                    <img src="images/btn_01.gif" />&nbsp;<a href="http://2u4u.com.cn" target="_blank">进入悠游网</a> | <img src="images/btn_02.gif" />&nbsp;<span class="userlogin"><a href="index.html" >回首页</a></span> |<a href="javascript:void(0);" onclick="return logout()" > 登出</a>
+                <br />
+                    <img src="images/btn_03.gif" />&nbsp;<a href="http://2u4u.com.cn/lianxi" target="_blank">联系我们 </a>| 400-898-6220
+                </div>
+             </div>
+            <div id="nav"><span id="nav_01">EGS系统</span><span style=" margin-left:160px;"><a href="javascript:void(0);" onclick="javascript:listPaper(\'exam_structure_list\');">返回试卷列表</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">考试日历</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://u.2u4u.com.cn/bbs/forumdisplay.php?fid=20" target="_blank">考试论坛</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:void(0);" onclick="impromptu_content('user_score','得分排行榜');">得分排行榜</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:void(0);" onclick="impromptu_content('user_active','活跃用户');">活跃用户</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:void(0);" onclick="impromptu_content('bangzhu','帮助中心');">帮助中心</a></span></div>
+        </div>
+
+    </div>
+    
+    
+	<div id="centerRegion">
+		
+		<div name="leftFrame" id="leftFrame">
+                <div id="left_bg" >
+                    
+                </div>
+                <div id="fold_unfold">
+                    <div id="un_f_button" class="fold_button"></div>
+                </div>
+		</div>
+	
+		 <div id="mainContent">
+	                
+
+</script>
+<script language="javascript" type="text/javascript" src="data/serial_number.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/jquery.timer.js"></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery.form.js"></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery.jmp3-1.js"></script>
+
+<script language="javascript" type="text/javascript" src="libs/item/jquery.paperlist12.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/jquery.view_userresult61.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/jquery.viewpaper27.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/jquery.createpaper1.js"></script>
+
+<script type="text/javascript">
+	
+
+/*
+ * 试卷或者模板列表
+ * @author whx 
+ *
+ */
+
+function main_paper_list(container,tid,moduleORpaper,num){
+		
+//判断获取模板或者试卷列表的URL
+  	  if(moduleORpaper == 'module_list')
+		url = '/itest/test/egs/index.php?op=exam_structure_list&type=simple&num='+num+'&id='+tid;		
+	else if(moduleORpaper == 'paper_list')
+		url = '/itest/test/egs/index.php?op=paper_info_by_term_id&type=simple&num='+num+'&id='+tid;		
+  	else 
+  		url = '/itest/test/egs/index.php?op=exam_structure_list&type=simple&num='+num+'&id='+tid;		
+  	  
+  	  $.getJSON(url,function(data){		
+		
+		if(data==null||data=='') $(container).html('');
+		else{
+			
+			if(moduleORpaper =='paper_list'){
+				
+				$(container).html('');
+				$.each(data,function(index,papers){
+					
+					var paper_array = papers;
+					
+					var paper_id = paper_array['paper_id'];
+					var title = paper_array['paper_name'];
+					
+					var output = '<li><a href="javascript:void(0);" onclick=\'$(".paper_content").view_paper('+paper_id+',{titleContent:".paper_title",user_id:"'+user_id+'"});return false;\'>' + title + '</a></li>';	
+					
+					$(container).append(output);
+					
+				});//--end $.each()
+			}
+			else if(moduleORpaper =='module_list' ){
+				
+				$(container).html('');
+				$.each(data,function(index,papers){
+					
+					var paper_array = papers;
+					
+					var sid = paper_array['sid'];
+					var title = paper_array['title'];
+					
+					var output = '<li><a href="javascript:void(0);" onclick=\'$(".paper_content").create_paper('+sid+',{titleContent:".paper_title",user_id:"'+user_id+'"});return false;\'>' + title + '</a></li>';	
+					
+					$(container).append(output);
+					
+				});//--end $.each()
+			
+			}
+		}
+			
+	});//--end $.getJson()
+  	  
+}
+
+	
+
+$(function(){
+	//tem_rate = 0.1000000001;
+	//alert(tem_rate.toString().substring(0, 6));
+
+//主页面默认显示内容
+	main_paper_list('.CET4_content',1,"paper_list",25);
+	main_paper_list('.CET6_content',4,"paper_list",25);
+	main_paper_list('.TEM4_content',21,"paper_list",25);
+	main_paper_list('.TEM8_content',22,"paper_list",25);
+	main_paper_list('.PETS_content',25,"paper_list",25);
+	//全国英语等级考试 没有真题 main_paper_list('.PRETCO_content',25,"paper_list",25);
+
+});
+
+</script>
+
+<div id="mainContentInner">
+
+	<div class="paper_title title">
+		<span id="title_f">
+			历年真题
+        </span>
+	</div>
+	<div id="globalmessage" class="messages"></div>
+	
+	<div class="paper_content content">
+	 <div class = "clearfix">
+	 	<div class="main_list CET4 floatl">
+	   		<div class="CET4_title list_title">大学英语四级	</div>
+	   		<ul class="CET4_content list_content"></ul>
+	   </div>	
+		<div class="main_list CET6 floatl">
+			<div class="CET6_title list_title">大学英语六级	</div>
+			<ul class="CET6_content list_content"></ul>
+		</div>
+	  </div>
+	  <div class = "clearfix">
+	   <div class="main_list TEM4 floatl">
+	   	   <div class="TEM4_title list_title">专业英语四级 </div>
+	   	   <ul class="TEM4_content list_content"></ul>
+	   </div>
+	   
+		<div class="main_list TEM8 floatl">
+			<div class="TEM8_title list_title">专业英语八级	</div>
+			<ul class="TEM8_content list_content"></ul>
+		</div>
+	 </div>
+	 <div class = "clearfix">	
+	   <div class="main_list PETS floatl">
+	   		<div class="PETS_title list_title">高校英语应用能力考试	</div>
+	   		<ul class="PETS_content list_content"></ul>
+	   </div>
+	   <!-- 还没有真题
+		<div class="main_list PRETCO floatl">
+			<div class="PRETCO_title list_title">全国英语等级考试	</div>
+			<ul class="PRETCO_content list_content"></ul>
+		</div>
+		-->
+     </div>
+	
+	</div>
+
+
+	<div id="bottom-message"></div>
+
+
+</div><!--//mainContentInner-->
+
+	 </div>
+</div>
+  
+  <div id="footer">
+    <div id="footerInner">
+      <p>here is the footer</p>
+    </div>
+  </div><!---end footer-->
+  
+</div><!---end wrapper-->
+</body>
+</html>
+<script type="text/javascript">
+	
+	
+var quescon_type='<option value="">-请选择-</option>';
+	
+
+$(function(){
+				
+	// 处理从drupal过来的请求			
+	var op = $.query.get('op'); 
+	var id = $.query.get('id'); 
+	var tid = $.query.get('tid'); 
+	var stid = $.query.get('stid'); 
+	var mid = $.query.get('mid'); //模板module id
+	var pid = $.query.get('pid'); //试卷paper id
+	
+	if(op != '' && op != undefined && op != null) 
+	{
+		$('#mainContent').html('<div id="mainContentInner"><div class="paper_title title"></div><div class="messages" id="globalmessage"></div><div class="paper_content content"><div class="loadging"><img width="25px" height="25px" src="images/loading.gif"></div></div></div>');
+			
+		switch(op)
+	   {
+		   case 'create_paper_by_module':
+				$(".paper_content").create_paper(id,{titleContent:".paper_title",user_id:user_id});
+				break;
+				
+		   case  'paper_info':
+				$(".paper_content").view_paper(id,{titleContent:".paper_title",user_id:user_id});
+				break;
+				
+			case  'paper_list':
+				if(tid > 0 && stid > 0)
+					listPaper('exam_structure_list',stid,{other_status:true,other_op:'paper_info_by_term_id',other_tid:tid});
+				else if(stid>0)
+					listPaper('exam_structure_list',stid);
+				else if(tid>0)
+					listPaper('paper_info_by_term_id',tid);
+				break;
+				
+			case  'paper_module_list_by_tid':
+				if(pid > 0 && mid > 0)
+					listPaper('exam_structure_list',mid,{other_status:true,other_op:'paper_info_by_term_id',other_tid:pid});
+				else if(mid > 0)
+					listPaper('exam_structure_list',mid);
+				else if(pid > 0)
+					listPaper('paper_info_by_term_id',pid);
+				break;
+				
+			case  'module_list_by_tid':	
+				if(id>0)
+					listPaper('exam_structure_list',id);
+				break;
+				
+			case  'paper_list_by_tid':	
+				if(id>0)
+					listPaper('paper_info_by_term_id',id);
+				break;
+			 case 'user_result':
+				$('#mainContent').load('user_exam.html');
+				lb_height();
+				break;
+	   }
+			
+	}
+
+});
+</script>

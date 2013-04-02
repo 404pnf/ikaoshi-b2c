@@ -1,0 +1,170 @@
+
+
+<script type="text/javascript">
+
+		
+if( userroleid != 21 && userroleid != 22){
+	alert('您无权访问此页面');
+	//parent.location.href = "index.html";
+}
+	
+	
+var quescon_type='<option value="">-请选择-</option>';
+
+function listLiushui(liushui){
+	
+	url = '/itest/egs/index.php?op=liushui&name='+liushui;
+	
+	$.ajax({
+		url: url,
+		dataType: 'json',
+		//data: data,
+		timeout:20000,// 设置请求超时时间（毫秒）。 
+		error: function (XMLHttpRequest, textStatus, errorThrown) {// 请求失败时调用函数。  
+			$(that).html(" 请求超时! textStatus: " + textStatus + ', errorThrown: ' + errorThrown);
+		 }, 
+		success: function(resp) 
+		{  //请求成功后回调函数。
+
+			
+			var pre_table='<table><thead><th>序号</th><th>流水号</th><th>试题数量</th><th>删除</th></thead><tbody>';
+			var suf_table="</tbody></table>";
+			
+			var table_body='';
+			
+			$.each(resp,function(index,items){
+					
+				var item=items;
+				var liushui = items['liushui'];
+				var op = '<a href="javascript:void(0);" onclick=\'delete_items_by_liushui("'+liushui+'");return false;\'> 批量删除 </a>';
+				
+				var row = '<tr class="tr_'+liushui+'"><td>'+(index+1)+'</td><td>'+liushui+'</td><td>'+items['count']+'</td><td>'+op+'</td></tr>';
+				
+				table_body += row; 
+				
+			});	
+			
+			output =pre_table+table_body+suf_table;
+			
+			$('.paper_content').html(output);
+		
+		}
+	});
+}
+
+function delete_items_by_liushui(liushui){
+	
+	confirm_message = "确定删除此流水号对应试题？";
+	
+	if(confirm(confirm_message)){
+		url = "/itest/egs/index.php?op=liushui_delete&id="+liushui;
+		
+		
+		$.ajax({
+		url: url,
+		dataType: 'json',
+		//data: data,
+		timeout:20000,// 设置请求超时时间（毫秒）。 
+		error: function (XMLHttpRequest, textStatus, errorThrown) {// 请求失败时调用函数。  
+			alert(" 请求超时! textStatus: " + textStatus + ', errorThrown: ' + errorThrown);
+		 }, 
+		success: function(resp) 
+		{  //请求成功后回调函数。
+			
+			if(resp == true){
+				$('.tr_'+liushui).remove();
+				alert('删除成功');
+			}
+			else
+				alert('删除失败');
+		}	
+		});
+	}
+	
+	
+}
+/**/
+
+$(function(){
+	
+	//$('#daoru').load("/itest/egs/excel_upload.html");
+	
+	listLiushui('');
+	
+	//add_ques_form 的提交
+		var add_ques = {
+			url:		'/itest/egs/excel_upload_post.php',
+			type:		'post',
+			target:   	'#footer',// target element to update
+			dataType: 	'text',
+			beforeSubmit:  clearInterval(timer),  // pre-submit callback
+			success:     echostatus //提交后进行返回状态的判断，并确定是否创建子题目
+		};
+		$('#form2').ajaxForm(add_ques);
+
+});
+function echostatus(message){
+	$('#daoru').append(message);
+}
+</script>
+
+<div id="mainContentInner">
+<div id="daoru"><a href="/itest/egs/excel_upload.html" target="_blank">链接到导入数据</a></div>
+<!--
+	<div id="daoru">
+	<form id="form2" name="form2" action="/itest/egs/excel_upload_post.php" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="leadExcel" value="true">
+	<table align="center" width="90%" border="0">
+	<tr>
+	   <td>
+		<input type="file" name="inputExcel"><input type="submit" value="导入数据">
+	   </td>
+	</tr>
+	上传的文件命名不可以用中文。第一行加入流水号。
+	</table>
+	</form>
+	</div>
+-->
+      
+	<div class="paper_title title">
+		<span id="title_f">
+			批量删除导入数据
+        </span>
+        
+	</div>
+	<div id="globalmessage" class="messages"></div>
+	
+	<!--
+	<div id="search_condition" class="search">
+		<form action="" method="post" onSubmit="return tongji();" id="search_form">
+			<div class="paper_type">
+				<label for="paper_type_form">试卷类型：</label>
+				<select  id="paper_type_form" name="type" ></select>
+			</div>
+			<div class="paper_name">
+				<label for="paper_name">试卷名称：</label>
+				<input id="paper_name" name="paper_name" />
+			</div>
+			<div class="paper_time">
+				<label for="paper_time">时间：</label>
+				<input id="paper_time_start" name="paper_time_start" />
+				 ——— 
+				<input id="paper_time_end" name="paper_time_end" /><span class="note"></span>
+			</div>
+			<input type="submit" value="搜索" name="搜索" >
+		</form>
+    </div>  
+    
+    <div class="total"></div>
+    -->
+<div class="paper_content content">
+  <div class="loadging"><img width="25px" height="25px" src="images/loading.gif"></div>
+
+</div>
+
+
+	<div id="bottom-message"></div>
+
+
+</div><!--//mainContentInner-->
+

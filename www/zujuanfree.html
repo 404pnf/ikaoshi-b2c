@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>EGS-whx</title>
+<link type="text/css" rel="Stylesheet" href="css/common.css" />
+<link type="text/css" rel="Stylesheet" href="css/txegs.css" />
+<link type="text/css" rel="Stylesheet" href="css/menuEGS_tree.css" />
+<link rel="stylesheet" media="all" type="text/css" href="libs/jquery/impromptu.css">
+
+<script language="javascript" type="text/javascript" src="libs/json/json2.js" ></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery-1.4.2.js"></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery.form.js"></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery-impromptu.js"></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery.validate.js"></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/malsup-form-demo.js"></script>
+
+<script type="text/javascript">
+
+var ques_type='<option value="">请选择</option>',
+	exam_type='<option  value="">请选择</option>',
+	ques_basetype='<option  value="">请选择</option>',
+	examTypeValue=1,examTypeTag='';
+
+
+$(function(){
+	
+	$('input[type=checkbox]').attr("checked", false);
+	$('#zujuan_form').validate();
+	//获得试卷类型
+	$.getJSON('/itest/egs/index.php?op=exam',function(data){		
+		$.each(data,function(termindex,term){
+			exam_type +='<option value="'+ termindex +'">'+ term+'</option>';
+		});
+		$('#exam_type_form').empty();
+		$('#exam_type_form').append(exam_type);
+	});
+	//选题时的默认标签，即管理员选择的试卷类型
+	$('#exam_type_form').change(function(){
+        examTypeTag= $('#exam_type_form  option:selected').text();
+		$('input.ques_tags').val(examTypeTag);
+	});
+	
+	//基本题型
+	$.getJSON('/itest/egs/index.php?op=basic',function(data){		
+		$.each(data,function(termindex,term){
+			ques_basetype +='<option value="'+ termindex +'">'+ term+'</option>';
+		});
+	});
+	//试卷题型
+	$.getJSON('/itest/egs/index.php?op=item',function(data){		
+		$.each(data,function(termindex,term){
+			ques_type +='<option value="'+ termindex +'">'+ term+'</option>';
+		});
+	});
+	
+	return false;   
+	
+});  
+
+</script>
+
+<script type="text/javascript">
+	var index=0;
+	function checkbox_level_add(pid,level_condition,exam_level_add_form){
+		var that=$(level_condition+exam_level_add_form);
+		var $exam_level_panel=that.parent().next();//添加试卷结构的panel
+		
+		if(that.attr("checked")){
+			exam_level_add(pid,level_condition,$exam_level_panel);//添加试卷结构的函数
+		}
+		else
+		{
+			$.prompt('此操作会删除其下属的所有层级结构，您确定要删除？？',
+				{buttons: { 取消: 0, 删除: 1 },
+				focus: 1,
+				submit:function(v,m,f){ 
+					if(v==0){ 
+						that.attr("checked", true);
+						$.prompt.close();
+					}
+					else if(v==1){
+						that.removeAttr("checked");
+						$exam_level_panel.html('');
+						$(level_condition).next().html('');
+						return true; //we're done
+					}
+					return false; 
+				}
+			});
+		}
+	}
+	
+	var i=3;
+	
+	function exam_level_add(pid,level_condition,$exam_level_panel){
+	//添加试卷结构
+		
+		var paneltext1='<fieldset class="index_add"><legend class="index_add_title">试卷结构</legend><div class="clearfix">  <div  class="exam_serial_name  fleft">   <label class="exam_serial_name">标签名:</label>   <input name="part['+index+'][serial_name]" type="text"  size="12"  maxlength="50">   <div class="note">如Part、Section等，若是试题，可不填。</div>  </div>  <div class="exam_serial_number ">   <label class="exam_serial_number">序号样式:</label>  <select  name="part['+index+'][serial_number]" ><option value="0">请选择</option><option value="1">1,2,3,...</option><option value="2">I,II,III,...</option><option value="3">A,B,C,...</option><option value="4">One,Two,There,...</option></select>  <div class="note">标签名之后的序号样式</div> </div> </div> ';
+		pid=index;
+		var line1_index=++index;
+		var line2_index=++index;
+		
+		var paneltext2='<div class="question_rules"> <table class="exam_question" width="650" cellpadding="3" >  <caption>  题目规则:  </caption>  <thead>  <tr>  <th class="ques_order">结构顺序</th>  <th class="ques_basetype"> 所属基本题型</th>  <th  class="ques_type">题型</th>  <th scope="col" class="ques_tags" > 标签 </th>  <th scope="col" class="ques_tags_relate" > 标签间关系 </th> <th class="ques_count">个数</th> <th class="ques_score">分数/题</th> <th class="ques_operate">操作</th>  </tr>  </thead>  <tbody>  <tr class="row1 row">  <td><input type="hidden" class="id" name="part['+line1_index+'][id]" value="'+line1_index+'"><input type="hidden" class="pid" name="part['+line1_index+'][pid]" value="'+pid+'"><input name="part['+line1_index+'][order]" class="ques_order "  type="text" maxlength="3" size="3"  value="1" ></td>  <td><select name="part['+line1_index+'][basetype]" class="ques_basetype ">'+ques_basetype+'</select> </td>  <td><select  name="part['+line1_index+'][type]"  class="ques_type ">'+ques_type+'</select></td>  <td><input name="part['+line1_index+'][tags]" class="ques_tags "  type="text" maxlength="100" size="12"  value="'+examTypeTag+'" ></td> <td><select name="part['+line1_index+'][tags_relate]" class="ques_tags_relate "><option value="1">AND</option><option value="2">OR</option></select></td> <td><input name="part['+line1_index+'][count]" class="ques_count "  type="text" maxlength="3" size="3"  value="1" ></td> <td><input name="part['+line1_index+'][score]" class="ques_score "  type="text" maxlength="3" size="3"  value="1" ></td>  <td><a href="javascript:void(0)"  class="ques_operate_1 ques_operate" onclick=\'delete_exam_question("'+level_condition+'"," .ques_operate_1")\'>删除</a></td>  </tr>  <tr class="row2 row">  <td><input type="hidden" class="id" name="part['+line2_index+'][id]" value="'+line2_index+'"><input type="hidden" class="pid" name="part['+line2_index+'][pid]" value="'+pid+'"><input name="part['+line2_index+'][order]" class="ques_order "  type="text" maxlength="3" size="3"  value="2" ></td>  <td><select name="part['+line2_index+'][basetype]" class="ques_basetype ">'+ques_basetype+'</select> </td>  <td><select  name="part['+line2_index+'][type]"  class="ques_type ">'+ques_type+'</select></td>  <td><input name="part['+line2_index+'][tags]" class="ques_tags "  type="text" maxlength="100" size="12"  value="'+examTypeTag+'" ></td>  <td><select name="part['+line2_index+'][tags_relate]" class="ques_tags_relate "><option value="1">AND</option><option value="2">OR</option></select></td> <td><input name="part['+line2_index+'][count]" class="ques_count "  type="text" maxlength="3" size="3"  value="1" ></td>  <td><input name="part['+line2_index+'][score]" class="ques_score"  type="text" maxlength="3" size="3"  value="1" ></td>  <td><a href="javascript:void(0);" class="ques_operate_2 ques_operate"onclick=\'delete_exam_question("'+level_condition+'"," .ques_operate_2")\'>删除</a></td>  </tr> </tbody></table><a href="javascript:void(0);" onclick=\'add_exam_question("'+pid+'","'+level_condition+'"," .exam_question")\'>添加题目</a>  </div>';
+		
+		var panelselected='<div class="question_select"><div class="question_selected"><table class="question_selected" width="650" cellpadding="3" >  <caption>  已选择题目:  </caption>  <thead>  <tr>  <th class="ques_order">题目顺序</th> <th class="ques_name">题名</th> <th class="ques_basetype"> 所属基本题型</th>  <th  class="ques_type">题型</th>  <th scope="col" class="ques_tags" > 标签 </th>   <th class="ques_score">分数/题</th> <th class="ques_operate">操作</th>  </tr>  </thead>  <tbody>  <tr class="row1 row">  <td><input type="hidden" class="id" name="part['+line1_index+'][id]" value="'+line1_index+'"><input type="hidden" class="qid" name="part['+line1_index+'][qid]" value="'+json+'">whxwhxwhxwhx<input type="hidden" class="pid" name="part['+line1_index+'][pid]" value="'+pid+'"><input name="part['+line1_index+'][order]" class="ques_order "  type="text" maxlength="3" size="3"  value="1" ></td>  <td><select name="part['+line1_index+'][basetype]" class="ques_basetype ">'+ques_basetype+'</select> </td>  <td><select  name="part['+line1_index+'][type]"  class="ques_type ">'+ques_type+'</select></td>  <td><input name="part['+line1_index+'][tags]" class="ques_tags "  type="text" maxlength="100" size="12"  value="'+examTypeTag+'" ></td> <td><input name="part['+line1_index+'][count]" class="ques_count "  type="text" maxlength="3" size="3"  value="1" ></td> <td><input name="part['+line1_index+'][score]" class="ques_score "  type="text" maxlength="3" size="3"  value="1" ></td>  <td><a href="javascript:void(0)"  class="ques_operate_1 ques_operate" onclick=\'delete_exam_question("'+level_condition+'"," .ques_operate_1")\'>删除</a></td>  </tr>  <tr class="row2 row">  <td><input type="hidden" class="id" name="part['+line2_index+'][id]" value="'+line2_index+'"><input type="hidden" class="pid" name="part['+line2_index+'][pid]" value="'+pid+'"><input name="part['+line2_index+'][order]" class="ques_order "  type="text" maxlength="3" size="3"  value="2" ></td>  <td><select name="part['+line2_index+'][basetype]" class="ques_basetype ">'+ques_basetype+'</select> </td>  <td><select  name="part['+line2_index+'][type]"  class="ques_type ">'+ques_type+'</select></td>  <td><input name="part['+line2_index+'][tags]" class="ques_tags "  type="text" maxlength="100" size="12"  value="'+examTypeTag+'" ></td> <td><input name="part['+line2_index+'][count]" class="ques_count "  type="text" maxlength="3" size="3"  value="1" ></td>  <td><input name="part['+line2_index+'][score]" class="ques_score"  type="text" maxlength="3" size="3"  value="1" ></td>  <td><a href="javascript:void(0);" class="ques_operate_2 ques_operate"onclick=\'delete_exam_question("'+level_condition+'"," .ques_operate_2")\'>删除</a></td>  </tr> </tbody></table></div>';
+		
+		var panelcandidate='<div class="question_candidate"><table class="exam_question" width="650" cellpadding="3" >  <caption>  题目规则:  </caption>  <thead>  <tr>  <th class="ques_order">结构顺序</th>  <th class="ques_basetype"> 所属基本题型</th>  <th  class="ques_type">题型</th>  <th scope="col" class="ques_tags" > 标签 </th> <th class="ques_count">个数</th> <th class="ques_score">分数/题</th> <th class="ques_operate">操作</th>  </tr>  </thead>  <tbody>  <tr class="row1 row">  <td><input type="hidden" class="id" name="part['+line1_index+'][id]" value="'+line1_index+'"><input type="hidden" class="pid" name="part['+line1_index+'][pid]" value="'+pid+'"><input name="part['+line1_index+'][order]" class="ques_order "  type="text" maxlength="3" size="3"  value="1" ></td>  <td><select name="part['+line1_index+'][basetype]" class="ques_basetype ">'+ques_basetype+'</select> </td>  <td><select  name="part['+line1_index+'][type]"  class="ques_type ">'+ques_type+'</select></td>  <td><input name="part['+line1_index+'][tags]" class="ques_tags "  type="text" maxlength="100" size="12"  value="'+examTypeTag+'" ></td> <td><input name="part['+line1_index+'][count]" class="ques_count "  type="text" maxlength="3" size="3"  value="1" ></td> <td><input name="part['+line1_index+'][score]" class="ques_score "  type="text" maxlength="3" size="3"  value="1" ></td>  <td><a href="javascript:void(0)"  class="ques_operate_1 ques_operate" onclick=\'delete_exam_question("'+level_condition+'"," .ques_operate_1")\'>删除</a></td>  </tr>  <tr class="row2 row">  <td><input type="hidden" class="id" name="part['+line2_index+'][id]" value="'+line2_index+'"><input type="hidden" class="pid" name="part['+line2_index+'][pid]" value="'+pid+'"><input name="part['+line2_index+'][order]" class="ques_order "  type="text" maxlength="3" size="3"  value="2" ></td>  <td><select name="part['+line2_index+'][basetype]" class="ques_basetype ">'+ques_basetype+'</select> </td>  <td><select  name="part['+line2_index+'][type]"  class="ques_type ">'+ques_type+'</select></td>  <td><input name="part['+line2_index+'][tags]" class="ques_tags "  type="text" maxlength="100" size="12"  value="'+examTypeTag+'" ></td>  <td><input name="part['+line2_index+'][count]" class="ques_count "  type="text" maxlength="3" size="3"  value="1" ></td>  <td><input name="part['+line2_index+'][score]" class="ques_score"  type="text" maxlength="3" size="3"  value="1" ></td>  <td><a href="javascript:void(0);" class="ques_operate_2 ques_operate"onclick=\'delete_exam_question("'+level_condition+'"," .ques_operate_2")\'>删除</a></td>  </tr> </tbody></table></div></div><input type="button" onclick=\'exam_level_add_finish("'+level_condition+'"," .exam_level_panel")\' value="添加完毕"></fieldset>';
+		//alert(Number(level));
+		$exam_level_panel.append(paneltext1+paneltext2);
+		i=3;
+	}
+	
+		
+		function add_exam_question(pid,level_condition,exam_question){
+		//添加试题
+			index++;
+			$(level_condition+exam_question).append('<tr class="row'+i+' row"> <td><input type="hidden" class="id" name="part['+index+'][id]" value="'+index+'"><input type="hidden" class="pid" name="part['+index+'][pid]" value="'+pid+'"><input name="part['+index+'][order]" class="ques_order"  type="text" maxlength="3" size="3"  value="'+i+'" ></td>  <td><select name="part['+index+'][basetype]" class="ques_basetype ">'+ques_basetype+'</select> </td>  <td><select name="part['+index+'][type]"  class="ques_type ">'+ques_type+'</select></td>  <td><input name="part['+index+'][tags]" class="ques_tags "  type="text" maxlength="100" size="12"  value="'+examTypeTag+'" ></td>  <td><select name="part['+index+'][tags_relate]" class="ques_tags_relate "><option value="1">AND</option><option value="2">OR</option></select></td> <td><input name="part['+index+'][count]" class="ques_count "  type="text" maxlength="3" size="3"  value="1" ></td> <td><input name="part['+index+'][score]" class="ques_score"  type="text" maxlength="3" size="3"  value="1" ></td>  <td><a href="javascript:void(0);"  class="ques_operate_'+i+'" onclick=\'delete_exam_question("'+level_condition+'"," .ques_operate_'+i+'")\'>删除</a></td>  </tr>');
+			i++;
+			return false;
+		}
+		function delete_exam_question(level_condition,ques_operate){
+		//删除试题
+			$(level_condition+ques_operate).parent().parent().remove();
+		}
+
+	
+	function exam_level_add_finish(level_condition,exam_level_panel){
+	//生成下一层内容
+		var j=0,exam_level_panel_id=level_condition+exam_level_panel;
+			
+		var $level_content=$(level_condition).parent();
+		var $level_generate=$(level_condition).next();//根据exam_level_add条件生成的内容所在的div
+		
+		var exam_serial_name = $(exam_level_panel_id+' .exam_serial_name input').val();
+		var exam_serial_number= $(exam_level_panel_id+' .exam_serial_number option:selected').text();
+		var exam_tagvalue= $(exam_level_panel_id+' .exam_serial_number option:selected').val();
+		
+		//所选标签样式，从本地 tags.json 中获得对应的值。
+		var exam_tagjson="";
+		$.getJSON('data/tags.json',function(data){
+			exam_tagjson=data[0][exam_tagvalue];
+		});
+	
+		$(exam_level_panel_id+' .row').each(function(){
+			
+			j++;
+			var level_content_next=$level_content.attr('id')+'_'+j;
+			var level_condition_next=$(level_condition).attr('id')+'_'+j;
+			var level_generate_next=$level_generate.attr('id')+'_'+j;
+			var level=level_condition_next.slice(16);
+			if(level=='') level=0;
+			var tag=exam_tagjson[j];
+			//alert(level.slice(2));
+			var id=$(this).find('.id').val();
+			var pid=$(this).find('.pid').val();
+			
+			var contentlevel ='<div id="'+level_content_next+'" class="level_content"><div id="'+level_condition_next+'" class="level_condition"><div class="title"><span class="level">第'+level+'部分</span><span class="serial_name">'+exam_serial_name+'</span><span class="serial_number">'+tag+'</span><span class="order">'+$(this).find('.ques_order').val()+'</span><span class="basetype">'+$(this).find('.ques_basetype option:selected').text()+'</span><span class="type">'+$(this).find('.ques_type option:selected').text()+'</span><span class="tags">'+$(this).find('.ques_tags').val()+'</span><span class="tags_relate">'+$(this).find('.ques_tags_relate').val()+'</span><span class="count">'+$(this).find('.ques_count').val()+'</span></div></div><div  id="'+level_generate_next+'"  class="level_generate"></div></div>';
+			
+			//alert(level_generate_next);
+			$level_generate.append(contentlevel);
+			exam_level_conditon(id,pid,level_condition_next);
+		})
+		//alert(exam_level_panel_id);
+	}
+		
+		function exam_level_conditon(id,pid,level_condition){
+			$('#'+level_condition).append('<div class="exam_limittime "> <label class="exam_limittime_label">时长限制:</label> <input type="text"  size="3" name="part['+id+'][limittime]" maxlength="10"><span class="unit">分钟</span></div><div class="exam_submit_point ">  <input type="checkbox"  name="part['+id+'][submit_point]"><label class="exam_submit_point_label">是提交点 </label> <span class="note">做完此部分题后需要提交，且不能返回查看与修改；做完此题前也不能查看后续题目</span></div><div class="exam_level_add ">  <input  class="exam_level_add_form"  type="checkbox" onclick=\'checkbox_level_add('+pid+',"#'+level_condition+'"," .exam_level_add_form")\' value="0" /><label class="exam_level_add_form">添加下一层</label></div><div class="exam_level_panel"></div>');
+		}
+		</script>
+
+</head>
+
+<body>
+<div id="wrapper">
+  <div id="header">
+    <div id="headerInner">
+     <div id="logo"> <img src="css/images/2u4ulogo.gif" alt="EGS" /></div>
+      <div style="line-height:50px;font-family:Verdana, Geneva, sans-serif; font-weight:bold; font-size:24px;">EGS测试系统</div>
+    </div>
+  </div>
+  <div id="centerRegion">
+    <div id="navigationPanel">
+      <div id="navigationPanelInner">
+          <script src="code/menuEGS_tree_engine.js"></script> 
+          <script src="code/menuEGS_tree_struct5.js"></script> 
+          <script src="code/menuEGS_tree_start.js"></script>
+          <noscript>
+          您的浏览器不支持JavaScript，请在安全设置中允许执行JavaScript或者换用支持的浏览器。
+          </noscript>
+      </div>
+    </div>
+<div id="mainContent">
+<div id="mainContentInner">
+
+	<div class="zujuan_title title">
+			创建组卷模板（试卷结构）
+	</div>
+	<div id="globalmessage" class="messages"></div>
+	<div class="zujuan_content content">
+		<form id="zujuan_form" class="zujuan_form form" action="" method="post">
+		<div id="level_content" class="level_content">
+			<div id="level_condition" class="level_condition">
+				<div class="exam_type_score clearfix">
+					<div id="exam_type" class="exam_type  fleft">
+						<label for="exam_type_form">试卷类型:</label>
+						<select  id="exam_type_form" name="exam_type_form" class="required" ></select>
+					</div>
+					<div class="exam_score fright">
+						<label class="exam_score_label">试卷总分:</label>
+						<input type="text"  size="3" name="exam_score" maxlength="5" class="required" />
+						<span class="unit">分</span>
+					</div>
+				</div>
+				<div  class="exam_title">
+					<label class="exam_title_label">模板标题:</label>
+					<input type="text"  size="60" name="exam_title" maxlength="100"/>
+					<div class="note">以此模板进行组卷时，试卷名称默认为本模板标题+序号+时间，可重新设定</div>
+				</div>
+				<div class="exam_description  clearfix">
+					<label class="floatl exam_description_label">试卷简介:</label>
+                    <textarea name="exam_description" cols="60" rows="5"></textarea>
+				</div>
+				
+                <div class="exam_limittime">
+					<label class="exam_limittime_label">时长限制:</label>
+					<input type="text"  size="3" name="exam_limittime" maxlength="10"/>
+                    <span class="unit">分钟</span>
+				</div>
+				<!-- <div class="exam_timecontrol ">
+					<label class="exam_timecontrol_label">启动自动计时控制:</label>
+					<input type="text"  size="12" name="exam_timecontrol" maxlength="10"/>
+                    <div class="note">如果不选用户可以在做题时控制是否启动。？？？？</div>
+				</div> -->
+				
+				<div class="exam_level_add ">
+                	<input  class="exam_level_add_form " onclick='checkbox_level_add("-1","#level_condition"," .exam_level_add_form")' type="checkbox" /><label class="exam_level_add_label">添加下一层</label>
+					<input type="hidden" name="part[0][pid]" value="-1">
+					<span class="note">选中则添加，取消选中则删除其下属的所有层级结构</span>
+				</div>
+				<div class="exam_level_panel">
+					
+				</div>
+			</div>
+			<div id="level_generate" class="level_generate">
+                	
+            </div>
+		</div>
+        <input type="submit" value="保存" name="submit_btn" class="submit" >
+		</form>
+	</div>
+
+	<div id="bottom-message"></div>
+
+
+</div><!--//mainContentInner-->
+</div><!--//mainContent-->
+
+<div id="footer">
+	<div id="footerInner">
+		here is the footer
+	</div>
+</div>
+
+</div><!--//centerRegion-->
+</div><!--//wrapper-->
+</body>
+</html>

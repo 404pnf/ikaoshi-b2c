@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset=utf-8 />
+
+
+<meta name="viewport" content="width=device-width;"/>
+
+<title>EGS测试系统</title>
+
+<link type="text/css" rel="Stylesheet" href="../css/common.css" />
+<link type="text/css" rel="Stylesheet" href="../css/txegs.css" />
+<link type="text/css" rel="Stylesheet" href="../css/mobile.css" />
+
+
+<script  type="text/javascript" src="../libs/jquery/jquery-1.4.2.js"></script>
+<script  type="text/javascript" src="../libs/jquery/jquery.getURLparam.js"></script>
+
+<script  type="text/javascript" src="../libs/common/jquery.extend.js"></script>
+<script  type="text/javascript" src="../libs/tx/txgenerictools.js" ></script>
+
+<script  type="text/javascript" src="../libs/common/common.js"></script>
+
+
+<script type="text/javascript">
+var url = "/itest/egs/"
+$.ajax({
+	url: url,
+	dataType: 'json',
+	//data: data,
+	timeout:200000,// 设置请求超时时间（毫秒）。
+	error: function (XMLHttpRequest, textStatus, errorThrown) {// 请求失败时调用函数。
+		alert(" 请求超时! textStatus: " + textStatus + ', errorThrown: ' + errorThrown);
+	 },
+	success: function(data)
+	{  //请求成功后回调函数。
+
+
+		try
+		{
+
+	$.each(data,function(index,item){
+		partname = item['partname'];
+		partlist = item['partlist'];
+
+		if(partname==op){
+			leftbanner +='<div class="parttitle"><div class="back fleft"><input class="backbutton" type="button" value="返回" onclick="javascript:history.go(-1)"></div><div class="title">'+partname+'</div></div>';
+			$.each(partlist,function(index,item){
+				term1 = item['term'];
+				content1 = item['content'];
+
+				leftbanner +='<div id="left'+(index+1)+'" class="leftrow">'+term1+'</div>';
+
+				listcontent +='<div  id="listcontent'+(index+1)+'" class="listcontent"> <div class="listtitle"><div class="back fleft"><input class="backbutton" type="button" value="返回列表"></div><div class="title">'+term1+'</div></div>';
+
+				detailcontent = '';
+
+				$.each(content1,function(index,item){
+
+					termclassid = index;
+					term2 = item['term'];
+					content2 = item['content'];
+
+					detailcontent +='<div  id="detailcontent'+(termclassid+1)+'" class="detailcontent"> <div class="detailtitle">'+term2+'</div> <ul class="detaillist">';
+
+					var  title = '',  id = 0, op =  '';
+
+					var i = 0;
+					$.each(content2,function(index,item){
+						i = i+1;
+						op = item['op'];
+						title = item['title'];
+						id = item['id'];
+						//alert(op+title+id);
+
+						line_class = 'row';
+						if(index==0)
+							line_class = 'row row-first';
+
+						detailcontent += '<li class="'+line_class+'"><a href="/itest/www/mobile.html?op='+op+'&id='+id+'&uid='+user_id+'" > '+ title +' </a></li>';
+
+					});
+					detailcontent +='</ul></div>';
+				});
+
+				listcontent += detailcontent+'</div>';
+
+
+			});
+		}
+	});
+			leftbanner += '</div>';
+
+			$('#leftFrame').html(leftbanner);
+			$('#mainContentInner').html(listcontent);
+
+			listanimation();
+
+
+		}
+		catch (err)
+		{
+			alert('服务器交互失败，请重试'+err);
+		}
+
+	}
+});
+
+}
+
+
+$(function(){
+	// 处理从url过来的请求
+	var op = $.query.get('op'); //水平定位、真题模考、专项训练
+	var uid = $.query.get('uid');
+	//如果地址中没有给用户uid，则从当前cookie中获取
+	var user_id=0,temp_uid=tx.setCookie("uid");
+	if(temp_uid!=null)
+		user_id=temp_uid;
+
+	uid = (uid!='' && uid != undefined && uid != null) ? uid:user_id;
+
+	if(op != '' && op != undefined && op != null)
+	{
+		if(op=='真题模考'||op=='专项训练')
+	   {
+				listMenu(op);
+		}
+		else{
+			//历史记录、最新试题等等
+		}
+	}
+	else{
+		//默认显示最新试题
+	}
+});
+
+</script>
+</head>
+
+<body >
+<div id="main">
+	<div id="mainInner">
+
+		<div id="leftFrame">
+
+		</div>
+
+		<div id="mainContent">
+
+			<div id="mainContentInner">
+
+				<div class="loadging"><img width="25px" height="25px" src="images/loading.gif"></div>
+			</div><!---end mainContentInner-->
+
+		</div><!---end mainContent-->
+
+	</div><!---end mainInner-->
+</div><!---end main-->
+
+</body>
+</html>
+
+<script type="text/javascript">
+
+ var _gaq = _gaq || [];
+ _gaq.push(['_setAccount', 'UA-8352134-1']);
+ _gaq.push(['_setDomainName', '.com.cn']);
+ _gaq.push(['_trackPageview']);
+
+ (function() {
+   var ga = document.createElement('script'); ga.type =
+'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' :
+'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(ga, s);
+ })();
+
+</script>

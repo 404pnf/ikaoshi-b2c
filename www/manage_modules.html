@@ -1,0 +1,137 @@
+<link rel="stylesheet" media="all" type="text/css" href="libs/jquery/impromptu.css">
+
+<script language="javascript" type="text/javascript" src="data/serial_number.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/jquery.timer.js"></script>
+<script language="javascript" type="text/javascript" src="libs/ckeditor/ckeditor.js"></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery.form.js"></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery-impromptu.js"></script>
+<script language="javascript" type="text/javascript" src="libs/json/json2.js" ></script>
+
+<script language="javascript" type="text/javascript" src="libs/item/jquery.view_userresult61.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/jquery.createpaper1.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/jquery.viewpaper27.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/jquery.createpaper1.js"></script>
+
+<script language="javascript" type="text/javascript" src="libs/item/zujuan_module31.js"></script>
+
+
+<script type="text/javascript">
+
+var quescon_type='<option value="">-请选择-</option>',
+	quescon_basetype='<option  value="">-请选择-</option>';
+
+var user_id=0,temp_uid=tx.setCookie("uid");
+if(temp_uid!=null)
+	user_id=temp_uid;
+	
+
+$(function(){
+	
+	$('tbody.paper_list').html('<tr><td colspan="7"><div class="loadging"><img width="25px" height="25px" src="images/loading.gif"></div></td></tr>');
+	
+	//基本题型
+	$.getJSON('/itest/egs/index.php?op=basic',function(data){		
+		$.each(data,function(termindex,term){
+			quescon_basetype +='<option value="'+ termindex +'">'+ term+'</option>';
+		});
+		$('#paper_basetype_form').append(quescon_basetype);
+	});
+	//试卷题型
+	$.getJSON('/itest/egs/index.php?op=item_type',function(data){		//alert(data);
+		$.each(data,function(termindex,term){
+			quescon_type +='<option value="'+ termindex +'">'+ term+'</option>';
+		});
+		$('#paper_type_form').append(quescon_type);
+	});
+	
+	$.getJSON('/itest/egs/index.php?op=exam_structure_list&type=detail&num=500',function(data){		
+	
+	$('tbody.paper_list').html('');
+	
+	var output = '';
+	$.each(data,function(index,ques){		
+		var paper_array = ques;
+		
+		var sid = paper_array['sid'];
+		var title = paper_array['title'];
+		var created = paper_array['created'];
+		var uid = paper_array['uid'];			
+		var type_name = paper_array['type_name'];
+		
+		var operate='<a href="javascript:void(0);" onclick=\'$(".paper_content").create_paper('+sid+',{titleContent:".paper_title",user_id:"'+user_id+'"});return false;\'>生成试卷</a>&nbsp;&nbsp;<a href="javascript:void(0);" onclick=\'modules_comments('+sid+', "'+title+'");return false;\'>设置评语</a>&nbsp;&nbsp;<a href="javascript:void(0);" onclick=\'comment_attributions('+sid+', "'+title+'");return false;\'>设置考点评语</a>'
+		
+		//alert(operate);
+		
+		var paper_row_pre='<tr class='+sid+'>';
+		var paper_row_suf='</tr>';
+		
+		var paper_title='<td class="name">'+title+'</td>';
+		var paper_created='<td class="created">'+created+'</td>';
+		var paper_user='<td class="user">'+uid+'</td>';
+		
+		var paper_type='<td class="type">'+type_name+'</td>';
+		var paper_operate='<td class="operate">'+operate+'</td>';
+		
+		//alert(sid);
+		output += paper_row_pre+paper_title+paper_created+paper_user+paper_type+paper_operate+paper_row_suf;
+		
+		//$('tbody.paper_list').append(paper_row_pre+paper_title+paper_created+paper_user+paper_type+paper_operate+paper_row_suf);
+		
+	});//--end $.each()
+	
+	$('tbody.paper_list').html(output);
+			
+	});//--end $.getJson()
+	//parent.$('#mainContent').height(this.height);
+	return false;  
+
+});
+
+</script>
+<div id="mainContentInner">
+
+	<div class="paper_title title">
+		<span id="title_f">查看管理试卷模板</span>
+	</div>
+	<div id="globalmessage" class="messages"></div>
+	
+<div class="paper_content content">
+
+<div class="paper_search_condition search_condition clearfix">
+   <div class="paper_name">
+      <label for="paper_name">模板名：</label>
+      <input id="paper_name" name="name" type="text" />
+   </div>
+   <div class="paper_author">
+      <label for="paper_author">组卷人：</label>
+      <input id="paper_author" name="author" type="text" />
+   </div>    
+   <div class="created_time">
+        <label for="created_time">时间：</label>
+        <input id="created_time" name='created' type='text' class="time" />
+   </div>
+   
+   <div id="paper_type" class="paper_type">
+        <label for="paper_type_form">试卷类型：</label>
+        <select  id="paper_type_form" name="type" ></select>
+   </div>
+	<div class="search_button">
+    	<input type="button" name="search" value="搜索" />
+    </div>
+</div>
+   
+ <div class="paper_search_result result">
+ 	<table id="paper_search_result">
+        <thead>
+        	<th  class="name">模板名</th><th class="created">时间</th><th class="user">组卷人</th><th class="type">试卷题型</th><th class="operate">操作</th>
+        </thead>
+        <tbody class="paper_list">
+        </tbody>
+    </table>
+ </div> 
+</div>
+
+	<div id="bottom-message"></div>
+
+
+</div><!--//mainContentInner-->

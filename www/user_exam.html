@@ -1,0 +1,112 @@
+
+<link rel="stylesheet" media="all" type="text/css" href="libs/jquery/jplayer.blue.monday.css">
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery.jplayer.min.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/my.jplayer.js"></script>
+
+<script language="javascript" type="text/javascript" src="libs/item/jquery.userresult_list.js"></script>
+
+<script language="javascript" type="text/javascript" src="data/serial_number.js"></script>
+
+
+<script language="javascript" type="text/javascript" src="libs/item/jquery.view_userresult61.js"></script>
+
+
+<script type="text/javascript">
+var userroleid=1,roleidcookie='',admin=0;
+	roleidcookie=tx.setCookie("userroleid");
+if(roleidcookie!=null && roleidcookie!=undefined && roleidcookie!='')
+	userroleid=roleidcookie;
+
+if(userroleid != 2 && userroleid != 21 && userroleid != 22){
+	alert('您无权访问此页面');
+	//parent.location.href = "index.html";
+}
+if(userroleid == 21 || userroleid == 22)
+	admin = 1;
+		
+var user_id=0,temp_uid=tx.setCookie("uid");
+if(temp_uid!=null)
+	user_id=temp_uid;
+
+var quescon_type='<option value="">-请选择-</option>';
+var check_type_id = 0,check_user_id = user_id;
+		
+
+$(function(){
+
+	
+	//试卷类型
+	$.getJSON('/itest/egs/index.php?op=exam',function(data){	
+		//alert(quescon_type);
+		$.each(data,function(index,term){
+			tid = term['tid'];
+			tname = term['name'];
+			quescon_type +='<option value="'+ tid +'">'+ tname+'</option>';
+		});
+		$('#paper_type_form').append(quescon_type);
+	});	
+	
+	
+	$('#paper_type_form').change(function(){
+		
+		 check_type_id = $('#paper_type_form').val();
+
+		 $('tbody.paper_list').userresult_list(check_user_id,{tid:check_type_id,admin:admin});
+			
+	});
+	
+	
+	if(admin==1){
+		check_user_id = -1;
+		
+		var usermanage = '<label for="user_form">选择用户：</label> 	<input onclick="usermanage(-1)" type="radio" name="user_form" id="all_user_form" class="usermanage" checked="true" value="-1"> <label for="all_user_form">所有用户</label>    <input onclick="usermanage('+user_id+')" id="my_user_form" name="user_form"  class="usermanage" type="radio" value="'+user_id+'"><label for="my_user_form">我的</label>';
+		$('#title_f').html('用户历史记录');
+       $('#title_f2').prepend(usermanage);
+	}
+	
+	 //alert(' uid:'+check_user_id+' tid:'+check_type_id+' admin:'+admin);
+	 $('tbody.paper_list').userresult_list(check_user_id,{tid:check_type_id,admin:admin});
+});
+function usermanage(uid){
+	check_user_id = uid ;
+	$('tbody.paper_list').userresult_list(check_user_id,{tid:check_type_id,admin:admin});
+} 
+</script>
+
+<div id="mainContentInner">
+
+	<div class="paper_title title">
+		<span id="title_f">
+			我的历史纪录
+        </span>
+        <div id="title_f2" class="paper_type">
+        	
+            <label for="paper_type_form">试卷类型：</label>
+            <select  id="paper_type_form" name="type" ></select>
+       </div>
+	</div>
+	
+	<div id="globalmessage" class="messages"></div>
+	
+<div class="paper_content content">
+
+<div class="paper_search_condition search_condition clearfix">
+</div>
+
+<div id="user_result_chart_content"><canvas id="user_result_chart"/></div>
+   
+ <div class="paper_search_result result">
+ 	<table id="paper_search_result">
+        <thead>
+        	<th  class="name">试卷名（得分/客观题总分）</th><th class="operate">操作</th><th class="exam_points">试卷总分</th><th class="created">做题时间</th>
+        </thead>
+        <tbody class="paper_list">
+        </tbody>
+    </table>
+ </div> 
+</div>
+
+	<div id="bottom-message"></div>
+
+
+</div><!--//mainContentInner-->

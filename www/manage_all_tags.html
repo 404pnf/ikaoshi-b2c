@@ -1,0 +1,144 @@
+<link rel="stylesheet" media="all" type="text/css" href="libs/jquery/impromptu.css"/>
+
+<div id="mainContentInner">
+	<div class="tags_title title">
+		<div class="loadging"><img width="25px" height="25px" src="images/loading.gif"></div>
+	</div>
+	<div id="globalmessage" class="messages"></div>
+    <div id="tags_content" class="tags_content content">
+    	<div class="loadging"><img width="25px" height="25px" src="images/loading.gif"></div>
+    </div>
+
+
+	<div id="bottom-message"></div>
+</div><!--//mainContentInner-->
+
+
+<script language="javascript" type="text/javascript" src="libs/item/jquery.tagslist.js"></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery-impromptu.js"></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery.form.js"></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery.validate.js"></script>
+
+<script type="text/javascript">
+
+	
+
+
+
+function manage_title(type){
+	var manage_title="",add_title="",postUrl="";
+	
+	switch(type){
+		case "tag_info":
+			manage_title="查看管理标签";
+			add_title="添加标签";
+			postUrl="/itest/egs/add_tag.php";
+		break;
+		
+		case "exam":
+			manage_title="查看管理试卷类型";
+			add_title="添加试卷类型";
+			postUrl="/itest/egs/add_exam_type.php";
+		break;
+		
+		case "item_type":
+			manage_title="查看管理试题类型";
+			add_title="添加试题类型";
+			postUrl="/itest/egs/add_item_type_post.php";
+		break;
+		
+		case "basic":
+			manage_title="查看管理基本题型";
+			add_title="添加基本题型";
+			postUrl="/itest/egs/add_basic_item_type.php";
+		break;
+		
+		case "attribution_info":
+			manage_title="查看管理考点";
+			add_title="添加考点";
+			postUrl="/itest/egs/add_attribution.php";
+		break;
+		
+		case "comments":
+			manage_title="查看管理试卷评语";
+			add_title="添加试卷评语";
+			postUrl="/itest/egs/add_exam_comments.php";
+			
+			type = "exam_comments";
+		break;
+		
+		case "attr_comments":
+			manage_title="查看管理考点评语";
+			add_title="添加考点评语";
+			postUrl="/itest/egs/add_attribution_comments.php";
+		break;
+		
+		
+	}
+	
+	
+	$(".tags_title").html('<span id="title_f">'+manage_title+'</span><span id="title_f2"><a href=\'javascript:add_tag("'+type+'","'+add_title+'","'+postUrl+'");\'>添加</a></span>');	
+}
+
+function add_tag(type,add_title,postUrl){
+	//alert('123');
+	var title='<div class="add_tag_title title">'+add_title+'</div>';
+	var add_tag_content='<div class="add_tag_content content"><form id="add_tag_form" action="" method="POST" width="600px">	<div class="tag_name"><label for="tag_name">名称：</label><input id="tag_name" name="name" type="text" class="required"/><div class="note"></div>	</div>	<div class="tag_description"><label for="tag_description" class="floatl">描述：</label><textarea id="tag_description" name="body" type="text" cols="80" rows="10"  ></textarea><div class="note"></div>	</div>	<button type="submit" class="submit jqidefaultbutton" name="btn_submit" value="提交">提交</button> </form> </div>';
+	
+	if(type=="exam_comments")
+		add_tag_content='<div class="add_tag_content content"><form id="add_tag_form" action="" method="POST" width="600px">	<div class="tag_name"><label for="tag_name">名称：</label><input id="tag_name" name="name" type="text" class="required"/><div class="note"></div>	</div>	<div class="comments"><label for="comments" class="floatl">评语：</label><textarea id="comments" name="body" type="text" cols="60" rows="10"  ></textarea><div class="weight"><label for="weight" class="floatl">权重：</label><select name="weight" id="weight"><option value="0">-请选择-</option><option value="10">最高</option><option value="8">较高</option><option value="6">一般</option><option value="4">较低</option><option value="2">最低</option></select></div>	</div>	<button type="submit" class="submit jqidefaultbutton" name="btn_submit" value="提交">提交</button> </form> </div>';
+	if(type=="attr_comments")
+		add_tag_content='<div class="add_tag_content content"><form id="add_tag_form" action="" method="POST" width="600px">	<div class="tag_name"><label for="tag_name">水平：</label><input id="tag_name" name="name" type="text" class="required"/><div class="note"></div>	</div>		<div class="tag_attr"><label for="tag_attr">考点：</label><select name="attribution" id="tag_attr"></select>		<div class="note"></div>	</div>	<div class="comments"><label for="comments" class="floatl">评语：</label><textarea id="comments" name="body" type="text" cols="60" rows="10"  ></textarea><div class="weight"><label for="weight" class="floatl">权重：</label><select name="weight" id="weight"><option value="0">-请选择-</option><option value="10">最高</option><option value="8">较高</option><option value="6">一般</option><option value="4">较低</option><option value="2">最低</option></select></div>	</div>	<button type="submit" class="submit jqidefaultbutton" name="btn_submit" value="提交">提交</button> </form> </div>';
+								
+		$.prompt(title+add_tag_content,
+				{buttons: { 取消: 0 },
+				focus: 1,
+				loaded:function(){
+					$(".jqibuttons").appendTo("#add_tag_form");
+					$(".submit").prependTo('.jqibuttons');
+					
+					$('#add_tag_form').validate();	//add_tag_form 的验证
+					$('.required').prev().append('<span style="color:red;">*</span>');
+					
+					if(type=="attr_comments") add_attribution();
+					
+					
+					//add_tag_form 的提交
+					var tag_form = {
+						url:			postUrl,
+						type:			'post',
+						target:        '#bottom-message',// target element to update
+						success:       function(){$.prompt.close();$("#tags_content").tags_list(type);}
+					};
+					
+					$('#add_tag_form').ajaxForm(tag_form);	
+				},
+				submit:function(v){ 
+					if(v==0){
+						$.prompt.close();
+						return true; //we're done
+					}
+					return false; 
+				}
+				
+			});
+							
+	
+}
+function add_attribution(){
+		
+		var attr_type='<option value="">-请选择-</option>';
+		$.getJSON('/itest/egs/index.php?op=attribution_info',function(data){	
+		//alert(quescon_type);
+		$.each(data,function(index,term){
+			aid = term['aid'];
+			tname = term['name'];
+			attr_type +='<option value="'+ aid +'">'+ tname+'</option>';
+		});
+		$('#tag_attr').append(attr_type);
+		//alert(attr_type);
+	});
+	
+}
+
+</script>

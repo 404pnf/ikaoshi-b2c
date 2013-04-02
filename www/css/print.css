@@ -1,0 +1,17 @@
+.title {
+    background-color: #BFBFBF;
+    color: #BF5E26;
+    font: bold 1.4em/1.8em 宋体;
+    text-align: center;
+}
+.notprint{display:none;}
+.serial_name_num_name{
+	background:none;
+	padding-left: 0px;
+	cursor:default;
+	height: auto;
+	font-size: 1.2em;
+}
+.ques_display_part > .serial_name_num_name{
+	font-size: 1.8em;
+}

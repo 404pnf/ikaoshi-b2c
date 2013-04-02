@@ -1,0 +1,196 @@
+
+<script type="text/javascript">
+
+		
+if( userroleid != 21 && userroleid != 22){
+	alert('您无权访问此页面');
+	//parent.location.href = "index.html";
+}
+	
+	
+var quescon_type='<option value="">-请选择-</option>';
+
+function listTongji(id,name,time_start,time_end,sortByname,sortBytype){
+	
+	sortBy = sortByname+'_'+sortBytype;
+	url = '/itest/egs/index.php?op=tongji&type_id='+id+'&name='+name+'&time_start='+time_start+'&time_end='+time_end+'&sortBy='+sortBy;
+	//alert(url);
+	$.ajax({
+		url: url,
+		dataType: 'json',
+		//data: data,
+		timeout:20000,// 设置请求超时时间（毫秒）。 
+		error: function (XMLHttpRequest, textStatus, errorThrown) {// 请求失败时调用函数。  
+			$(that).html(" 请求超时! textStatus: " + textStatus + ', errorThrown: ' + errorThrown);
+		 }, 
+		success: function(resp) 
+		{  //请求成功后回调函数。
+
+			var paper_count = resp['total']['paper_count'];
+			var paper_visited_times = resp['total']['paper_visited_times']!=undefined?resp['total']['paper_visited_times']:0;
+			var do_paper = resp['total']['do_paper']!=undefined?resp['total']['do_paper']:0;
+			var do_visited_ratio = resp['total']['do_visited_ratio']!=undefined?resp['total']['do_visited_ratio']:0;			
+			var ave_score = resp['total']['ave_score']!=undefined?resp['total']['ave_score']:0;
+			var ave_rate = resp['total']['ave_rate']!=undefined?resp['total']['ave_rate']:0;
+			
+			$('.total').html('共计:生成<span class="important_num" >' + paper_count + '</span>(套)，点击<span class="important_num" >'+ paper_visited_times +'</span>(次)，提交<span class="important_num" >'+ do_paper +'</span>(次)，提交/点击比<span class="important_num" >'+ Math.round(do_visited_ratio*100*100)/100 +'</span>%，平均成绩<span class="important_num" >'+Math.round(ave_score*100)/100+'</span>(分)，平均正确率<span class="important_num" >'+Math.round(ave_rate*100*100)/100+'</span>%');
+			
+			
+			
+			var tongjiDetail = resp['detail'];
+			table_body = '<tr><td colspan="7">没有相应的记录</td></tr>';
+			if(tongjiDetail!=undefined){
+				table_body = '';
+				$.each(tongjiDetail,function(index,items){
+						
+					var item=items;
+					var ave_score = Math.round(items['ave_score'] * 100) / 100;
+					var ave_rate = Math.round((items['ave_rate']*100) * 100) / 100+'%';
+					var do_visited_ratio = Math.round(items['do_visited_ratio']*100*100)/100 + '%';
+					
+					var row = '<tr><td>'+items['title']+'</td><td>'+items['paper_count']+'</td><td>'+items['paper_visited_times']+'</td><td>'+items['do_paper']+'</td><td>'+do_visited_ratio+'</td><td>'+ave_score+'</td><td>'+ave_rate+'</td></tr>';
+					
+					if(items['has_effected_paper']!=0)
+						table_body +=row;
+					
+				});
+				
+				
+			}
+				
+			$('#tbody_list').html(table_body);
+		
+		}
+	});
+}
+
+function tongji(){
+	sid = $('#paper_type_form').val()
+	name = $('#paper_name').val();
+	time_start = $('#paper_time_start').val();
+	time_end = $('#paper_time_end').val();
+	sortByname = $('#sortByname').val();
+	sortBytype = $('#sortBytype').val();
+	
+	
+	$('#tbody_list').html('<tr><td colspan="7"><div class="loadging"><img width="25px" height="25px" src="images/loading.gif"></div></td></tr>');
+	
+	listTongji(sid,name,time_start,time_end,sortByname,sortBytype);
+	return false;
+}
+
+
+
+
+$(function(){
+	
+	//试卷类型
+	
+	listTongji(0,'','','','visited','desc');//默认为访问次数倒序排列
+	$.getJSON('/itest/egs/index.php?op=exam',function(data){	
+		//alert(quescon_type);
+		$.each(data,function(index,term){
+			tid = term['tid'];
+			tname = term['name'];
+			quescon_type +='<option value="'+ tid +'">'+ tname+'</option>';
+		});
+		$('#paper_type_form').append(quescon_type);
+	});	
+	
+	var myDate = new Date();
+	//myDate.getYear();       //获取当前年份(2位)
+	var today = '';
+	today = myDate.getFullYear()+'-';   //获取完整的年份(4位,1970-????)
+	today += (myDate.getMonth()+1)+'-';      //获取当前月份(0-11,0代表1月)
+	today += myDate.getDate();        //获取当前日(1-31)
+	
+	$('#paper_time_end').val(today);
+	//$('#paper_time_end').val(myDate.toLocaleDateString());
+
+
+	$('.sortBy').click(function(){
+		sortname = this.id;
+		sortclass="desc";
+		
+		if($(this).hasClass("desc")){
+			$('.sortBy').removeClass("asc").removeClass("desc");
+			$(this).addClass("asc");
+			sortclass="asc";
+		}
+		else{
+			$('.sortBy').removeClass("asc").removeClass("desc");
+			$(this).addClass("desc");
+			sortclass="desc";
+		}
+		
+		$('#sortByname').val(sortname);
+		$('#sortBytype').val(sortclass);
+		
+		tongji();
+	});
+
+
+
+});
+
+</script>
+
+<div id="mainContentInner">
+	
+      
+	<div class="paper_title title">
+		<span id="title_f">
+			数据统计
+        </span>
+        
+	</div>
+	<div id="globalmessage" class="messages"></div>
+	
+<div class="paper_content content">
+
+	
+	<div id="search_condition" class="search">
+		<form action="" method="post" onSubmit="return tongji();" id="search_form">
+			<input type="hidden" id="sortByname" name="sortByname" value="visited">
+			<input type="hidden" id="sortBytype" name="sortBytype" value="desc">
+			<div class="paper_type">
+				<label for="paper_type_form">试卷类型：</label>
+				<select  id="paper_type_form" name="type" ></select>
+			</div>
+			<div class="paper_name">
+				<label for="paper_name">试卷名称：</label>
+				<input id="paper_name" name="paper_name" />
+			</div>
+			<div class="paper_time">
+				<label for="paper_time">时间：</label>
+				<input id="paper_time_start" name="paper_time_start" />
+				 ——— 
+				<input id="paper_time_end" name="paper_time_end" /><span class="note"></span>
+			</div>
+			<input type="submit" value="搜索" name="搜索" >
+		</form>
+    </div>  
+    
+    <div class="total"></div>
+ 	<table id="tongji">
+ 		<thead><th class="sortBy" id="title"><a href="javascript:void(0)">模板名</a></th>
+ 		<th class="sortBy" id="created"><a href="javascript:void(0)">生成(套)</a></th>
+ 		<th class="sortBy" id="visited"><a href="javascript:void(0)">点击(次)</a></th>
+ 		<th class="sortBy" id="do"><a href="javascript:void(0)">提交(次)</a></th>
+ 		<th class="sortBy" id="do_visited"><a href="javascript:void(0)">提交/点击</a></th>
+ 		<th class="sortBy" id="ave_score"><a href="javascript:void(0)">平均成绩</a></th>
+ 		<th class="sortBy" id="ave_rate"><a href="javascript:void(0)">平均正确率</a></th>
+ 		</thead>
+ 		<tbody id="tbody_list"><tr><td colspan="6"><div class="loadging"><img width="25px" height="25px" src="images/loading.gif"></div></td></tr></tbody>
+ 	</table>
+ 	
+  		
+	</div>
+</div>
+
+
+	<div id="bottom-message"></div>
+
+
+</div><!--//mainContentInner-->
+

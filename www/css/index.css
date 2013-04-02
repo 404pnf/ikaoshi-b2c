@@ -1,0 +1,43 @@
+/* CSS Document */
+@charset "utf-8";
+*{
+	padding:0px;
+	list-style-type:none;
+	margin:0px auto;
+	font-size: 12px;
+	font-weight: normal;
+	color: #4b4b4a;
+	font-family:Arial,sans-serif;
+}
+
+img{
+	border:0px;
+}
+ul{list-style-type:none}
+
+.clearfix{clear:both;visibility:hidden;clear:both;font-size:0px;width:0px;line-height:0px}
+
+a{text-decoration: none;}
+
+a:hover{ text-decoration:underline;}
+
+#login_bg{ width:100%; height:100%; background:url(../images/login_bg.gif) repeat; position:absolute;}
+#login_bg2{ width:899px; height:607px; background:url(../images/login_p1.gif) no-repeat;position:relative;}
+/*#login{float:left;width:200px;  line-height:30px;margin-left:670px; margin-top:300px;text-align: left;}*/
+#login {
+    left: 670px;
+    line-height: 30px;
+    position: absolute;
+    text-align: left;
+    top: 300px;
+    width: 200px;
+}
+#login .note a{
+    color:red;
+    font-size:14px;
+    padding:0 5px;
+}
+#btn_login{ width:60px; height:21px; background:url(../images/btn_login.gif) no-repeat; border:0px; color:#FFF; line-height:21px; margin-left:25px;}
+.pointerbutton{
+	cursor:pointer;
+}

@@ -1,0 +1,45 @@
+﻿<!--
+<script language="javascript" type="text/javascript" src="libs/ckeditor/ckeditor.js"></script>
+<script language="javascript" type="text/javascript" src="libs/ckfinder/ckfinder.js"></script>
+-->
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery.form.js"></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery.validate.js"></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery-impromptu.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/jquery.additem58.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/jquery.viewitem3.js"></script>
+
+
+<script type="text/javascript">
+
+var quescon_type='<option value="">-请选择-</option>',
+	quescon_basetype='<option  value="">-请选择-</option>';
+
+var user_id=0,temp_uid=tx.setCookie("uid");
+if(temp_uid!=null)
+	user_id=temp_uid;
+</script>
+
+
+<div id="mainContentInner">
+
+	<div class="add_item_title title">
+		<span id="title_f">创建试题</span>
+	</div>
+	<div id="globalmessage" class="messages"></div>
+    
+    <div class="content">	
+     
+        <div class="parent_content">
+            <div id="basetype_button" style="display:block;">	<a href="javascript:void(0);" onclick="open_basetype(-1,{ques_content_div:'.parent_content',add_ques_link_div:'.add_ques_link'})">选择试题基本题型</a><span class="error"></span>
+            </div>
+         </div>
+    	<div class="add_ques_link">
+        </div>
+        
+     </div>
+
+
+	<div id="bottom-message"></div>
+
+
+</div><!--//mainContentInner-->

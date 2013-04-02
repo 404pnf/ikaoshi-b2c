@@ -1,0 +1,283 @@
+<script>
+attr_comment_name_option ='';
+
+$(function(){
+	url = "/itest/egs/index.php?op=attr_comments";
+	
+	$.ajax({
+		url: url,
+		dataType: 'json',
+		//data: data,
+		timeout:200000,// 设置请求超时时间（毫秒）。 
+		error: function (XMLHttpRequest, textStatus, errorThrown) {// 请求失败时调用函数。  
+			$(that).html(" 请求超时! textStatus: " + textStatus + ', errorThrown: ' + errorThrown);
+		 }, 
+		success: function(resp) 
+		{  //请求成功后回调函数。
+
+			attribution_option ='';
+			
+			$.each(resp,function(index,attr){
+				if(attr['comment']!=null){	
+					attribution = attr['attribution'];
+								
+					attribution_option += '<option value="'+attribution[0]["aid"]+'">'+attribution[0]["name"]+'</option>';
+				}
+			});
+    		$('#attribution_option_id').html(attribution_option);
+    		
+    		$('#attribution_option_id').change(function(){
+    			var aid = $(this).val();
+				generate_attr_comments(aid);
+				modules_attr_comments(aid,aid);
+			});
+			
+			var aid = $('#attribution_option_id').val();
+			
+			
+			generate_attr_comments(aid);
+			modules_attr_comments(aid,aid);
+					
+    	}
+    });
+    
+    
+});
+
+function generate_attr_comments(aid){  
+	attr_comment_name_option ='';
+
+	
+	if(aid!=0){
+		url_level = "/itest/egs/index.php?op=attr_comments&type=single&aid="+aid;
+		
+		$.ajax({
+			url: url_level,
+			dataType: 'json',
+			//data: data,
+			timeout:200000,// 设置请求超时时间（毫秒）。 
+			error: function (XMLHttpRequest, textStatus, errorThrown) {// 请求失败时调用函数。  
+				$(that).html(" 请求超时! textStatus: " + textStatus + ', errorThrown: ' + errorThrown);
+			 }, 
+			success: function(resp) 
+			{  //请求成功后回调函数。
+				comment_level = resp["comment"];
+				$.each(comment_level,function(level_id,level_name){
+		
+					attr_comment_name_option += '<option value="'+level_id+'">'+level_name+'</option>';			 
+				});
+//$('#globalmessage').html('attr_comment_name_option:'+attr_comment_name_option+'<br>');
+
+			}
+		});
+	}
+	
+}
+
+
+function checkbox_same_mark_control(){
+    
+	var that=$('#same_mark');
+	
+	if(that.attr("checked")){
+		$('#resources .resources-content').css('display','block');
+		$('.modules_attr_comments .resources-content').css('display','none');
+	}
+	else
+	{
+		$('#resources .resources-content').css('display','none');
+		$('.modules_attr_comments .resources-content').css('display','block');
+	}
+	
+	return false;
+}
+
+//评论等级
+function modules_attr_comments(id,attribution_option_id){
+//id 与 attribution_option_id如果相同，则表示更新现有comment，如果不同，则attribution_option_id基于id的comment，做提交。
+	var modules_attr_commentsUrl="/itest/egs/index.php?op=structure_attr_comments_global&type=detail&aid="+id;
+	
+	count = 0;
+	
+$.ajax({
+	url: modules_attr_commentsUrl,
+	dataType: 'json',
+	//data: data,
+	timeout:200000,// 设置请求超时时间（毫秒）。 
+	error: function (XMLHttpRequest, textStatus, errorThrown) {// 请求失败时调用函数。  
+		//$('#globalmessage').html(" 请求超时! textStatus: " + textStatus + ', errorThrown: ' + errorThrown);
+	 }, 
+	success: function(data) 
+	{  //请求成功后回调函数。
+	
+	
+		
+		if(data!=null)
+			count = data['count'];
+		if(count > 0) {
+			
+			comments = data['comment'];
+			$('.modules_attr_comments_rows').html('');
+			row_i = data['count']+1;
+			
+			i = 0;
+			//$('#globalmessage').append('data["aid"]:'+data['aid']+'<br>');
+			
+			$.each(comments,function(index,comment){
+					
+				i++;
+				
+				if(data['aid'] > 0)
+					thisid = index;
+				else
+					thisid = '';
+				//$('#globalmessage').append('thisid:'+thisid+'<br>');
+				
+				$('.modules_attr_comments_rows').append('<div class="modules_attr_comments row_'+i+'  clearfix"><input type="hidden" name="comments['+i+'][id]" value="'+thisid+'"/><span class="score_range"><label>正确率范围（小 — 大）：</label><input name="comments['+i+'][min_rate]" type="text" class="min_rate" size="8" value="'+comment["min_rate"]+'"/> — <input name="comments['+i+'][max_rate]" type="text" class="max_rate" size="8" value="'+comment["max_rate"]+'"/></span>	<span class="comments"><label for="level_id" class="">评语：</label><select name="comments['+i+'][level_id]"  class="level_id" ><option  value="">-请选择-</option>'+attr_comment_name_option+'</select></span><div class="resources-content"><label>资源tags：</label>  <input class="resources_tags1" name="comments['+i+'][resources_tags1]" value=""> OR <input class="or_resources_tags2" name="comments['+i+'][or_resources_tags2]" value=""></div><span class="delete">删除</span></div>');
+				
+				$('.modules_attr_comments_rows .row_'+i+' .level_id').val(comment["level"]["level_id"]);
+				
+				//alert(comment['resources']['resources_tags1']);
+				var same_mark = data['same_mark'];
+				
+				
+				if( same_mark == 1 || same_mark == undefined){
+					$('#same_mark').attr({"checked":"true"});
+					$('#resources .resources-content').css({"display":"block"});
+					$('.modules_attr_comments_rows .resources-content').css({"display":"none"});
+					$('#resources_tags1_default').val(comment['resources']['resources_tags1']);
+					$('#or_resources_tags2_default').val(comment['resources']['or_resources_tags2']);
+					
+				}
+				else{
+					$('#same_mark').removeAttr("checked");
+					$('#resources .resources-content').css({"display":"none"});
+					$('.modules_attr_comments_rows .resources-content').css({"display":"block"});
+					
+					$('.modules_attr_comments_rows .row_'+i+' .resources_tags1').val(comment['resources']['resources_tags1']);
+					$('.modules_attr_comments_rows .row_'+i+' .or_resources_tags2').val(comment['resources']['or_resources_tags2']);
+				}
+			});		
+			
+			
+			var rid = data['rid'];
+			if( rid != undefined){
+				$('#rid').val(rid);
+			}
+			else{
+				$('#rid').val('');
+			}
+				
+		}
+		else{//当前试卷类型没有提交等级评语
+			if(id!=0)//使用默认的等级评语
+			{
+				modules_attr_comments(0,id);//第一个参数是默认等级评语id，第二个参数是现有等级评语id。
+			}
+			else{//如果默认等级评语也没有设置，则用原有空白内容
+			
+				html =  '		<div class="modules_attr_comments row_1  clearfix">			<span class="score_range"><label>正确率范围（小 — 大）：</label><input name="comments[1][min_rate]" type="text" class="min_rate" size="8"/> — <input name="comments[1][max_rate]" type="text" class="max_rate" size="8"/></span>	<span class="comments"><label for="comments_name" class="">评语：</label><select name="comments[1][level_id]"  class="level_id"><option value="">-请选择-</option></select></span><div class="resources-content"><label>资源tags：</label>  <input class="resources_tags1" name="comments[1][resources_tags1]" value=""> OR <input class="or_resources_tags2" name="comments[1][or_resources_tags2]" value=""></div><span class="delete">删除</span>		</div>								<div class="modules_attr_comments row_2   clearfix">		<span class="score_range"><label>正确率范围（小 — 大）：</label><input name="comments[2][min_rate]" type="text" class="min_rate" size="8"/> — <input name="comments[2][max_rate]" type="text" class="max_rate" size="8"/></span>	<span class="comments"><label for="level_id" class="">评语：</label><select name="comments[2][level_id]"  class="level_id" ><option value="">-请选择-</option></select></span><div class="resources-content"><label>资源tags：</label>  <input class="resources_tags1" name="comments[2][resources_tags1]" value=""> OR <input class="or_resources_tags2" name="comments[2][or_resources_tags2]" value=""></div><span class="delete">删除</span>		</div>				<div class="modules_attr_comments row_3  clearfix">		<span class="score_range"><label>正确率范围（小 — 大）：</label><input name="comments[3][min_rate]" type="text" class="min_rate" size="8"/> — <input name="comments[3][max_rate]" type="text" class="max_rate" size="8"/></span>	<span class="comments"><label for="level_id" class="">评语：</label><select name="comments[3][level_id]"  class="level_id"><option value="">-请选择-</option></select></span><div class="resources-content"><label>资源tags：</label>  <input class="resources_tags1" name="comments[3][resources_tags1]" value=""> OR <input class="or_resources_tags2" name="comments[3][or_resources_tags2]" value=""></div><span class="delete">删除</span>		</div> 	';
+				$('.modules_attr_comments_rows').html(html);
+				$('.level_id').append(attr_comment_name_option);
+				row_i = 4;
+				return false;
+			}
+		}
+		
+		$('.delete').click(function(){
+			$(this).parent().remove();
+		});
+		
+		var postUrl = "/itest/egs/add_structure_attr_comment_global.php";
+		
+		var modules_attr_comments_form = {
+			url:			postUrl,
+			type:			'post',
+			target:        '#bottom-message',// target element to update
+			dataType:	'json',
+			success:       function(data){if(data.status==1)alert('保存成功！');else alert('失败！');exam_structrue_attribution_comments_setting(); }
+		};
+		
+		$('#modules_attr_comments_form').ajaxForm(modules_attr_comments_form);	
+			
+	}
+}); 
+	
+	return count;
+}
+
+var	row_i = 4;
+	
+function add_comments_row(){
+
+	var modules_attr_comments_row = '<div class="modules_attr_comments row_'+row_i+'  clearfix"><span class="score_range"><label>正确率范围（小 — 大）：</label><input name="comments['+row_i+'][min_rate]" type="text" class="min_rate" size="8"/> — <input name="comments['+row_i+'][max_rate]" type="text" class="max_rate" size="8"/></span>	<span class="comments"><label for="level_id" class="">评语：</label><select name="comments['+row_i+'][level_id]"  class="level_id"><option value="">-请选择-</option>'+attr_comment_name_option+'</select></span> <div class="resources-content"><label>资源tags：</label>  <input class="resources_tags1" name="comments[][resources_tags1]" value=""> OR <input class="or_resources_tags2" name="comments['+row_i+'][or_resources_tags2]" value=""> </div><span class="delete">删除</span></div>';
+	
+	$('.modules_attr_comments_rows').append(modules_attr_comments_row);
+	
+	row_i = row_i + 1;
+	
+	return false;
+	
+}
+
+</script>
+
+<style>
+#comments-content{
+    border-bottom: 1px solid #DDDDDD;
+    border-top: 1px solid #DDDDDD;
+    margin: 5px 35px 20px 20px;
+    padding: 10px;
+}
+.modules_attr_comments .resources-content{
+	float:left;
+}
+.delete {
+	float: right;
+}
+</style>
+<div class="paper_title title">
+    	<span id="title_f">
+			按考试类型设置评语及资源
+        </span>
+</div>
+<div id="globalmessage" class="messages"></div>
+
+<div class="modules_attr_comments_content content">
+
+<form id="modules_attr_comments_form" action="/itest/egs/add_structure_attr_comment_global.php" method="POST" width="600px">	
+
+<label for="attribution_option_id">考点：</label><select id="attribution_option_id" name="aid">
+</select> <span class="note"> （只显示设置了考点评语的考点，请先在考点评语中添加考点评语后，在此设置按等级推荐资源）</span>	
+<!--<input type="hidden" name="aid" value=""/>-->
+
+
+<div class="comment_level">
+
+<div id="comment">
+
+	<div id="comments-content">	
+		<div class="modules_attr_comments_rows">
+	
+		</div>
+		
+		<a href="javascript:void(0);" onclick="return add_comments_row();">添加</a>               
+	</div>
+</div>
+
+<div id="resources">
+	
+		<input type="checkbox" id="same_mark" name="same_mark" checked onclick="checkbox_same_mark_control()"><label for="same_mark">不同等级推荐相同资源 </label><span class="note"> （默认为选中，取消选择后，可设置当前分类的不同等级下的资源）</span>
+	
+
+	<div class="resources-content">	
+		<label>资源tags：</label>   
+		<input id="resources_tags1_default"  name="resources_tags1" value=""> OR <input  id="or_resources_tags2_default"  name="or_resources_tags2" value=""><span class="note"> （不填则不推荐）</span>
+	</div>
+</div>
+</div>
+
+
+
+
+<button type="submit" class="submit" name="btn_submit" value="提交">提交</button> </form></div>

@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>EGS</title>
+<link type="text/css" rel="Stylesheet" href="css/common.css" />
+<link type="text/css" rel="Stylesheet" href="css/txegs.css" />
+<link rel="stylesheet" media="all" type="text/css" href="libs/jquery/impromptu.css">
+
+<script language="javascript" type="text/javascript" src="libs/json/json2.js" ></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery-1.4.2.js"></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery.form.js"></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery-impromptu.js"></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery.validate.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/zujuan_module31.js"></script>
+<script language="javascript" type="text/javascript" src="data/serial_number.js"></script>
+
+
+<script type="text/javascript">
+var user_id=0,temp_uid=tx.setCookie("uid");
+if(temp_uid!=null)
+	user_id=temp_uid;
+
+var ques_type='<option value="0">-请选择-</option>',
+	exam_type='<option  value="0">-请选择-</option>',
+	ques_basetype='<option  value="0">-请选择-</option>',
+	examTypeValue=1,examTypeTag='';
+
+
+
+
+$(function(){	
+	
+
+	$('input[type=checkbox]').attr("checked", false);
+	$('#zujuan_form').validate();
+	$('.required').before('<span style="color:red;">*</span>');
+	
+	
+	//获得试卷类型
+	$.getJSON('/itest/egs/index.php?op=exam',function(data){		
+		$.each(data,function(index,term){
+			tid = term['tid'];
+			tname = term['name'];
+			exam_type +='<option value="'+ tid +'">'+ tname+'</option>';
+		});
+		$('#exam_type_form').empty();
+		$('#exam_type_form').append(exam_type);
+		
+	});
+	//选题时的默认标签，即管理员选择的试卷类型
+	/*
+	$('#exam_type_form').change(function(){
+        examTypeTag= $('#exam_type_form  option:selected').text();
+		$('input.ques_tags').val(examTypeTag);
+	});
+	*/
+	//基本题型
+	$.getJSON('/itest/egs/index.php?op=basic',function(data){	
+		$.each(data,function(index,term){
+			tid = term['tid'];
+			tname = term['name'];
+			ques_basetype +='<option value="'+ tid +'">'+ tname+'</option>';
+		});
+		/*
+		$.each(data,function(termindex,term){
+			ques_basetype +='<option value="'+ termindex +'">'+ term+'</option>';
+		});
+		*/
+	});
+	//试卷题型
+	$.getJSON('/itest/egs/index.php?op=item_type',function(data){	
+		$.each(data,function(index,term){
+			type_id = term['type_id'];
+			tname = term['name'];
+			ques_type +='<option value="'+ type_id +'">'+ tname+'</option>';
+		});
+		/*
+		$.each(data,function(termindex,term){
+			ques_type +='<option value="'+ termindex +'">'+ term+'</option>';
+		});
+		*/
+	});
+	
+	return false;   
+	
+});  
+
+</script>
+
+<script type="text/javascript">
+	var index=-1;
+	function checkbox_level_add(pid,pques_type,pques_tags,level_condition,exam_level_add_form){
+		var that=$(level_condition+exam_level_add_form);
+		var $exam_level_panel=that.parent().next();//添加试卷结构的panel
+		
+		if(that.attr("checked")){
+			exam_level_add(pid,pques_type,pques_tags,level_condition,$exam_level_panel);//添加试卷结构的函数
+		}
+		else
+		{
+			$.prompt('此操作会删除其下属的所有层级结构，您确定要删除？？',
+				{buttons: { 取消: 0, 删除: 1 },
+				focus: 1,
+				submit:function(v,m,f){ 
+					if(v==0){ 
+						that.attr("checked", true);
+						$.prompt.close();
+					}
+					else if(v==1){
+						that.removeAttr("checked");
+						$exam_level_panel.html('');
+						$(level_condition).next().html('');
+						return true; //we're done
+					}
+					return false; 
+				}
+			});
+		}
+	}
+	
+	var i=3;
+	
+	function exam_level_add(pid,pques_type,pques_tags,level_condition,$exam_level_panel){
+	//添加试卷结构
+		var paneltext1='<fieldset class="index_add"><legend class="index_add_title">试卷结构</legend><div class="clearfix">  <div  class="exam_serial_name  fleft">   <label class="exam_serial_name">序号名:</label>   <input type="text"  size="12"  maxlength="50">   <div class="note">如Part、Section等，若是试题，可不填。</div>  </div>  <div class="exam_serial_number ">   <label class="exam_serial_number">序号样式:</label>  <select ><option value="0">-请选择-</option><option value="1">1,2,3,...</option><option value="2">I,II,III,...</option><option value="3">A,B,C,...</option><option value="4">One,Two,There,...</option><option value="5">一,二,三,...</option></select>  <div class="note">标签名之后的序号样式</div> </div> </div> ';
+		//pid=pid;
+		var line1_index=++index;
+		var line2_index=++index;
+		
+		var paneltext2='<div class="question_rules "> <table class="exam_question defaultTable" width="650" cellpadding="3" >  <caption>  题目规则:  </caption>  <tr class="row1 row">  <td><input type="hidden" class="id" name="part['+line1_index+'][id]" value="'+line1_index+'"><input type="hidden" class="pid" name="part['+line1_index+'][pid]" value="'+pid+'"><span class="ques_condition"><label>顺序：</label><input name="part['+line1_index+'][order]" class="ques_order "  type="text" maxlength="5" size="3"  value="1" ></span><span class="ques_condition"><label>基本题型：</label><select name="part['+line1_index+'][basetype]" class="ques_basetype ">'+ques_basetype+'</select></span><span class="ques_condition"> <label>题型：</label><select  name="part['+line1_index+'][type]"  class="ques_type" value="'+pques_type+'">'+ques_type+'</select></span><span class="ques_condition"><label>个数：</label><input name="part['+line1_index+'][count]" class="ques_count "  type="text" maxlength="5" size="3"  value="1" ></span><span class="ques_condition"><label>分值/题：</label><input name="part['+line1_index+'][score]" class="ques_score "  type="text" maxlength="10" size="3"  value="1" ></span><span class="ques_condition"><label>标签：</label><input name="part['+line1_index+'][tags]" class="ques_tags "  type="text" maxlength="100" size="12"  value="'+pques_tags+'" ></span><span class="ques_condition"><label>标签之间关系：</label><select name="part['+line1_index+'][tags_relate]" class="ques_tags_relate "><option value="1">AND</option><option value="2">OR</option></select></span><span class="ques_condition"><label>必须依赖于父级：</label><select name="part['+line1_index+'][subque_relate]" class="ques_subque_relate "><option value="1">是</option><option value="0">否</option></select></span></td>  <td><a href="javascript:void(0)"  class="ques_operate_1 ques_operate" onclick=\'delete_exam_question("'+level_condition+'"," .row1")\'>删除</a></td>  </tr>			 <tr class="row2 row">  <td><input type="hidden" class="id" name="part['+line2_index+'][id]" value="'+line2_index+'"><input type="hidden" class="pid" name="part['+line2_index+'][pid]" value="'+pid+'"><span class="ques_condition"><label>顺序：</label><input name="part['+line2_index+'][order]" class="ques_order "  type="text" maxlength="5" size="3"  value="2" ></span><span class="ques_condition"><label>基本题型：</label><select name="part['+line2_index+'][basetype]" class="ques_basetype ">'+ques_basetype+'</select> </span><span class="ques_condition"><label>题型：</label><select  name="part['+line2_index+'][type]"  class="ques_type" value="'+pques_type+'">'+ques_type+'</select></span><span class="ques_condition"><label>个数：</label><input name="part['+line2_index+'][count]" class="ques_count "  type="text" maxlength="5" size="3"  value="1" ></span><span class="ques_condition"><label>分值/题：</label><input name="part['+line2_index+'][score]" class="ques_score "  type="text" maxlength="10" size="3"  value="1" ></span><span class="ques_condition"><label>标签：</label><input name="part['+line2_index+'][tags]" class="ques_tags "  type="text" maxlength="100" size="12"  value="'+pques_tags+'" ></span><span class="ques_condition"><label>标签之间关系：</label><select name="part['+line2_index+'][tags_relate]" class="ques_tags_relate "><option value="1">AND</option><option value="2">OR</option></select></span><span class="ques_condition"><label>必须依赖于父级：</label><select name="part['+line2_index+'][subque_relate]" class="ques_subque_relate "><option value="1">是</option><option value="0">否</option></select></span></td>  <td><a href="javascript:void(0)"  class="ques_operate_1 ques_operate" onclick=\'delete_exam_question("'+level_condition+'"," .row2")\'>删除</a></td>  </tr> </table><a href="javascript:void(0);" onclick=\'add_exam_question("'+pid+'","'+pques_type+'","'+pques_tags+'","'+level_condition+'"," .exam_question")\'>添加题目</a>  </div><input type="button" onclick=\'exam_level_add_finish("'+level_condition+'"," .exam_level_panel")\' value="添加完毕"></fieldset>';
+		//alert(Number(level));
+		$exam_level_panel.append(paneltext1+paneltext2);
+		$(level_condition+' .ques_type').val(pques_type);
+		i=3;
+	}
+	
+		
+	function add_exam_question(pid,pques_type,pques_tags,level_condition,exam_question){
+		//添加试题
+		index++;
+		$(level_condition+exam_question).append('<tr class="row'+i+' row"> <td><input type="hidden" class="id" name="part['+index+'][id]" value="'+index+'"><input type="hidden" class="pid" name="part['+index+'][pid]" value="'+pid+'"><span class="ques_condition"><label>顺序：</label><input name="part['+index+'][order]" class="ques_order "  type="text" maxlength="5" size="3"  value="'+i+'" ></span><span class="ques_condition"><label>基本题型：</label><select name="part['+index+'][basetype]" class="ques_basetype ">'+ques_basetype+'</select> </span><span class="ques_condition"><label>题型：</label><select  name="part['+index+'][type]"  class="ques_type">'+ques_type+'</select></span><span class="ques_condition"><label>个数：</label><input name="part['+index+'][count]" class="ques_count "  type="text" maxlength="5" size="3"  value="1" ></span><span class="ques_condition"><label>分值/题：</label><input name="part['+index+'][score]" class="ques_score "  type="text" maxlength="10" size="3"  value="1" ></span><span class="ques_condition"><label>标签：</label><input name="part['+index+'][tags]" class="ques_tags "  type="text" maxlength="100" size="12"  value="'+pques_tags+'" ></span><span class="ques_condition"><label>标签之间关系：</label><select name="part['+index+'][tags_relate]" class="ques_tags_relate "><option value="1">AND</option><option value="2">OR</option></select></span><span class="ques_condition"><label>必须依赖于父级：</label><select name="part['+index+'][subque_relate]" class="ques_subque_relate "><option value="1">是</option><option value="0">否</option></select></span></td>  <td><a href="javascript:void(0)"  class="ques_operate_'+i+' ques_operate" onclick=\'delete_exam_question("'+level_condition+'"," .row'+i+'")\'>删除</a></td>  </tr>');
+		
+		$(level_condition+' .row'+i+' .ques_type').val(pques_type);
+		
+		i++;
+		return false;
+	}
+	
+	function delete_exam_question(level_condition,ques_operate){
+	//删除试题
+		$(level_condition+ques_operate).remove();
+	}
+
+	
+	function exam_level_add_finish(level_condition,exam_level_panel){
+	//生成下一层内容
+		var j=0,exam_level_panel_id=level_condition+exam_level_panel;
+			
+		var $level_content=$(level_condition).parent();
+		var $level_generate=$(level_condition).next();//根据exam_level_add条件生成的内容所在的div
+		
+		var exam_serial_name = $(exam_level_panel_id+' .exam_serial_name input').val();
+		var exam_serial_number= $(exam_level_panel_id+' .exam_serial_number option:selected').text();
+		var exam_tagvalue= $(exam_level_panel_id+' .exam_serial_number option:selected').val();
+		
+		//所选序号样式，从本地 serial_number.js中获得对应的值。
+		var exam_tagjson=serial_number[exam_tagvalue];
+		
+	
+		$(exam_level_panel_id+' .row').each(function(){
+			
+			j++;
+			var level_content_next=$level_content.attr('id')+'_'+j;
+			var level_condition_next=$(level_condition).attr('id')+'_'+j;
+			var level_generate_next=$level_generate.attr('id')+'_'+j;
+			var level=level_condition_next.slice(16);
+			if(level=='') level=0;
+			var tag=exam_tagjson[j];
+			//alert(level.slice(2));
+			var id=$(this).find('.id').val();
+			var pid=$(this).find('.pid').val();
+			
+			//alert(id+';'+pid);
+			var contentlevel ='<input type="hidden" class="exam_serial_name" name="part['+id+'][serial_name]" value="'+exam_serial_name+'"><input type="hidden" class="exam_serial_number" name="part['+id+'][serial_number]" value="'+exam_tagvalue+'"><div id="'+level_content_next+'" class="level_content"><div id="'+level_condition_next+'" class="level_condition"><div class="title"><span class="level">第'+level+'部分</span><span class="serial_name">'+exam_serial_name+'</span><span class="serial_number">'+tag+'</span><span class="order">'+$(this).find('.ques_order').val()+'</span><span class="basetype">'+$(this).find('.ques_basetype option:selected').text()+'</span><span class="type">'+$(this).find('.ques_type option:selected').text()+'</span><span class="tags">'+$(this).find('.ques_tags').val()+'</span><span class="tags_relate">'+$(this).find('.ques_tags_relate').val()+'</span><span class="count">'+$(this).find('.ques_count').val()+'</span></div></div><div  id="'+level_generate_next+'"  class="level_generate"></div></div>';
+			
+			var pques_type = $(this).find('.ques_type option:selected').val();
+			var pques_tags = $(this).find('.ques_tags').val();
+			if(pques_type == null) pques_type = 0;
+			if(pques_tags == null) pques_tags = " ";
+			
+			pid=id;
+			$level_generate.append(contentlevel);
+			exam_level_conditon(id,pid,pques_type,pques_tags,level_condition_next);
+			//alert(pques_type+pques_tags);
+		});
+		
+	}
+		
+		function exam_level_conditon(id,pid,pques_type,pques_tags,level_condition){
+			$('#'+level_condition).append('<div class="exam_limittime "> <label class="exam_limittime_label">时长限制:</label> <input type="text"  size="3" name="part['+id+'][limittime]" maxlength="10"><span class="unit">分钟</span></div><div class="exam_submit_point ">  <input type="checkbox"  name="part['+id+'][submit_point]"><label class="exam_submit_point_label">是提交点 </label> <span class="note">做完此部分题后需要提交，且不能返回查看与修改；做完此题前也不能查看后续题目</span></div><div class="exam_level_add ">  <input  class="exam_level_add_form"  type="checkbox" onclick=\'checkbox_level_add('+pid+','+pques_type+',"'+pques_tags+'","#'+level_condition+'"," .exam_level_add_form")\' value="0" /><label class="exam_level_add_form">添加下一层</label></div><div class="exam_level_panel"></div>');
+		}
+		</script>
+
+</head>
+
+<body>
+<div id="mainContentInner">
+
+	<div class="zujuan_title title">
+			<span id="title_f">创建组卷模板（试卷结构）</span>
+	</div>
+	<div id="globalmessage" class="messages"></div>
+	<div class="zujuan_content content">
+		<form id="zujuan_form" class="zujuan_form form" action="" method="post">
+		<div id="level_content" class="level_content">
+			<div id="level_condition" class="level_condition">
+				<div class="type_score clearfix">
+					<div id="exam_type" class="exam_type  fleft">
+						<label for="exam_type_form">试卷类型:</label>
+						<select  id="exam_type_form" name="exam_type_form" class="required" ></select>
+					</div>
+					<div class="exam_score fright">
+						<label class="exam_score_label">试卷总分:</label>
+						<input type="text"  size="3" name="exam_score" maxlength="10" class="required" />
+						<span class="unit">分</span>
+					</div>
+				</div>
+				<div  class="exam_title">
+					<label class="exam_title_label">模板标题:</label>
+					<input type="text"  size="60" name="exam_title" maxlength="100"/>
+					<div class="note">以此模板进行组卷时，试卷名称默认为本模板标题+序号+时间，可重新设定</div>
+				</div>
+				<div class="exam_description  clearfix">
+					<label class="floatl exam_description_label">试卷简介:</label>
+                    <textarea name="exam_description" cols="60" rows="5"></textarea>
+				</div>
+				
+                <div class="exam_limittime">
+					<label class="exam_limittime_label">时长限制:</label>
+					<input type="text"  size="3" name="exam_limittime" maxlength="10"/>
+                    <span class="unit">分钟</span>
+				</div>
+				<!-- <div class="exam_timecontrol ">
+					<label class="exam_timecontrol_label">启动自动计时控制:</label>
+					<input type="text"  size="12" name="exam_timecontrol" maxlength="10"/>
+                    <div class="note">如果不选用户可以在做题时控制是否启动。？？？？</div>
+				</div> -->
+				
+				<div class="exam_level_add ">
+                	<input  class="exam_level_add_form " onclick='checkbox_level_add(-1,0,"","#level_condition"," .exam_level_add_form")' type="checkbox" /><label class="exam_level_add_label">添加下一层</label>
+					<span class="note">选中则添加，取消选中则删除其下属的所有层级结构</span>
+				</div>
+				<div class="exam_level_panel">
+					
+				</div>
+			</div>
+			<div id="level_generate" class="level_generate">
+                	
+            </div>
+		</div>
+        <input type="submit" value="保存" name="submit_btn" class="submit" >
+        <!-- -->
+        <input type="submit" value="保存并创建评语" name="submit_comments" class="submit" >
+        
+		</form>
+	</div>
+
+	<div id="bottom-message"></div>
+
+
+</div><!--//mainContentInner-->
+</body>
+</html>

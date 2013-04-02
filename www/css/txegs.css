@@ -1,0 +1,725 @@
+@charset "utf-8";
+/* CSS Document */
+
+#mainContent a{
+	padding : 0 5px;
+	color :	 #BF5E26;
+}
+
+/*#title_bg{ float:left; margin-top:20px; margin-left:30px;width:85%; height:34px; background:url(../images/tab_bg.gif) repeat-x; border:1px #d59614 solid;}*/
+.btn_05{
+	background: url("../images/btn_05.gif") no-repeat scroll 0 0 transparent;
+    border: 0 none;
+    /*color: #7A7A7A; */
+    display: block;
+    float: left;
+    height: 25px;
+    line-height: 25px;
+    margin:3px 30px;
+    text-align: center;
+    width: 107px;
+}
+.sizecontrol{float: right;height:30px; line-height:30px; color:#80685b; text-align:right;font-size: 12px;}
+.paper_info,.user_results_info{color:#80685B;}
+.paper_description{color:#666;text-indent:2.6em;padding-bottom: 1em;}
+#mainContentInner .user_result_content{
+	background-color:#ffffff;
+}
+
+
+/*------------左侧导航css---------*/
+#left_bg{ width:211px;height:100%;background:#f8efbc; position:relative; float:left;}
+
+#left_banner dt.layer1{ padding-top:15px; width:187px; height:29px;background:url(../images/btn_left.gif) no-repeat bottom; }
+#left_banner dt.layer1 .headline{ width:107px; height:29px; text-align:center; line-height:29px; font-family:'黑体'; color:#513610; font-size:16px;cursor:pointer; }
+#left_banner dt.layer1 .headline a{line-height:29px; font-family:'黑体'; color:#513610; font-size:16px; }
+
+#left_banner dt.layer1 .unfold{ background:url(../images/unfold_headline.gif) no-repeat right;}
+#left_banner dt.layer1 .fold{ background:url(../images/fold_headline.gif) no-repeat right;}
+
+#left_banner .layer2 .headline{width:170px; text-align:center; line-height:35px;height: 35px; border-bottom:1px #bd9c2a solid; font-size:14px; font-family:'黑体'; background:url("../images/icon_01.gif") no-repeat scroll 5px 50% transparent;}
+#left_banner .layer2 .headline a{line-height:35px;height: 35px;font-size:14px; font-family:'黑体'; }
+
+#fold_unfold{width:8px;height:100%;background:url(../images/un_f_bg.gif) repeat-y left;cursor:pointer;position:relative;  float: left;}
+#un_f_button{height:100%;}
+.fold_button{background:url(../images/fold_icon.gif) no-repeat center;}
+.unfold_button{background:url(../images/unfold_icon.gif) no-repeat center;}
+/*---左侧导航 end---/
+
+/*-------------与出题有关的css-----------------*/
+/*基本题型列表弹出框的大小*/
+.basetype_list{
+	width:500px;
+}
+/*父题目的颜色*/
+.pques{
+	color:#000;
+	font-weight:normal;
+}
+
+/*------------试题显示页面的css---------*/
+/*------试卷基本信息-------*/
+.paper_info{
+	overflow: hidden;
+    padding: 0 10px;
+}
+
+.DiagnosticReport{
+	background: none repeat scroll 0 0 #DDDDDD;
+    display: block;
+    float: left;
+    margin: 20px;
+    padding: 20px 40px;
+}
+
+.basic_info{
+	float: right;
+}
+.basic_info table{
+	border-collapse: collapse;
+}
+.basic_info table th {
+    background-color: #BD9C2A;
+    border: 1px solid #FFFFFF;
+    color: #FFFFFF;
+    padding: 10px;
+}
+.basic_info table td {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #ECCF93;
+    padding: 10px;
+}
+/*试题的层级缩进*/
+.ques_display {
+	padding:8px 10px;
+	position:relative;
+	clear: both;
+	position:relative;
+}
+
+/*填空题的input为下划线*/
+input.underline_blank{
+	border:0;
+	border-bottom:1px solid #333;
+	background-color:#FDFBF0;
+}
+/*part section 等标题字体*/
+.serial_name_num_name{
+	cursor:pointer;
+	background: none repeat scroll 0 0 #FAEEBC;
+    font-size: 14px;
+    /*height: 30px;*/
+    line-height: 30px;
+    margin-top: 8px;
+    padding-left: 10px;
+    clear: both;
+    position: relative;
+}
+.ques_display_part  .serial_name_num{
+	font-size: 1.3em;
+	text-align: center;
+}
+
+/*试卷下拉折叠的图片*/
+.fold_unfold_img{
+	padding-right:15px;
+	background:url("../images/icon_05.gif") no-repeat scroll right 0.6em transparent;
+}
+/*题目后面跟着的分数的颜色*/
+.ques_score{
+	color: #EE771F;
+}
+/*突出显示用户总分*/
+.user_total_score{
+	color:#EE771F;
+	font-weight:bold;
+	font-size:18px;
+}
+.ques_time_limit{
+/*	float:right;
+	padding-right: 20px;*/
+	position: absolute;
+    right: 20px;
+    height: 30px;
+    bottom: 1px;
+}
+.ques_body_description{
+	font-style:italic;
+	color:#4D4D4D;
+	font-family: times New Roman;
+	margin: 15px 0 5px;
+}
+.serial_total{
+	/*float:left;*/
+	position:absolute;
+}
+.ques_content{
+	margin-left: 1.6em;
+}
+.ques_content .answer_img{
+	width:20px;
+	height:20px;
+	display:block;
+	background: url("../images/icon_wrong.gif") no-repeat scroll left center transparent;
+	float:left;
+}
+.ques_content .is_wrong{
+	background: url("../images/icon_wrong.gif") no-repeat scroll left center transparent;
+}
+.ques_content .is_right{
+	background: url("../images/icon_right.gif") no-repeat scroll left center transparent;
+}
+.ques_content .is_subjective{
+	background: url("../images/icon_Subjective.gif") no-repeat scroll left center transparent;
+}
+/*用户答案、正确答案的样式*/
+#ques_answer .should,#ques_answer .right{
+	background: url("../images/icon_right.gif") no-repeat scroll right center transparent;
+    color: #0366E1;
+    padding-right: 20px;
+    width: 300px;
+}
+#ques_answer .myanswer{
+	color: #DC1A21;
+	text-decoration: underline;
+}
+#ques_answer img{
+	vertical-align:middle;
+	margin-bottom:10px;
+}
+
+/*试卷计时*/
+.points_time a, .points_time a:link, .points_time a:visited, .points_time a:hover{
+	color:#EE771F;
+}
+.sizecontrol .on{
+	color:#D40000;
+}
+/*附件样式*/
+.serial_name_num_body{
+	/*position: relative;*/
+}
+.mp3 {
+    left: -13px;
+    position: absolute;
+    top: 11px;
+}
+/*上一题、下一题按钮控制*/
+.submit_button{
+    text-align:center;
+    clear:both;
+    width:200px;
+    height:20px;
+    line-height:20px;
+}
+.disprev,.disnext{
+    float:left;
+    padding:0 10px;
+}
+
+/*------------试卷与试题列表页等有搜索功能页面的css---------*/
+.search_condition div {
+float:left;
+}
+.search_condition #ques_type_form {
+width:350px;
+}
+#title_f2 label[for="paper_type_form"] {
+	padding-left:10px;
+}
+.search_condition{
+	display:none;
+}
+
+/*----------------得分summary页面的css--------------------*/
+
+.summary_total .summary_layout_1 {
+	border:1px solid #DDDDDD;
+	float:left;
+}
+.summary .summary_score {
+	border-top:1px solid #DDDDDD;
+	color:#000;
+	padding:2px 8px;
+	text-align:center;
+}
+.summary_total .summary_layout_1>.summary_score {
+	padding:2px 8px;
+	color:#D40000;
+}
+.user_score{
+	color:#D40000;
+}
+
+.ques_user_answer_not_wrong{
+	display:none;
+}
+
+/*---------为用户推荐资源-----------*/
+/*
+.user_level, .resources {
+    border-bottom: 1px solid #DDDDDD;
+    margin-bottom: 1.2em;
+    padding-bottom: 0.5em;
+}*/
+.user_level .level_name, .resources_label {
+     font-size: 1.3em;
+     font-weight: bold;
+     padding: 0pt 5px 0px 0pt;
+}
+.resources_label {
+    background: url("../images/books.gif") no-repeat scroll 0 0 transparent;
+    padding: 0 0 10px 35px;
+}
+.user_level .level_name{
+	color: #d40000;
+}
+.level_description strong em {
+    font-size: 1.2em;
+    padding: 0 5px;
+}
+/*--通用等级不显示“通用”字样--*/
+.user_level .level_14{
+	display:none;
+}
+.user_rate_label{
+	font-size: 1.3em;
+	padding-left: 6px;
+}
+.user_rate{
+	font-size: 2em;
+	color: #d40000;
+}
+
+.resources .resources_content {
+     margin-top: 10px;
+}
+.exam_resources{
+	margin: 20px 10px;
+	border: 1px solid #dddddd;
+	border-width: 1px 0 0;
+	padding: 30px 0px;
+}
+.exam_resources .resources_content_bytags {
+     margin: 10px 0 10px 20px;
+}
+
+.resources p {
+     margin: 0px;
+}
+#mainContent .resources a{
+	color: #336699;
+    text-decoration: none;
+    padding:0;
+}
+#mainContent .resources a:link {
+     color: #336699;
+}
+
+#mainContent .resources a:visited {
+     color: #666699;
+}
+
+#mainContent .resources a:hover {
+     background: none repeat scroll 0pt 0pt #003399;
+     color: #FFFFFF;
+}
+
+#mainContent .resources a:active {
+     background: none repeat scroll 0pt 0pt #FF9933;
+     color: #FFFFFF;
+}
+
+.resources_content_bytags {
+	clear:both;
+	overflow:hidden;
+	position:relative;
+}
+.resources_content_bytags .resources-row {
+    float: left;
+    overflow: hidden;
+    text-align: center;
+    width: 140px;
+}
+
+.resources_content_bytags .resources-title{
+	height:2.5em;
+}
+.resources_content_bytags .resources-row img {
+    border: 2px solid #DDDDDD;
+    margin: 5px;
+    padding: 2px;
+}
+
+/*---- 推荐资源滚动 ----*/
+/* this makes it possible to add next button beside resources_content_bytags */
+.exam_resources{
+	position:relative;
+}
+.exam_resources .resources_content_bytags{
+	clear:none;
+	height:195px;
+	/*overflow:hidden;
+	position:relative;
+	width:700px;*/
+}
+/*.exam_resources .resources_content_bytags  .resources_content_bytags_items{
+	position:absolute;
+	width:20000em;
+	left:-4px;
+}
+ prev, next, prevPage and nextPage buttons
+ a#prev1, a#next1 ,a#prev2, a#next2{
+	background: url("../images/button_left.gif") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    float: right;
+    font-size: 1px;
+    height: 21px;
+    left: 10px;
+    position: absolute;
+    top: 140px;
+    width: 21px;
+}
+ a#next1 ,a#next2{
+	background:url("../images/button_right.gif") no-repeat 0 0 ;
+	left: 730px;
+}
+
+ a#prev1.disabled, a#next1.disabled, a#prev2.disabled, a#next2.disabled{
+	background-position:0 0;
+}*/
+/* position and dimensions of the navigator
+#navi1,#navi2 ,.navi{
+	float:right;
+	margin-top:2px;
+}
+ items inside navigator
+#navi1 a ,#navi2 a ,.navi a {
+	width:8px;
+	height:8px;
+	float:left;
+	margin:3px;
+	background:url(../images/navigator.png) 0 0 no-repeat;
+	font-size:1px;
+}
+ mouseover state
+#navi1 a:hover,#navi2 a:hover ,.navi a:hover{
+	background-position:0 -8px;
+}
+ active state (current page state)
+#navi1 a.active ,#navi2 a.active ,.navi a.active {
+	background-position:0 -16px;
+}*/
+/* 推荐资源滚动 结束 end  */
+
+
+/*------可点击下拉按钮-----*/
+.attr_hidden  {
+	border-top:1px dashed #DDDDDD;
+	margin-top: 1.2em;
+    padding-top: 0.5em;
+    display:none;
+    overflow: hidden;
+}
+.resouces_click{
+	background: url("../images/lineeffect.jpg") no-repeat scroll center bottom transparent;
+	border-bottom:1px solid #b2b2b2;
+	width:100%;
+	height:32px;
+	cursor:pointer;
+}
+.resouces_click .click_button {
+    background: url("../images/recteffect-big-down.gif") no-repeat scroll right bottom transparent;
+    display: block;
+    font-size: 0;
+    text-indent: -9999px;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+}
+#mainContent .resouces_click .click_button_hidden {
+    background: url("../images/recteffect-up.gif") no-repeat scroll right bottom transparent;
+}
+.user_face_score_level {
+    margin: 0 -380px 5px 0;
+    width: 100%;
+    padding: 0px 20px;
+}
+.user_attribute_level_resources .user_level {
+    margin-right: 380px;
+}
+.no_resources .user_face_score_level{
+	width: 100%;
+}
+.no_resources .user_level{
+	margin-right: 0px;
+}
+.no_resources .resouces_click,.no_hidden_resources .resouces_click{
+	background: none;
+	cursor: auto;
+	height: 10px;
+}
+.no_resources .resouces_click .click_button,.no_hidden_resources .resouces_click .click_button{
+    background: url("../images/triangle.gif") no-repeat scroll right bottom transparent;
+}
+
+.top_resources_wrap {
+    border-left: 1px dashed #DDDDDD;
+    margin: -3em 0 5px;
+    padding: 0 0 0 20px;
+}
+.top_resources_wrap .resources-row {
+    float: left;
+    margin: 9px;
+    width: 140px;
+}
+.bottom_resources .resources_content_bytags {
+	margin-bottom: 15px;
+}
+.bottom_resources .resources_content_bytags .resources-row {
+    width: 100px;
+}
+.bottom_resources .resources_content_bytags .resources-row img {
+    border: 1px solid #DDDDDD;
+    margin: 5px;
+    padding: 1px;
+    width:70px;
+}
+
+/*------ 笑脸 ------*/
+.user_smile_face {
+    background: url("../images/average.gif") no-repeat scroll right 0 #FFFFFF;
+    float: left;
+    font-size: 0;
+    height: 48px;
+    text-indent: -9999px;
+    width: 60px;
+}
+.user_smile_face_3, .user_smile_face_12, .attr_smile_face_9{
+	background: url("../images/excellent.gif") no-repeat scroll right 0 #FFFFFF;
+}
+.user_smile_face_4,.user_smile_face_11, .attr_smile_face_10{
+	background: url("../images/good.gif") no-repeat scroll right 0 #FFFFFF;
+}
+.user_smile_face_7,.user_smile_face_10, .attr_smile_face_11{
+	background: url("../images/average.gif") no-repeat scroll right 0 #FFFFFF;
+}
+.user_smile_face_6,.user_smile_face_9, .attr_smile_face_12{
+	background: url("../images/fair.gif") no-repeat scroll right 0 #FFFFFF;
+}
+.user_smile_face_5,.user_smile_face_8, .attr_smile_face_13{
+	background: url("../images/poor.gif") no-repeat scroll right 0 #FFFFFF;
+}
+.attribute_resources_label {
+    bottom: 20px;
+    color: #000000;
+    font-size: 1.5em;
+    font-weight: bold;
+    position: absolute;
+    text-align: center;
+    width: 500px;
+    z-index: 9999;
+}
+
+/*----- 考点圆角背景 ------*/
+.user_attribute_level_resources {
+    background-color: #FAFAFA;
+    margin: 20px;
+    padding: 20px 0;
+}
+b.rtop, b.rbottom { display:block; }
+b.r1, b.r2, b.r3, b.r4 { display:block;overflow:hidden; background:#fafafa; border-left:1px solid #bcbcbc; border-right:1px solid #bcbcbc;  }
+b.r1 { margin:0 5px; height:1px; background:#bcbcbc; }
+b.r2 { margin:0 3px; height:1px; border-width:0 2px; }
+b.r3 { margin:0 2px; height:1px; }
+b.r4 { margin:0 1px; height:2px; }
+.attribute_resources_content_bytags { border:0px solid #bcbcbc; border-width:0 1px; padding:0 20px 20px;}
+
+
+.user_attribute_level_resources .attr_row {
+    padding-top: 20px;
+}
+.user_attribute_level_resources .user_face_score{
+	padding: 10px 0;
+}
+/*-----各个考点样式-----*/
+.user_attribute_level_resources .attr_name {
+    background: url("../images/wenhua.jpg") no-repeat scroll left 0 #FFFFFF;
+    color: #000000;
+    float: left;
+    font-size: 1.5em;
+    font-weight: bold;
+    line-height: 58px;
+    margin-left: -20px;
+    padding: 0 10px 0 0;
+    text-align: center;
+    text-indent: 30px;
+    width: 180px;
+}
+.user_attribute_level_resources .attr_43, .user_attribute_level_resources .attr_49 {
+	background: url("../images/tingli.jpg") no-repeat scroll left 0 #FFFFFF;
+}
+.user_attribute_level_resources .attr_44, .user_attribute_level_resources .attr_53 {
+	background: url("../images/yuedu.jpg") no-repeat scroll left 0 #FFFFFF;
+}
+.user_attribute_level_resources .attr_45, .user_attribute_level_resources .attr_51 {
+	background: url("../images/cihui.jpg") no-repeat scroll left 0 #FFFFFF;
+}
+.user_attribute_level_resources .attr_46, .user_attribute_level_resources .attr_50  {
+	background: url("../images/yufa.jpg") no-repeat scroll left 0 #FFFFFF;
+}
+.user_attribute_level_resources .attr_47 {
+	background: url("../images/quickyuedu.jpg") no-repeat scroll left 0 #FFFFFF;
+}
+.user_attribute_level_resources .attr_48 {
+	background: url("../images/fanyi.jpg") no-repeat scroll left 0 #FFFFFF;
+}
+.user_attribute_level_resources .attr_52 {
+	background: url("../images/yuyanjiaoji.jpg") no-repeat scroll left 0 #FFFFFF;
+}
+.user_attribute_level_resources .attr_59 {
+	background: url("../images/xiezuo.jpg") no-repeat scroll left 0 #FFFFFF;
+}
+
+.summary_total, .user_objectscore {
+     margin: 0px 0 0 80px;
+}
+.user_objectscore .user_score{
+	font-size: 1.8em;
+    padding: 0 5px;
+}
+.exam_level {
+     margin: 10px 20px;
+}
+
+/*-------诊断报告之 jqchart 图------*/
+#attributes_chart_content{
+	margin:30px 0;
+}
+
+.jQchart {
+	margin-bottom:20px;
+	color:black;
+}
+
+.jQchart-scale-X{
+	width:100%;
+}
+
+.jQchart-title {
+    font-size: 1em;
+    margin: 10px 0 0 -60px;
+}
+.jQchart-labelX{
+	height:24px;
+	overflow: hidden;
+}
+.labelX_hover{
+	color:black;font-size:1.1em;z-index:9999;top:0px;left:40px;background:white;padding:5px;line-height:1em;
+}
+
+
+
+/*---组卷模版页面添加评论弹出框---*/
+.modules_comments {
+    margin: 6px 0;
+    width: 550px;
+}
+.modules_comments .comments{
+    margin-left:40px;
+}
+.delete{
+	 margin-left:20px;
+	 cursor:pointer;
+}
+/*-------考点评语设置页面，评语单选按钮的排列顺序------*/
+.group{
+    clear:both;
+}
+.group .field{
+    float:left;
+    margin-right:20px;
+    width:100px;
+}
+
+
+/*------主页面css------*/
+.main_list{
+    margin: 20px 60px 5px 30px;
+    width: 300px;
+}
+.list_title{
+    font-weight:bold;
+    font-size:15px;
+}
+.list_content li a{
+	line-height:24px;
+}
+/*========= 专项训练 =======*/
+.specialgroup{
+	width:100%;
+}
+.specialgroup table {
+    border-top: 1px solid #DDDDDD;
+    margin: 20px;
+    width: 40%;
+}
+.specialgroup table caption{
+	font-size: 16px;
+    text-align: left;
+    padding-left: 10px;
+    padding-bottom: 5px;
+}
+/*-----------管理员统计页面-----------*/
+#search_form div,#search_form > input{
+    float:left;
+    margin-right:20px;
+}
+.paper_time input{
+    width:100px;
+}
+#search_form,.total{
+    clear:both;
+    float:none;
+}
+.total {
+    padding-top: 20px;
+}
+.important_num {
+    color: #D40000;
+    font: 2em/1.5em normal;
+    padding: 5px;
+}
+#tongji #title{
+	width:300px;
+}
+#tongji .sortBy a {
+    background: url("../images/sort_neutral.ico") no-repeat scroll right 0 transparent;
+    padding: 2px 18px 2px 0;
+    text-decoration: none;
+}
+#tongji .sortBy a:hover {
+    background: url("../images/sort_neutral_green.ico") no-repeat scroll right 0 transparent;
+}
+#tongji .asc a ,#tongji .asc a:hover{
+    background: url("../images/sort_up.ico") no-repeat scroll right 0 transparent;
+}
+#tongji .desc a ,#tongji .desc a:hover {
+    background: url("../images/sort_down.ico") no-repeat scroll right 0 transparent;
+}
+
+/*---------试卷导入页面----------*/
+#daoru a {
+    background: url("../images/btn_left.gif") no-repeat scroll center bottom transparent;
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+/*----试卷列表页------*/
+
+.score{
+	line-height:1.2em;
+}

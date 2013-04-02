@@ -1,0 +1,262 @@
+/* CSS Document */
+@charset "utf-8";
+body{
+	color: #4b4b4a;
+	font: 12px/2em Arial, 黑体, sans-serif;
+
+}
+*{
+	padding:0px;
+	margin:0px auto;
+	list-style-type:none;
+	vertical-align: middle;
+}
+input{
+	font-size: 1em;
+}
+/** Clear Floats Without Structural Markup:
+---------------------------------
+*  http://www.positioniseverything.net/easyclearing.html
+*/
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.clearfix { display: inline-block; }
+
+/* Hides from IE-mac \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block;clear:both; }
+/* End hide from IE-mac */
+
+/* clear classes */
+
+.clearleft, .clearl, .cleft { clear: left; }
+.clearright, .clearr, .cright { clear: right; }
+.clear, .clearboth, .clearall{ clear: both; }
+
+/* Float classes */
+
+.floatleft, .fleft, .floatl { float: left; margin: 0 60px 5px 0; }
+.floatright, .fright, .floatr { float: right; margin: 0 0 5px 10px; }
+label.floatl {margin-right:3px;}
+
+/*用 block 的 class 清除 Clear Floats*/
+.block{
+display:block;
+clear:both;
+margin-bottom:1em;
+}
+.block-inner .content{
+padding:0.5em;
+}
+
+
+/** Font styles
+---------------------------------
+*/
+
+/* Links */
+a { cursor:pointer; text-decoration: none;  color:#4B4B4A;}
+a:link {/* color:#272727; */text-decoration:none; }
+a:visited {/* color:#272727;*/ text-decoration:none; }
+a:hover {text-decoration:underline; }
+a img { border-width:0; }
+
+/* Titles */
+h1, h2, h3, h4, h5, h6 {line-height:1.3em;}
+h1 { font-size: 2.0em; 	font-weight:700; padding: 0 0 0.5em; margin: 0;}
+h2 {font-size:1.4em;/* font-weight:300; */font-weight:700;margin-bottom:0.5em;}
+h3 {font-size:1.1em;margin-bottom:0.4em;}
+h4 {font-size:1.2em;margin-bottom:0.3em;}
+h5 {font-size:1.1em;font-weight:600;margin-bottom:0;}
+h6 {font-size:1em;font-weight:bold;}
+
+/* Paragraph Styles */
+p {  margin:0 0 1em 0;}
+.field-content p{  margin:0;}
+
+
+/* List Styles  */
+ul, ol {  margin-left: 0;   padding-left: 2em; }
+/* List Styles */
+ul          { list-style-type: disc; }
+ul ul       { list-style-type: circle; }
+ul ul ul    { list-style-type: square; }
+ul ul ul ul { list-style-type: circle; }
+ol          { list-style-type: decimal; }
+ol ol       { list-style-type: lower-alpha; }
+ol ol ol    { list-style-type: decimal; }
+
+/* tr 高度 颜色 border*/
+tr.even td, tr.odd td {
+	border-bottom:1px dashed #DDDDDD;
+	padding:3px 3px 3px 0;
+}
+tr.odd ,tr.even{
+	background-color: #fff;
+}
+
+/* Code */
+pre, code, tt {font:1em 'andale mono', 'lucida console', monospace;line-height:1.5;}
+
+pre {
+	background-color: #efefef;
+	display: block;
+	padding: 5px;
+	margin: 5px 0;
+	border: 1px solid #aaa;
+}
+
+
+/* Abbreviation */
+abbr {
+  border-bottom: 1px dotted #666;
+  cursor: help;
+  white-space: nowrap;
+}
+
+/* UI improvments  */
+
+.note{
+	color:#777777;
+	font-size:0.9em;
+	line-height:1.2em;
+	/*margin:0 0 5px 55px;*/
+}
+
+div.messages {
+background-color:#8F8F8F;
+color:beige;
+}
+
+
+/*建立模板 控制两个input在同行显示的外层div宽度*/
+.exam_type_score,.ques_name_score{
+    width:650px;
+}
+.level_content {
+margin:40px;
+}
+#level_content{
+margin:10px 0px;
+}
+select{
+min-width:70px;
+}
+fieldset{
+	padding:10px 20px;
+}
+
+form label.error, label.error {
+color:red;
+font-style:italic;
+}
+
+div.error {
+display:none;
+}
+
+input:checkbox {
+border:medium none;
+}
+input:focus {
+	/*border:1px dotted black;*/
+}
+input.error {
+	border:1px solid #F72230;
+}
+textarea{
+    margin:5px 0;
+}
+
+#mainContentInner .title{
+    background: url("../images/tab_bg.gif") repeat-x scroll 0 0 transparent;
+    border: 1px solid #D59614;
+    height: 34px;
+}
+#mainContentInner #title_f {
+    background: url("../images/icon_03.gif") no-repeat scroll left center transparent;
+    color: #836154;
+    float: left;
+    font-size: 1em;
+    font-weight: bold;
+    line-height: 34px;
+    margin-left: 10px;
+    padding-left: 20px;
+}
+#mainContentInner #title_f2{
+	float: right;
+    height: 34px;
+    line-height: 34px;
+    margin-right: 20px;
+}
+
+#mainContentInner .content{
+	background-color: #FDFBF0;
+    border-color: -moz-use-text-color #E5D28D #E5D28D;
+    border-right: 1px solid #E5D28D;
+    border-style: none solid solid;
+    border-width: 0 1px 1px;
+    padding: 15px 8px;
+}
+
+ /* general styles */
+table,td,a {
+    font: 100% Arial, Helvetica, sans-serif;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+}
+
+th,td {
+    text-align: left;
+    padding: .5em;
+}
+
+table.defaultTable td.over{
+    background: #ecfbd4;
+}
+#ques_answer tbody.answer_body{
+    height: 400px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+#ques_answer label{
+	margin-left:0.5em;
+}
+
+table#paper_search_result,table#ques_answer,table.defaultTable{
+	margin: 0 0 10px;
+}
+#paper_search_result th,#ques_answer th ,table.defaultTable th{
+    background-color: #BD9C2A;
+    color: #FFFFFF;
+	border:1px solid #fff;
+}
+#paper_search_result td  ,#ques_answer td ,table.defaultTable td{
+    background: none repeat scroll 0 0 #FFFFFF;
+	border:1px solid #ECCF93;
+}
+
+.question_rules  .ques_condition{
+    margin-right:20px;
+}
+
+/*弹出是否删除评论小浮层*/
+.TC_commom_delate{z-index:999;position:absolute;padding:10px 10px 10px 0px;background:#333;opacity:.7;filter:alpha(opacity=70);color:#fff;}
+.TC_commom_delate p{ text-indent:0px; padding-left:15px;}
+.TC_delate_btn{ float:right; width:39px; height:19px; margin-left:15px; display:inline; background:url("../images/header_tc_r_btn.png") no-repeat;}
+.TC_delate_btn a{ color:#666; display:block;width:39px; height:19px; line-height:19px; text-indent:0px; text-align:center;}
+.delate_rb{bottom:45px;right:20px;}
+.delate_rt{top:10px; right:30px;}
+.delate_lt{top:10px; left:10px;}
+.delate_lb{top:10px; bottom:10px;}
+.delate_m {top:30%; left:40%;}

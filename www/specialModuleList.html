@@ -1,0 +1,55 @@
+<script language="javascript" type="text/javascript" src="data/serial_number.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/jquery.timer.js"></script>
+<script language="javascript" type="text/javascript" src="libs/ckeditor/ckeditor.js"></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery.form.js"></script>
+
+<link rel="stylesheet" media="all" type="text/css" href="libs/jquery/jplayer.blue.monday.css">
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery.jplayer.min.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/my.jplayer.js"></script>
+
+
+
+<script language="javascript" type="text/javascript" src="libs/json/json2.js" ></script>
+
+<script language="javascript" type="text/javascript" src="libs/item/jquery.paperlist12.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/jquery.view_userresult61.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/jquery.viewpaper27.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/jquery.createpaper1.js"></script>
+
+<script type="text/javascript">
+	var userroleid=1,roleidcookie='';
+		roleidcookie=tx.setCookie("userroleid");
+	if(roleidcookie!=null && roleidcookie!=undefined && roleidcookie!='')
+		userroleid=roleidcookie;
+		
+	if(userroleid != 2 && userroleid != 21 && userroleid != 22){
+		alert('您无权访问此页面');
+		//parent.location.href = "index.html";
+	}
+	
+var user_id=0,temp_uid=tx.setCookie("uid");
+if(temp_uid!=null)
+	user_id=temp_uid;
+	
+
+
+</script>
+
+<div id="mainContentInner">
+
+	<div class="paper_title title">
+			专项训练
+	</div>
+	<div id="globalmessage" class="messages"></div>
+	
+<div class="paper_content content">
+  <div class="loadging"><img width="25px" height="25px" src="images/loading.gif"></div>
+
+</div>
+
+
+	<div id="bottom-message"></div>
+
+
+</div><!--//mainContentInner-->
+

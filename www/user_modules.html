@@ -1,0 +1,107 @@
+<script language="javascript" type="text/javascript" src="data/serial_number.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/jquery.timer.js"></script>
+<script language="javascript" type="text/javascript" src="libs/ckeditor/ckeditor.js"></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery.form.js"></script>
+
+<link rel="stylesheet" media="all" type="text/css" href="libs/jquery/jplayer.blue.monday.css">
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery.jplayer.min.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/my.jplayer.js"></script>
+
+
+
+<script language="javascript" type="text/javascript" src="libs/json/json2.js" ></script>
+
+<script language="javascript" type="text/javascript" src="libs/item/jquery.paperlist12.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/jquery.view_userresult61.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/jquery.viewpaper27.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/jquery.createpaper1.js"></script>
+
+<script type="text/javascript">
+	var userroleid=1,roleidcookie='';
+		roleidcookie=tx.setCookie("userroleid");
+	if(roleidcookie!=null && roleidcookie!=undefined && roleidcookie!='')
+		userroleid=roleidcookie;
+		
+	if(userroleid != 2 && userroleid != 21 && userroleid != 22){
+		alert('您无权访问此页面');
+		//parent.location.href = "index.html";
+	}
+	
+var user_id=0,temp_uid=tx.setCookie("uid");
+if(temp_uid!=null)
+	user_id=temp_uid;
+	
+	
+var quescon_type='<option value="">-请选择-</option>';
+	
+
+$(function(){
+	
+	//试卷类型
+	$.getJSON('/itest/egs/index.php?op=exam',function(data){	
+		
+		$.each(data,function(index,term){
+			tid = term['tid'];
+			tname = term['name'];
+			quescon_type +='<option value="'+ tid +'">'+ tname+'</option>';
+		});
+		$('#paper_type_form').append(quescon_type);
+	});	
+	
+	
+	$('#paper_type_form').change(function(){
+		
+		 var tid = $('#paper_type_form').val();
+		 var tname =  $('#paper_type_form  option:selected').text();
+		 if(tname.indexOf("真题")>0) listType = 'paper_info_by_term_id';
+		 else  listType = 'exam_structure_list';
+		 
+		if(tid!=null) 
+			$('.paper_content').paper_list(listType,{add_way:'clear',type:'detail',id:tid});
+		else 
+			$('.paper_content').paper_list(listType);
+			
+	});
+	
+});
+/*
+function paper_search(){
+	var tid = $('#paper_type_form').val();
+	if(listType=='paper_info'||listType=='paper_info_by_term_id'){
+		if(tid!=null) $('tbody.paper_list').paper_list('paper_info_by_term_id',{type:'detail',id:tid});
+		else $('tbody.paper_list').paper_list('paper_info');
+	}
+	else if(listType=='exam_structure_list'||listType=='exam_structure_list_by_term_id'){
+		if(tid!=null) $('tbody.paper_list').paper_list('exam_structure_list_by_term_id',{type:'detail',id:tid});
+		else $('tbody.paper_list').paper_list('exam_structure_list');
+	}
+	//alert(tid);
+	return false;
+}
+*/
+</script>
+
+<div id="mainContentInner">
+
+	<div class="paper_title title">
+		<span id="title_f">
+			试卷列表
+        </span>
+        <div id="title_f2" class="paper_type">
+            <label for="paper_type_form">试卷类型：</label>
+            <select  id="paper_type_form" name="type" ></select>
+       </div>
+	</div>
+	<div id="globalmessage" class="messages"></div>
+	
+<div class="paper_content content">
+  <div class="loadging"><img width="25px" height="25px" src="images/loading.gif"></div>
+
+</div>
+
+
+	<div id="bottom-message"></div>
+
+
+</div><!--//mainContentInner-->
+

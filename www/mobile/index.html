@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+<meta name="viewport" content="width=device-width;"/>
+
+<title>EGS测试系统</title>
+
+<link href="http://2u4u.com.cn/sites/2u4u.com.cn/themes/stable/mobile/css/common.css" media="all" rel="stylesheet" type="text/css">
+
+<link type="text/css" rel="Stylesheet" href="css/common.css" />
+<link type="text/css" rel="Stylesheet" href="css/txegs.css" />
+<link type="text/css" rel="Stylesheet" href="css/mobile.css" />
+
+
+<script language="javascript" type="text/javascript" src="libs/json/json2.js" ></script>
+<script language="javascript" type="text/javascript" src="libs/jquery/jquery-1.4.2.js"></script>
+
+<script language="javascript" type="text/javascript" src="libs/tx/txgenerictools.js" ></script>
+
+
+<script type="text/javascript">	
+	var userroleid=1,roleidcookie='',adminid=0;
+
+	var user_id=0,temp_uid=tx.setCookie("uid");
+	if(temp_uid!=null)
+		user_id=temp_uid;
+	var userpoints = tx.setCookie("userpoints");
+	var username=tx.setCookie("username");
+	$(function(){
+		$('#mainpart .part').click(function(){
+			location.href = $(this).find('a').attr('href');
+		});
+	});
+	
+
+</script>
+</head>
+
+<body class="mobile_index">
+<div id="main">
+	<div id="mainInner">
+	
+		<div id="mainContent">
+  	
+			<div id="mainContentInner">
+				<div id="mainpart">
+					<div class="part part1"><div class="title"><a href="/itest/www/mobile.html?op=create_paper_by_module&id=275">英语水平定位</a></div><div class="description">全面评估您的词汇、语法、听力、阅读、英语交际，用最短的时间给你最棒的效果！</div></div>
+					<div class="part part2"><div class="title"><a href="mobile_list.html?op=真题模考">真题模考</a></div><div class="description">四级、六级、专四、专八、考研英语、PETS等考试，历年真题及模拟，武装到牙齿！</div></div>
+					<div class="part part3"><div class="title"><a href="mobile_list.html?op=专项训练">专项训练</a></div><div class="description">词汇、语法、听力、阅读、翻译、完形填空、写作等题型，逐一击破，毫不留情！</div></div>
+				</div>
+			</div><!---end mainContentInner-->
+		
+		</div><!---end mainContent-->
+		
+	</div><!---end mainInner-->
+</div><!---end main-->
+
+</body>
+</html>
+
+<script type="text/javascript">
+
+ var _gaq = _gaq || [];
+ _gaq.push(['_setAccount', 'UA-8352134-1']);
+ _gaq.push(['_setDomainName', '.com.cn']);
+ _gaq.push(['_trackPageview']);
+
+ (function() {
+   var ga = document.createElement('script'); ga.type =
+'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' :
+'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(ga, s);
+ })();
+
+</script>

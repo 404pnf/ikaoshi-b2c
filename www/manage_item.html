@@ -1,0 +1,151 @@
+<script language="javascript" type="text/javascript" src="libs/item/jquery.additem58.js"></script>
+<script language="javascript" type="text/javascript" src="libs/item/jquery.viewitem3.js"></script>
+<script language="javascript" type="text/javascript" src="libs/ckeditor/ckeditor.js"></script>
+<script language="javascript" type="text/javascript" src="libs/ckfinder/ckfinder.js"></script>
+<script type="text/javascript">
+
+var quescon_type='<option value="">-请选择-</option>',
+	quescon_basetype='<option  value="">-请选择-</option>';
+
+
+$(function(){
+	$('tbody.ques_list').html('<tr><td colspan="7">loading...</td></tr>');
+	
+	//基本题型
+	$.getJSON('/itest/egs/index.php?op=basic',function(data){		
+		$.each(data,function(termindex,term){
+			quescon_basetype +='<option value="'+ termindex +'">'+ term+'</option>';
+		});
+		$('#ques_basetype_form').append(quescon_basetype);
+	});
+	
+	//试卷题型
+	$.getJSON('/itest/egs/index.php?op=item_type',function(data){		
+		$.each(data,function(termindex,term){
+			quescon_type +='<option value="'+ termindex +'">'+ term+'</option>';
+		});
+		$('#ques_type_form').append(quescon_type);
+	});
+	
+	$.getJSON('/itest/egs/index.php?op=item_info&type=detail',function(data){		
+	
+	$('tbody.ques_list').html('');
+	$.each(data,function(index,ques){
+		
+		var ques_array=	ques;
+		
+		var title=ques_array['name'];
+		var created=ques_array['created'];
+		var uid=ques_array['uid'];		//ps whx user
+		var type_array=ques_array['type'];
+		var basic_type_array=ques_array['basic_type'];
+		var tags_array=ques_array['tags'];		
+		
+		var type_name='';
+		var type_id=1;
+		$.each(type_array,function(id,name){
+			type_id=id;
+			type_name=name;
+		});
+		
+		var basic_type_name='';
+		var basic_type_id=1;
+		$.each(basic_type_array,function(id,name){
+			basic_type_id=id;
+			basic_type_name=name;
+		});
+		
+		var tags='';
+		$.each(tags_array,function(id,tag){
+			tags +=tag+',';
+		});
+		
+		var operate='<a href="javascript:void(0);return false;" onclick=\'$(".ques_display").view_ques('+index+',{add_ques : true,ques_content_div:".ques_display",add_ques_link_div:".ques_search_result"});\'>查看</a>'
+		
+		
+		var ques_row_pre='<tr class='+index+'>';
+		var ques_row_suf='</tr>';
+		
+		var ques_title='<td class="name">'+title+'</td>';
+		var ques_created='<td class="created">'+created+'</td>';
+		var ques_user='<td class="user">'+uid+'</td>';
+		var ques_tags='<td class="tags">'+tags+'</td>';
+		var ques_basic_type='<td class="basetype">'+basic_type_name+'</td>';
+		var ques_type='<td class="type">'+type_name+'</td>';
+		var ques_operate='<td class="operate">'+operate+'</td>';
+		
+		
+		$('tbody.ques_list').append(ques_row_pre+ques_title+ques_created+ques_user+ques_tags+ques_basic_type+ques_type+ques_operate+ques_row_suf);
+		
+	});//--end $.each()
+			
+	});//--end $.getJson()
+	
+	return false;  
+
+});
+</script>
+
+<div id="mainContentInner">
+
+	<div class="add_item_title title">
+		<span id="title_f">查看管理试题</span>
+	</div>
+	<div id="globalmessage" class="messages"></div>
+	
+<div class="ques_content content">
+	<div class="ques_display">
+        <div class="ques_search_condition search_condition clearfix">
+           <div class="ques_name">
+              <label for="ques_name">标题：</label>
+              <input id="ques_name" name="name" type="text" />
+           </div>
+           <div class="ques_author">
+              <label for="ques_author">出题人：</label>
+              <input id="ques_author" name="author" type="text" />
+           </div>    
+           <div class="created_time">
+                <label for="created_time">创建时间：</label>
+                <input id="created_time" name='created' type='text' class="time" />
+           </div>
+           
+           <div id="ques_type" class="ques_type">
+                <label for="ques_type_form">试题题型：</label>
+                <select  id="ques_type_form" name="type" ></select>
+           </div>
+        
+           <div id="ques_basetype" class="ques_type">
+                <label for="ques_basetype_form">基本题型：</label>
+                <select  id="ques_basetype_form" name="basetype" ></select>
+           </div>  
+            
+            <div class="ques_tags">
+                <label class="ques_tags_label">标签：</label>
+                <input name='tags' type='text'  />
+            </div>
+            
+            <div class="ques_body">
+                <label for="ques_body" class="floatl">内容关键字：</label>
+                <input id="ques_body" name="body" type="text"/>
+            </div>
+            <div class="search_button">
+                <input type="button" name="search" value="搜索" />
+            </div>
+        </div>
+   	</div>	
+       
+     <div class="ques_search_result result">
+        <table id="ques_search_result">
+            <thead>
+                <th  class="name">标题</th><th class="created">时间</th><th class="user">出题人</th><th class="tags">标签</th><th class="basetype">基本题型</th><th class="type">试题题型</th><th class="operate">操作</th>
+            </thead>
+            <tbody class="ques_list">
+            </tbody>
+        </table>
+     </div> 
+</div>
+
+	<div id="bottom-message"></div>
+
+
+</div><!--//mainContentInner-->

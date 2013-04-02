@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>EGS</title>
+
+<script language="javascript" type="text/javascript" src="../libs/jquery/jquery-1.4.2.js"></script>
+<script language="javascript" type="text/javascript" src="/itest/www/libs/ckeditor/ckeditor.js"></script>
+<script language="javascript" type="text/javascript" src="/itest/www/libs/ckfinder/ckfinder.js"></script>
+
+<script type="text/javascript">
+
+
+if ( typeof CKEDITOR == 'undefined' )
+	{
+		alert('<strong><span style="color: #ff0000">Error</span>: CKEditor not found</strong>.This sample assumes that CKEditor (not included with CKFinder) is installed in the "/ckeditor/" path. If you have it installed in a different place, just edit this file, changing the wrong paths in the &lt;head&gt; (line 5) and the "BasePath" value (line 32).' );
+	}
+	else
+	{
+		CKEDITOR.config.toolbar = "Full";
+		CKFinder.setupCKEditor( CKEDITOR, '/itest/www/libs/ckfinder/');
+		//CKEDITOR.config.height = 100;		
+		
+		$('.ckeditor').each(function(){
+			var editor_basic = CKEDITOR.replace(this);
+		});
+	}
+	
+</script>
+
+<div>
+	<textarea id="ckeditor" name="ckeditor" class="ckeditor">text here </textarea>
+</div><!---end wrapper-->
+</body>
+</html>

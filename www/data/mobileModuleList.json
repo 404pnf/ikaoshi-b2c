@@ -1,0 +1,1427 @@
+[
+    {
+        "partname": "真题模考",
+        "partlist": [
+            {
+                "term": "大学英语四级",
+                "content": [
+                    {
+                        "term": "模拟题",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "四级模拟试题",
+                                "id": "73"
+                            }
+                        }
+                    },
+                    {
+                        "term": "真题",
+                        "content": {
+                            "0": {
+                                "op": "paper_info",
+                                "title": "2011年6月四级真题及解析",
+                                "id": "2905"
+                            },
+                            "1": {
+                                "op": "paper_info",
+                                "title": "2010年12月四级真题及解析",
+                                "id": "310"
+                            },
+                            "2": {
+                                "op": "paper_info",
+                                "title": "2010年6月四级真题及解析",
+                                "id": "195"
+                            },
+                            "3": {
+                                "op": "paper_info",
+                                "title": "2009年12月四级真题及解析",
+                                "id": "194"
+                            },
+                            "4": {
+                                "op": "paper_info",
+                                "title": "2009年6月四级真题及解析",
+                                "id": "193"
+                            },
+                            "5": {
+                                "op": "paper_info",
+                                "title": "2008年12月四级真题及解析",
+                                "id": "5859"
+                            },
+                            "6": {
+                                "op": "paper_info",
+                                "title": "2008年6月四级真题及解析",
+                                "id": "5909"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "term": "大学英语六级",
+                "content": [
+                    {
+                        "term": "模拟题",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "六级模拟试题",
+                                "id": "69"
+                            }
+                        }
+                    },
+                    {
+                        "term": "真题",
+                        "content": {
+                            "0": {
+                                "op": "paper_info",
+                                "title": "2011年6月六级真题及解析",
+                                "id": "2924"
+                            },
+                            "1": {
+                                "op": "paper_info",
+                                "title": "2010年12月六级真题及解析",
+                                "id": "448"
+                            },
+                            "2": {
+                                "op": "paper_info",
+                                "title": "2010年6月六级真题及解析",
+                                "id": "446"
+                            },
+                            "3": {
+                                "op": "paper_info",
+                                "title": "2009年12月六级真题及解析",
+                                "id": "445"
+                            },
+                            "4": {
+                                "op": "paper_info",
+                                "title": "2009年6月六级真题及解析",
+                                "id": "748"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "term": "英语专业四级",
+                "content": [
+                    {
+                        "term": "模拟题",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "英语专四模拟试题",
+                                "id": "86"
+                            }
+                        }
+                    },
+                    {
+                        "term": "真题",
+                        "content": {
+                            "0": {
+                                "op": "paper_info",
+                                "title": "2010年英语专四真题及解析",
+                                "id": "221"
+                            },
+                            "1": {
+                                "op": "paper_info",
+                                "title": "2009年英语专四真题及解析",
+                                "id": "637"
+                            },
+                            "2": {
+                                "op": "paper_info",
+                                "title": "2008年英语专四真题及解析",
+                                "id": "215"
+                            },
+                            "3": {
+                                "op": "paper_info",
+                                "title": "2007年英语专四真题及解析",
+                                "id": "441"
+                            }                   
+                        }
+                    }
+                ]
+            },  
+            {
+                "term": "英语专业八级",
+                "content": [
+                    {
+                        "term": "模拟题",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "英语专八模拟试题",
+                                "id": "90"
+                            }
+                        }
+                    },
+                    {
+                        "term": "真题",
+                        "content": {
+                            "0": {
+                                "op": "paper_info",
+                                "title": "2010年英语专八真题及解析",
+                                "id": "556"
+                            },
+                            "1": {
+                                "op": "paper_info",
+                                "title": "2009年英语专八真题及解析",
+                                "id": "751"
+                            },
+                            "2": {
+                                "op": "paper_info",
+                                "title": "2008年英语专八真题及解析",
+                                "id": "442"
+                            },
+                            "3": {
+                                "op": "paper_info",
+                                "title": "2007年英语专四真题及解析",
+                                "id": "224"
+                            }                   
+                        }
+                    }
+                ]
+            },    
+            {
+                "term": "考研英语",
+                "content": [
+                    {
+                        "term": "模拟题",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "考研英语模拟试题",
+                                "id": "281"
+                            }
+                        }
+                    },
+                    {
+                        "term": "真题",
+                        "content": {
+                            "0": {
+                                "op": "paper_info",
+                                "title": "2009年考研英语真题及解析",
+                                "id": "5473"
+                            },
+                            "1": {
+                                "op": "paper_info",
+                                "title": "2008年考研英语真题及解析",
+                                "id": "5524"
+                            },
+                            "2": {
+                                "op": "paper_info",
+                                "title": "2007年考研英语真题及解析",
+                                "id": "5527"
+                            },
+                            "3": {
+                                "op": "paper_info",
+                                "title": "2006年考研英语真题及解析",
+                                "id": "5576"
+                            },
+                            "4": {
+                                "op": "paper_info",
+                                "title": "2005年考研英语真题及解析",
+                                "id": "5601"
+                            }                     
+                        }
+                    }
+                ]
+            },        
+            {
+                "term": "公共英语等级PETS",
+                "content": [
+                    {
+                        "term": "模拟题",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语一级（PETS1）模拟试题",
+                                "id": "91"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语二级（PETS2）模拟试题",
+                                "id": "92"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语三级（PETS3）模拟试题",
+                                "id": "95"
+                            },
+                            "3": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语四级（PETS4）模拟试题",
+                                "id": "96"
+                            },
+                            "4": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语五级（PETS5）模拟试题",
+                                "id": "97"
+                            }                                                                                                              
+                        }
+                    }
+                ]
+            }, 
+            {
+                "term": "高校英语应用能力AB级",
+                "content": [
+                    {
+                        "term": "模拟题",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "PRETCO-A 模拟试题",
+                                "id": "99"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "PRETCO-B 模拟试题",
+                                "id": "101"
+                            }
+                        }
+                    },
+                    {
+                        "term": "真题",
+                        "content": {
+                            "0": {
+                                "op": "paper_info",
+                                "title": "2009年12月PRETCO-A 真题及解析",
+                                "id": "255"
+                            },
+                            "1": {
+                                "op": "paper_info",
+                                "title": "2009年12月PRETCO-B 真题及解析",
+                                "id": "257"
+                            }                                              
+                        }
+                    }
+                ]
+            }                                    
+        ]
+    },            
+    {
+        "partname": "专项训练",
+        "partlist": [
+            {
+                "term": "四级专项训练",
+                "content": [
+                    {
+                        "term": "写作",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "大学英语四级——写作",
+                                "id": "102"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：记叙文",
+                                "id": "103"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：描写文",
+                                "id": "104"
+                            },
+                            "3": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：说明文",
+                                "id": "105"
+                            },
+                            "4": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：议论文",
+                                "id": "106"
+                            },
+                            "5": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：图表类作文",
+                                "id": "107"
+                            }
+                        }
+                    },
+                    {
+                        "term": "快速阅读",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "大学英语四级——快速阅读",
+                                "id": "132"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：社会生活",
+                                "id": "140"
+                            }
+                        }
+                    },
+                    {
+                        "term": "听力理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "大学英语四级——听力理解",
+                                "id": "139"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：短对话",
+                                "id": "141"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：长对话",
+                                "id": "142"
+                            },
+                            "3": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：短文理解",
+                                "id": "143"
+                            },
+                            "4": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：复合式听写",
+                                "id": "144"
+                            }
+                        }
+                    },
+                    {
+                        "term": "阅读理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "大学英语四级——选词填空",
+                                "id": "146"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：文化教育",
+                                "id": "148"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：科普知识",
+                                "id": "147"
+                            },
+                            "3": {
+                                "op": "create_paper_by_module",
+                                "title": "大学英语四级——篇章阅读",
+                                "id": "149"
+                            },
+                            "4": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：社会生活",
+                                "id": "150"
+                            },
+                            "5": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：文化教育",
+                                "id": "153"
+                            },
+                            "6": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：科普知识",
+                                "id": "151"
+                            },
+                            "7": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：自然环境",
+                                "id": "150"
+                            }
+                        }
+                    },
+                    {
+                        "term": "完形填空",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "大学英语四级——完形填空",
+                                "id": "154"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：社会生活",
+                                "id": "156"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：文化教育",
+                                "id": "155"
+                            }
+                        }
+                    },
+                    {
+                        "term": "翻译",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "大学英语四级——翻译",
+                                "id": "157"
+                            }
+                        }
+                    }                    
+                ]
+            },
+            {
+                "term": "六级专项训练",
+                "content": [                   
+                    {
+                        "term": "写作",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "大学英语六级——写作",
+                                "id": "108"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：说明文",
+                                "id": "109"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：议论文",
+                                "id": "110"
+                            },
+                            "3": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：图表类作文",
+                                "id": "111"
+                            }
+                        }
+                    },
+                    {
+                        "term": "快速阅读",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "大学英语六级——快速阅读",
+                                "id": "177"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：社会生活",
+                                "id": "178"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：文化教育",
+                                "id": "179"
+                            }
+                        }
+                    },
+                    {
+                        "term": "听力理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "大学英语六级——听力理解",
+                                "id": "158"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：短对话",
+                                "id": "159"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：长对话",
+                                "id": "160"
+                            },
+                            "3": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：短文理解",
+                                "id": "162"
+                            },
+                            "4": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：复合式听写",
+                                "id": "161"
+                            }
+                        }
+                    },
+                    {
+                        "term": "阅读理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "大学英语六级阅读理解——短句问答",
+                                "id": "163"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：文化教育",
+                                "id": "164"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：科普知识",
+                                "id": "165"
+                            },
+                            "3": {
+                                "op": "create_paper_by_module",
+                                "title": "大学英语六级阅读理解——篇章阅读",
+                                "id": "166"
+                            },
+                            "4": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：社会生活",
+                                "id": "168"
+                            },
+                            "5": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：科普知识",
+                                "id": "167"
+                            }
+                        }
+                    },
+                    {
+                        "term": "完形填空",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "大学英语六级——完形填空",
+                                "id": "169"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：科普知识",
+                                "id": "170"
+                            }
+                        }
+                    },
+                    {
+                        "term": "翻译",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "大学英语六级——翻译",
+                                "id": "171"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "term": "专四专项训练",
+                "content": [
+                    {
+                        "term": "听写",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "英语专业四级——听写",
+                                "id": "172"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：社会生活",
+                                "id": "174"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：文化教育",
+                                "id": "175"
+                            },
+                            "3": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：商业经济",
+                                "id": "173"
+                            }
+                        }
+                    },
+                    {
+                        "term": "听力理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "英语专业四级——听力理解",
+                                "id": "176"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：对话听力",
+                                "id": "205"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：短文听力",
+                                "id": "217"
+                            },
+                            "3": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：新闻听力",
+                                "id": "218"
+                            }
+                        }
+                    },
+                    {
+                        "term": "完形填空",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "英语专业四级——完形填空",
+                                "id": "180"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：文化教育",
+                                "id": "181"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：商业经济",
+                                "id": "182"
+                            }
+                        }
+                    },
+                    {
+                        "term": "语法词汇",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "英语专业四级——语法词汇",
+                                "id": "183"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：语法",
+                                "id": "184"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：词汇",
+                                "id": "185"
+                            }
+                        }
+                    },
+                    {
+                        "term": "阅读理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "英语专业四级——阅读理解",
+                                "id": "186"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：社会生活",
+                                "id": "187"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：文化教育",
+                                "id": "188"
+                            }
+                        }
+                    },
+                    {
+                        "term": "写作",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "英语专业四级——大作文",
+                                "id": "112"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：说明文",
+                                "id": "114"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：议论文",
+                                "id": "113"
+                            },
+                            "3": {
+                                "op": "create_paper_by_module",
+                                "title": "英语专业四级——便条",
+                                "id": "115"
+                            },
+                            "4": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：邀请信",
+                                "id": "116"
+                            },
+                            "5": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：慰问信",
+                                "id": "117"
+                            },
+                            "6": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：广告",
+                                "id": "118"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "term": "专八专项训练",
+                "content": [                                                           
+                    {
+                        "term": "听力理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "英语专业八级——听力理解",
+                                "id": "189"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：Mini-lecture",
+                                "id": "203"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：对话听力",
+                                "id": "204"
+                            },
+                            "3": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：新闻听力",
+                                "id": "216"
+                            }
+                        }
+                    },
+                    {
+                        "term": "阅读理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "英语专业八级——阅读理解",
+                                "id": "190"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：社会生活",
+                                "id": "193"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：文化教育",
+                                "id": "191"
+                            },
+                            "3": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：商业经济",
+                                "id": "192"
+                            }
+                        }
+                    },
+                    {
+                        "term": "人文知识",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "英语专业八级——人文知识",
+                                "id": "195"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：文化",
+                                "id": "196"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：文学",
+                                "id": "197"
+                            },
+                            "3": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：语言学",
+                                "id": "198"
+                            }
+                        }
+                    },
+                    {
+                        "term": "改错",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "英语专业八级——改错",
+                                "id": "199"
+                            }
+                        }
+                    },
+                    {
+                        "term": "翻译",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "英语专业八级——翻译",
+                                "id": "200"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：中译英",
+                                "id": "201"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：英译中",
+                                "id": "202"
+                            }
+                        }
+                    },
+                    {
+                        "term": "写作",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "英语专业八级——写作",
+                                "id": "119"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：说明文",
+                                "id": "121"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：议论文",
+                                "id": "120"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "term": "PETS1专项训练",
+                "content": [                                                          
+                    {
+                        "term": "听力理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语一级（PETS1）——听力理解",
+                                "id": "259"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：图片判断",
+                                "id": "228"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：对话理解",
+                                "id": "229"
+                            }
+                        }
+                    },
+                    {
+                        "term": "英语知识运用",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语一级（PETS1）——英语知识运用",
+                                "id": "260"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：单项填空",
+                                "id": "230"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：完形填空",
+                                "id": "231"
+                            }
+                        }
+                    },
+                    {
+                        "term": "阅读理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语一级（PETS1）——阅读理解",
+                                "id": "261"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：词语配伍",
+                                "id": "232"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：阅读判断",
+                                "id": "233"
+                            },
+                            "3": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：阅读选择",
+                                "id": "235"
+                            }
+                        }
+                    },
+                    {
+                        "term": "写作",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语一级（PETS1）——写作",
+                                "id": "262"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：改写句子",
+                                "id": "122"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：书面表达",
+                                "id": "123"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "term": "PETS2专项训练",
+                "content": [
+                    {
+                        "term": "听力理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语二级（PETS2）——听力理解",
+                                "id": "263"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：短对话",
+                                "id": "236"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：长对话独白",
+                                "id": "237"
+                            }
+                        }
+                    },
+                    {
+                        "term": "英语知识运用",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语二级（PETS2）——英语知识运用",
+                                "id": "264"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：单项填空",
+                                "id": "238"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：完形填空",
+                                "id": "239"
+                            }
+                        }
+                    },
+                    {
+                        "term": "阅读理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语二级（PETS2）阅读理解",
+                                "id": "240"
+                            }                            
+                        }
+                    },
+                    {
+                        "term": "写作",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语二级（PETS2）——写作",
+                                "id": "265"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：短文改错",
+                                "id": "124"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：书面表达",
+                                "id": "125"
+                            }
+                        }
+                    }
+                ]
+            },     
+            {
+                "term": "PETS3专项训练",
+                "content": [
+                    {
+                        "term": "听力理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语三级（PETS3）——听力理解",
+                                "id": "266"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：短对话",
+                                "id": "207"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：长对话独白",
+                                "id": "219"
+                            }
+                        }
+                    },
+                    {
+                        "term": "英语知识运用",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语三级（PETS3）英语知识运用",
+                                "id": "208"
+                            }
+                        }
+                    },
+                    {
+                        "term": "阅读理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语三级（PETS3）——阅读理解",
+                                "id": "267"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：篇章阅读",
+                                "id": "209"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：阅读搭配",
+                                "id": "220"
+                            }                      
+                        }
+                    },
+                    {
+                        "term": "写作",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语三级（PETS3）——写作",
+                                "id": "268"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：便条",
+                                "id": "126"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：大作文",
+                                "id": "127"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "term": "PETS4专项训练",
+                "content": [
+                    {
+                        "term": "听力理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语四级（PETS4）——听力理解",
+                                "id": "269"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：填充表格",
+                                "id": "241"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：简答",
+                                "id": "242"
+                            },
+                            "3": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：对话独白",
+                                "id": "243"
+                            }
+                        }
+                    },
+                    {
+                        "term": "英语知识运用",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语四级（PETS4）英语知识运用",
+                                "id": "244"
+                            }
+                        }
+                    },
+                    {
+                        "term": "阅读理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语四级（PETS4）——阅读理解",
+                                "id": "270"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：篇章阅读",
+                                "id": "245"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：句子翻译",
+                                "id": "246"
+                            }                
+                        }
+                    },
+                    {
+                        "term": "写作",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语四级（PETS4）——写作",
+                                "id": "128"
+                            }
+                        }
+                    }
+                ]
+            },   
+            {
+                "term": "PETS5专项训练",
+                "content": [
+                    {
+                        "term": "听力理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语五级（PETS5）——听力理解",
+                                "id": "271"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：听力判断",
+                                "id": "221"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：听力选择",
+                                "id": "222"
+                            },
+                            "3": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：听力填空",
+                                "id": "223"
+                            }
+                        }
+                    },
+                    {
+                        "term": "英语知识运用",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语五级（PETS5）英语知识运用",
+                                "id": "224"
+                            }
+                        }
+                    },
+                    {
+                        "term": "阅读理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语五级（PETS5）——阅读理解",
+                                "id": "272"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：篇章阅读",
+                                "id": "225"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：段落重组",
+                                "id": "226"
+                            },
+                            "3": {
+                                "op": "create_paper_by_module",
+                                "title": "各个击破：多项匹配",
+                                "id": "227"
+                            }       
+                        }
+                    },
+                    {
+                        "term": "写作",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "公共英语五级（PETS5）写作",
+                                "id": "129"
+                            }
+                        }
+                    }
+                ]
+            },    
+            {
+                "term": "PRETCO-A专项训练",
+                "content": [
+                    {
+                        "term": "听力理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "PRETCO-A听力理解——简短对话",
+                                "id": "247"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "PRETCO-A听力理解——会话",
+                                "id": "248"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "PRETCO-A听力理解——短文理解",
+                                "id": "249"
+                            }
+                        }
+                    },
+                    {
+                        "term": "语法结构",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "PRETCO-A语法结构——选择",
+                                "id": "211"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "PRETCO-A语法结构——填空",
+                                "id": "250"
+                            }
+                        }
+                    },
+                    {
+                        "term": "阅读理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "PRETCO-A——阅读理解",
+                                "id": "212"
+                            }        
+                        }
+                    },
+                    {
+                        "term": "翻译",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "PRETCO-A——句子翻译",
+                                "id": "213"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "PRETCO-A——段落翻译",
+                                "id": "251"
+                            }
+                        }
+                    },
+                    {
+                        "term": "写作",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "PRETCO-A——写作",
+                                "id": "130"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "term": "PRETCO-B专项训练",
+                "content": [
+                    {
+                        "term": "听力理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "PRETCO-B听力理解——问题回答",
+                                "id": "252"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "PRETCO-B听力理解——简短对话",
+                                "id": "253"
+                            },
+                            "2": {
+                                "op": "create_paper_by_module",
+                                "title": "PRETCO-B听力理解——听写填空",
+                                "id": "210"
+                            }
+                        }
+                    },
+                    {
+                        "term": "词汇与语法",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "PRETCO-B词汇与语法——选择",
+                                "id": "254"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "PRETCO-B词汇与语法——填空",
+                                "id": "255"
+                            }
+                        }
+                    },
+                    {
+                        "term": "阅读理解",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "PRETCO-B——阅读理解",
+                                "id": "256"
+                            }   
+                        }
+                    },
+                    {
+                        "term": "翻译",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "PRETCO-B——句子翻译",
+                                "id": "257"
+                            },
+                            "1": {
+                                "op": "create_paper_by_module",
+                                "title": "PRETCO-B——段落翻译",
+                                "id": "258"
+                            }
+                        }
+                    },
+                    {
+                        "term": "写作",
+                        "content": {
+                            "0": {
+                                "op": "create_paper_by_module",
+                                "title": "PRETCO-B——写作",
+                                "id": "131"
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+]
