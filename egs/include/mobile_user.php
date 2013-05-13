@@ -32,12 +32,12 @@ class MobileUser{
 	 * @param $classinfor
 	 * @return multitype:number unknown
 	 */
-	private function insert_or_update_user($itestuserid, $username, $password = '', $userole = '', $classinfor = ''){
-		$status = 0;
-		$uid = 0;
+	public function insert_or_update_user($itestuserid, $username, $userole = '', $classinfor = ''){
+		$status = "0";
+		$uid = "0";
 
 		if(!empty($itestuserid) && !empty($username)){
-			$password = md5($password);
+			$password = '123456';
 
 			$conn = DB_CONNECT::db_conn();
 			$sql = "INSERT INTO `users`
@@ -53,20 +53,20 @@ class MobileUser{
 
 				if(!DB::isError($res)){
 					$userid_sql = "SELECT `uid` FROM `users` WHERE `itestid` = ? ";
-					$status = 1;
+					$status = "1";
 					$uid = $conn->getOne($userid_sql,array($itestuserid));
 				}
 
 			}
 			elseif(!DB::isError($res)){
-				$status = 1;
+				$status = "1";
 				$uid = mysql_insert_id();
 			}
 		}
 		$arr = array('status'=>$status,
 					'uid'=>$uid,
 					"username" => $username,
-					"role" => 2);
+					"role" => "2");
 		return $arr;
 
 	}
@@ -90,7 +90,7 @@ class MobileUser{
 				$userole = $itestUsers['infor']['userole'];
 				$classinfor =  $itestUsers['infor']['classinfor'];
 
-				$user = self::insert_or_update_user($useid, $username, $password, $userole, $classinfor);
+				$user = self::insert_or_update_user($useid, $username, $userole, $classinfor);
 			}
 		}
 

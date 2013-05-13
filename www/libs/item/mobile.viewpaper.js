@@ -2,26 +2,19 @@ var serial=serial_number;
 var paper_maincontent;
 var adminid;
 var time_limit=0;
+var paper_backto = '';
 
 (function($){
 	$.fn.view_paper=function(id,options){
 		var settings=$.extend({
 			titleContent:'.title',
 			user_id:'0',
-			paper_url:'',
-			paper_type:''
+			backto:''
 		},options||{});
 	var that=this;
-	$(that).html('<div class="loadging"><img width="25px" height="25px" src="images/loading.gif"></div>');
+	$(that).html('');
 	paper_maincontent=that;
-
-
-	if(adminid == 1)
-		printop = '<a class="floatr notprint" href="javascript:void();" onclick="printPreview();"> 打印试卷预览 </a><a class="doprint" style = "visibility:hidden;" href="javascript:void();" onclick="doPrint();"> 打印 </a>';
-
-	else
-		printop = '';
-
+	paper_backto = settings.backto;
 
 	$.getJSON('/itest/egs/index.php?op=paper_info&type=detail&id='+id,function(data){
 
@@ -34,20 +27,16 @@ var time_limit=0;
 		var description=paper_array['description'];
 		var points=parseInt(paper_array['points']);
 		var time_limit=paper_array['time_limit'];
-
-
-		//var is_full=paper_array['is_full'];
-
+		var amount=paper_array['amount'];
 
 		$(settings.titleContent).html('<span id="title_f">'+paper_name+'</span>');
 
-		if(examType.indexOf("真题")>=0)
-			huanyitao = '';
-		else
-			huanyitao = '<div class="huanyitao"><a class="btn_05 notprint" href="javascript:void(0);" onclick=\'$(".paper_content").create_paper('+sid+',{titleContent:"'+settings.titleContent+'",user_id:"'+settings.user_id+'"});serial_total=0;clearInterval(timer);return false;\'>换一套</a></div>';
+		var	huanyitao = '<a class="fright" href="create.html?sid='+sid+'&backto='+settings.backto+'" >换一套</a>';
 
-		var output='<div class="paper_info">	'+huanyitao+'	<div class="points_time clearfix"><div class="points fleft">总分：'+points+'</div><div class="notprint timer fright"><span class="time_limit">试卷时间：'+time_limit+'</span><a id="stop" href="javascript:stop_t();" style="display:inline;"> 暂停 </a><a id="start" href="javascript:start_t();" style="display:none;"> 启动 </a><a id="restart" href="javascript:restart_t('+time_limit+');"> 清零 </a></div></div><div class="paper_description">'+description+'</div></div>';
-
+		var output='<div class="paper_info">'+
+		'<div class="score">'+huanyitao+'总分：'+points+' 总题量：'+amount+'</div>'+
+		'<div class="atime">时长：<span class="time_limit">'+time_limit+'</span><a id="stop" href="javascript:stop_t();" > 暂停 </a><a id="start" href="javascript:start_t();" style="display:none;"> 启动 </a></div>'+
+		'<div class="paper_description">'+description+'</div></div>';
 
 		$(that).html(output);
 
@@ -55,94 +44,64 @@ var time_limit=0;
 			$('.time_limit').jQueryTimer(time_limit)
 		,300);//时间倒计时
 
+		var url = '/itest/egs/index.php?op=paper_item&id='+id;
 
-	});//试卷基本信息的输出
-
-
-
-
-	url = '/itest/egs/index.php?op=paper_item&id='+id;
-
-	$.ajax({
-			url: url,
-			dataType: 'json',
-			//data: data,
-			timeout:20000,// 设置请求超时时间（毫秒）。
-			error: function (XMLHttpRequest, textStatus, errorThrown) {// 请求失败时调用函数。
-				$(that).html(" 请求超时! textStatus: " + textStatus + ', errorThrown: ' + errorThrown);
-			 },
-			success: function(resp)
-			{  //请求成功后回调函数。
+		$.getJSON(url,function(resp){
 
 
-
-				try
-				{
-
-					var paper_array=resp;
-					var output='<div class="paper"><form id="do_ques_form" action="/itest/egs/user_answer_post.php" method="post"><input type="hidden" name="paper_id" value="'+id+'"/><input type="hidden" name="user_id" value="'+settings.user_id+'"/><input type="hidden" name="use_time" class="use_time" value="0"/><div class="allSubques">';
-					var layout=0;
-					var sumlay=0;
-					$.each(paper_array,function(index,items){
-							sumlay++;
-					});
-					$.each(paper_array,function(index,items){
-						var subques_array=items;
-						var pid=0;
-							layout++;
-						if(subques_array!=-1)	output +=partsubmit(subques_array,pid,layout,sumlay);
-					});
-						output +='<input type="submit" class="submit notprint" name="submit" value="提交"/>'+printop+'</div></form></div>';
-
-					$(that).append(output);
-
-
-		$(".disnext").css("cursor","pointer").click(function(){
-			$(this).parent().parent().hide().next().show('slow');
-		});
-		$(".disprev").css("cursor","pointer").click(function(){
-			$(this).parent().parent().hide().prev().show('slow');
-		});
-
-		$(".jplayer").myjplayer();
-
-
-		$(".serial_name_num_name").toggle(
-			function(){$(this).nextAll('.allSubques').slideUp('slow');},
-			function(){$(this).nextAll('.allSubques').slideDown('slow');}
-		);
-
-
-
-
-		//add_ques_form 的提交
-		var add_ques = {
-			url:		'/itest/egs/user_answer_post.php',
-			type:		'post',
-			target:   	'#globalmessage',// target element to update
-			dataType: 	'json',
-			beforeSubmit:  clearInterval(timer),  // pre-submit callback
-			//beforeSubmit:  showRequest,
-			success:     open_by_status //提交后进行返回状态的判断，并确定是否创建子题目
-		};
-		$('#do_ques_form').ajaxForm(add_ques);
-
-		start_t(time_limit);
-
-
-			}
-			catch (err)
+			try
 			{
-				resp = undefined;
-				$(that).append('服务器交互失败，请重试'+err);
-			}
+
+				var paper_array=resp;
+				var output='<div class="paper"><form id="do_ques_form" action="/itest/egs/user_answer_post.php" method="post"><input type="hidden" name="paper_id" value="'+id+'"/><input type="hidden" name="user_id" value="'+settings.user_id+'"/><input type="hidden" name="use_time" class="use_time" value="0"/><div class="allSubques">';
+				var layout=0;
+				var sumlay=0;
+				$.each(paper_array,function(index,items){
+						sumlay++;
+				});
+				$.each(paper_array,function(index,items){
+					var subques_array=items;
+					var pid=0;
+						layout++;
+					if(subques_array!=-1)	output +=partsubmit(subques_array,pid,layout,sumlay);
+				});
+					output +='</div><input type="submit" class="submit notprint" name="submit" value="Submit"/></form></div>';
+
+				$(that).append(output);
 
 
-		}
-	});
+				needfun();
+				backToTop();
 
 
-   }
+				//add_ques_form 的提交
+				var add_ques = {
+					url:		'/itest/egs/user_answer_post.php',
+					type:		'post',
+					target:   	'#globalmessage',// target element to update
+					dataType: 	'json',
+					beforeSubmit:  clearInterval(timer),  // pre-submit callback
+					//beforeSubmit:  showRequest,
+					success:     open_by_status //提交后进行返回状态的判断，并确定是否创建子题目
+				};
+				$('#do_ques_form').ajaxForm(add_ques);
+
+				start_t(time_limit);
+
+
+					}
+					catch (err)
+					{
+						resp = undefined;
+						$(that).append('服务器交互失败，请重试'+err);
+					}
+
+
+			});//试题详细信息输出
+
+		});//试卷基本信息的输出
+
+   };
 })(jQuery);
 
 
@@ -161,8 +120,10 @@ function open_by_status(data){
 	var id=data.id;
 
 	if(status==1) {
-		//$(paper_maincontent).view_userresult(id,{operation:"DiagnosticReport",titleContent:".paper_title"});
-		$(paper_maincontent).view_userresult(id,{operation:"detail",titleContent:".paper_title"});
+		serial_total=0;
+		clearInterval(timer);
+		$(paper_maincontent).view_userresult(id,{operation:"DiagnosticReport",titleContent:".paper_title",backto:encodeURIComponent(paper_backto)});
+		//location.href='paperdiagnosis.html?id='+id;
 	}
 	else if(status==0)
 		$("#globalmessage").html('保存失败，名称重复或缺少必要信息');
@@ -248,8 +209,12 @@ function partsubmit(subques_array,pid,layout,sumlay){
 	if(question_body!=undefined&&question_body!='')
 		ques_body='<span class="ques_body"> '+question_body+'</span>';
 
-	if(files!=undefined&&files!=''&&file_status==1)
+	if(file_status==1&&fileurl.length>0){
 		ques_files='<div class="jplayer_wrap"><a id="jplayer-'+item_id+'" class="mp3 jplayer notprint" src='+fileurl+'></a></div> ';
+
+		ques_pre='<div id="ques_display_'+item_id+'" class="ques_display hasmp3 ques_display_part ques_display_'+layout+'"><input type="hidden" name="answer['+item_id+'][pid]" value="'+pid+'"/>';
+
+	}
 
 
 	if(basic_type_id==4&&question_body!=undefined&&question_body!=''){
@@ -291,14 +256,14 @@ function partsubmit(subques_array,pid,layout,sumlay){
 		if(type_name!=undefined&&type_name!='')	ques_name='<span class="ques_name"> '+type_name+'</span>';
 
 		if(ques_body!=''&&ques_body!=undefined)
-			ques_body = '<div class="ques_body_description">'+ques_body+ques_points+'</div>';
+			ques_body = '<div class="ques_body_description"><span class="description_label">Directions</span>'+ques_body+'</div>';
 
 		if(ques_serial_name!=''||ques_serial_number!=''||ques_files != ''){
 			ques_serial_ques_name = ques_files + '<div class="serial_name_num_name"><span class="fold_unfold_img">'+ques_serial_name+ques_serial_number+ques_name+ques_time_limit+'</span></div>';
 		}
 		if((ques_serial_name!=''||ques_serial_number!=''||ques_files != '')&&(ques_body==''||ques_body==undefined)){
 
-				ques_serial_ques_name = ques_files + '<div class="serial_name_num_name"><span class="fold_unfold_img">'+ques_serial_name+ques_serial_number+ques_name+ques_time_limit+ques_points+'</span></div>';
+				ques_serial_ques_name = ques_files + '<div class="serial_name_num_name"><span class="fold_unfold_img">'+ques_serial_name+ques_serial_number+ques_name+ques_time_limit+'</span></div>';
 
 		}
 
@@ -318,7 +283,6 @@ function partsubmit(subques_array,pid,layout,sumlay){
 				//选择题的答案的输出形式，包括多选与单选题，它们的input的type与name不同
 				ques_answers ='<div id="ques_answer">';
 
-
 				ques_answers +='<input type="hidden" name="answer['+item_id+'][basic_type]" value="'+basic_type_id+'"/><input type="hidden" name="answer['+item_id+'][choice_multi]" value="'+choice_multi+'"/>';
 
 				var serial_number={"1":"A) ","2":"B) ","3":"C) ","4":"D) ","5":"E) ","6":"F) ","7":"G) ","8":"H) ","9":"I) ","10":"J) ","11":"K) ","12":"L) ","13":"M) ","14":"N) ","15":"O) ","16":"P) ","17":"Q) ","18":"R) ","19":"S) ","20":"T) ","21":"U) ","22":"V) ","23":"W) ","24":"X) ","25":"Y) ","26":"Z) "};
@@ -328,14 +292,14 @@ function partsubmit(subques_array,pid,layout,sumlay){
 					$.each(answers_array,function(index,answer){
 						i++;
 						var input_name='answer['+item_id+'][useranswer]['+index+']';
-						ques_answers +='<div><input id="answer_'+index+'"  class="useranswer" type="checkbox" name="'+input_name+'"  value="'+index+'"/><label for="answer_'+index+'">'+serial_number[i]+answer["answer"]+'</label></div> ';
+						ques_answers +='<div class="options"><input id="answer_'+index+'"  class="useranswer" type="checkbox" name="'+input_name+'"  value="'+index+'"/><label for="answer_'+index+'">'+serial_number[i]+answer["answer"]+'</label></div> ';
 					});
 
 				}
 				else if(choice_multi==0){
 					$.each(answers_array,function(index,answer){
 						i++;
-						ques_answers +='<div><input id="answer_'+index+'"  class="useranswer" type="radio" name="answer['+item_id+'][useranswer]" value="'+index+'"/><label for="answer_'+index+'">'+serial_number[i]+answer["answer"]+'</label></div> ';
+						ques_answers +='<div class="options"><input id="answer_'+index+'"  class="useranswer" type="radio" name="answer['+item_id+'][useranswer]" value="'+index+'"/><label for="answer_'+index+'">'+serial_number[i]+answer["answer"]+'</label></div> ';
 					});
 				}
 
@@ -392,10 +356,10 @@ function partsubmit(subques_array,pid,layout,sumlay){
 		//
 
 			if(layout == 1)
-				question +='<div class="submit_button  notprint"><a class="disnext" href="javascript:void(0);"><img src="images/next.gif"></a></div></div><div class="allSubques" style="display:none;">';
+				question +='<div class="submit_button  notprint"><a class="disnext" href="javascript:void(0);">下一页</a></div></div><div class="allSubques" style="display:none;">';
 			else if(layout == sumlay)
-				question +='<div class="submit_button notprint"><a class="disprev" href="javascript:void(0);"><img src="images/previous.gif"></a></div>';
-			else	question +='<div class="submit_button notprint"><a class="disprev" href="javascript:void(0);"><img src="images/previous.gif"></a><a class="disnext" href="javascript:void(0);"><img src="images/next.gif"></a></div></div><div class="allSubques" style="display:none;">';
+				question +='<div class="submit_button notprint"><a class="disprev" href="javascript:void(0);">上一页</a></div>';
+			else	question +='<div class="submit_button notprint"><a class="disprev" href="javascript:void(0);">上一页</a><a class="disnext" href="javascript:void(0);">下一页</a></div></div><div class="allSubques" style="display:none;">';
 
 		return question;
 
@@ -485,9 +449,11 @@ function quesoutput(subques_array,pid){
 		if(points!=undefined&&points!='') ques_points='<span class="ques_score">（'+points+'分）</span>';
 		if(question_body!=undefined&&question_body!='') ques_body='<span class="ques_body"> '+question_body+'</span>';
 
-		if(files!=undefined&&files!=''&&file_status==1)
+		if(file_status==1&&fileurl.length>0){
 			ques_files='<div class="jplayer_wrap"><a id="jplayer-'+item_id+'" class="mp3 jplayer notprint" src='+fileurl+'></a></div> ';
+			ques_pre='<div id="ques_display_'+item_id+'" class="ques_display hasmp3 ques_display_'+layout+'"><input type="hidden" name="answer['+item_id+'][pid]" value="'+pid+'"/>';
 
+		}
 
 		if(basic_type_id==4&&question_body!=undefined&&question_body!=''){
 			//题干类试题的题干中，可能会含有与子题目编号相对应的编号，通过以下方法把样式的标记转换成编号
@@ -526,12 +492,12 @@ function quesoutput(subques_array,pid){
 		//	if(name!=undefined&&name!='')	ques_name='<span class="ques_name"> '+name+'</span>';
 
 			if(ques_body!=''&&ques_body!=undefined)
-				ques_body = '<div class="ques_body_description">'+ques_body+ques_points+'</div>';
+				ques_body = '<div class="ques_body_description"><span class="description_label">Directions:</span>'+ques_body+'</div>';
 			if(ques_serial_name!=''||ques_serial_number!=''||ques_files != ''){
 				ques_serial_ques_name='<div class="serial_name_num_name">'+ques_files+ques_serial_name+ques_serial_number+'</div>';
 			}
 			if((ques_serial_name!=''||ques_serial_number!=''||ques_files != '')&&(ques_body==''||ques_body==undefined))
-				ques_serial_ques_name='<div class="serial_name_num_name">'+ques_files+ques_serial_name+ques_serial_number+ques_points+'</div>';
+				ques_serial_ques_name='<div class="serial_name_num_name">'+ques_files+ques_serial_name+ques_serial_number+'</div>';
 
 
 		}
@@ -560,14 +526,14 @@ function quesoutput(subques_array,pid){
 					$.each(answers_array,function(index,answer){
 						i++;
 						var input_name='answer['+item_id+'][useranswer]['+index+']';
-						ques_answers +='<div><input id="answer_'+index+'"  class="useranswer" type="checkbox" name="'+input_name+'"  value="'+index+'"/><label for="answer_'+index+'">'+serial_number[i]+answer["answer"]+'</label></div> ';
+						ques_answers +='<div class="options"><input id="answer_'+index+'"  class="useranswer" type="checkbox" name="'+input_name+'"  value="'+index+'"/><label for="answer_'+index+'">'+serial_number[i]+answer["answer"]+'</label></div> ';
 					});
 
 				}
 				else if(choice_multi==0){
 					$.each(answers_array,function(index,answer){
 						i++;
-						ques_answers +='<div><input id="answer_'+index+'"  class="useranswer" type="radio" name="answer['+item_id+'][useranswer]" value="'+index+'"/><label for="answer_'+index+'">'+serial_number[i]+answer["answer"]+'</label></div> ';
+						ques_answers +='<div class="options"><input id="answer_'+index+'"  class="useranswer" type="radio" name="answer['+item_id+'][useranswer]" value="'+index+'"/><label for="answer_'+index+'">'+serial_number[i]+answer["answer"]+'</label></div> ';
 					});
 				}
 

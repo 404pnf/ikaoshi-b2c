@@ -236,23 +236,22 @@ else if(settings.operation=='DiagnosticReport')
 		var subques_array=data['result_info'];
 		var layout=0;
 		if(subques_array!=undefined)	user_objectscore +='<div class="summary_total  clearfix">'+summary_subque_output(layout,subques_array)+'</div>';
-
-		attributes_chart_content = '<div id="attributes_chart_content">  <canvas id="attributes_chart" width="500" height="220"></canvas></div>';
-
-		user_attribute_level_resources = output_attribute_level_resources(data['exam_attribute']);
+		attributes_chart_content = '';
+//		attributes_chart_content = '<div id="attributes_chart_content">  <canvas id="attributes_chart" width="500" height="220"></canvas></div>';
+//		user_attribute_level_resources = output_attribute_level_resources(data['exam_attribute']);
 
 
 		//output +='<div class="clearfix">' + paper_name + user_time_used + '</div>' + user_level + user_objectscore + attributes_chart_content + user_resources;
 		output += user_level + user_objectscore + attributes_chart_content + user_resources;
 
-		output +='<div class="user_attribute_level_resources"><b class="rtop"><b class="r1"></b><b class="r2"></b><b class="r3"></b><b class="r4"></b></b> '+user_attribute_level_resources+'<b class="rbottom"><b class="r4"></b><b class="r3"></b><b class="r2"></b><b class="r1"></b></b></div>';
+//		output +='<div class="user_attribute_level_resources"><b class="rtop"><b class="r1"></b><b class="r2"></b><b class="r3"></b><b class="r4"></b></b> '+user_attribute_level_resources+'<b class="rbottom"><b class="r4"></b><b class="r3"></b><b class="r2"></b><b class="r1"></b></b></div>';
 
 		output +='<div class="user_result_operate clearfix"><a class="btn_05" href="javascript:void(0)" onclick=\'serial_total=0;clearInterval(timer);$(".paper_content").view_userresult('+id+',{operation:"detail",titleContent:"'+settings.titleContent+'"});return false;\'>去看详细记录</a> <a class="btn_05" href="javascript:void(0)" onclick=\'serial_total=0;clearInterval(timer);$("#mainContent").load("'+settings.rebackUrl+'");return false;\'>记录列表</a></div>';
 
 		$(that).html(output);
 
 
-
+/*
 		var chartSetting1={
 			 config:{
 				title    : '<i>正确率(%)</i><div class="attribute_resources_label"> 各个考点评价</div>',
@@ -270,7 +269,7 @@ else if(settings.operation=='DiagnosticReport')
 		};
 		$('#attributes_chart').jQchart(chartSetting1);
 
-		/*
+*/		/*
 		$(".resources_content_bytags").scrollable({
 			size: 5,
 			vertical:false,

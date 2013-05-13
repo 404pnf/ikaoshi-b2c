@@ -207,12 +207,11 @@ echo "流水号：".$excel_liushui."；请用此流水号更新本EXCEL表，此
 			 * item_info,blank_filling_answers,blank_filling_properties,material_items_feedback,multichoice_answers,multichoice_properties 直接修改，multichoice涉及到多条记录，按answer_id排序后修改。
 			 *
 			 */
-			$is_update = 0;
 			$is_update =  $objPHPExcel->getActiveSheet()->getCell("Q".$j)->getValue();
-			$is_update = trim($is_update);
+			$is_update = trim($is_update)>0 ? trim($is_update) : 0 ;
 
 
-			if($is_update == 1){
+			if($is_update > 0){
 				$k++;
 
 				 if(is_array($item)){

@@ -18,6 +18,13 @@ switch($class){
 				$password = $_REQUEST['password'];
 				$arr = $mu->itest_user_login($username, $password);
 				break;
+			case "insert":
+				$itestuserid = $_REQUEST['itestuid'];
+				$username = $_REQUEST['username'];
+				$userrole = $_REQUEST['userrole'];
+				$classinfor = $_REQUEST['classinfor'];
+				$arr = $mu->insert_or_update_user($itestuserid, $username, $userrole, $classinfor);
+				break;
 			case "back":
 				$username = $_REQUEST['username'];
 				$password = $_REQUEST['password'];
@@ -35,8 +42,11 @@ switch($class){
 				$num = $_REQUEST['num'];
 				$arr = $mp->paper_list_by_sid($sid, $num);
 				break;
-			case "":
-				$arr = "";
+			case "result_list":
+				$uid = $_REQUEST['uid'];
+				$tids = $_REQUEST['tids'];
+				$num = $_REQUEST['num'];
+				$arr = $mp->result_list_by_tids($uid, $tids, $num);
 				break;
 		}
 		break;

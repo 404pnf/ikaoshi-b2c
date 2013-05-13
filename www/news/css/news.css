@@ -1,0 +1,115 @@
+@charset "utf-8";
+@import url(http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic);
+/* CSS Document */
+*{margin:0px;padding:0px;font-family:'PT Sans', sans-serif;-webkit-text-size-adjust:none;}
+html,body{height:100%;}
+ul,li{list-style:none}
+a{text-decoration:none;}
+.shadow{text-shadow:0px 1px 0px #ffffff;}
+.fleft{float:left;}
+.fright{float:right;}
+.clear{clear:both}
+body{position:relative;}
+
+
+
+/* 咨询页 */
+.cover{overflow:auto;}
+	.cover ul{overflow:auto;margin:0 auto;width:616px;}
+	.cover ul li a{display:block;color:#FFF;font-size:19pt;}
+	.pd{padding:40px 20px;}
+	.borderstyle1{border:1px solid #999;}
+	.borderstyle2{border:1px solid #9c9c9c;}
+	.borderstyle3{border:1px solid #979797;}
+	.borderstyle4{border:1px solid #010101;}
+	.boxsm{height:200px;margin:10px 3px;float:left;}
+	.textbg{width:297px;height:200px;margin:10px 3px;float:left;overflow:hidden;}
+	.boxbig{height:200px;margin:10px 3px;float:left;}
+	.textsm{width: 198px;height: 200px;margin: 10px 3px;float:left;overflow:hidden;}
+	.bgorange1{background:#c85732;}
+	.bgorange2{background:#e0833b;}
+	.bgblue1{background:#7ab6cb;}
+	.bggreen{background:#88bf5f;}
+	.bggreen .pd{letter-spacing: 4px;}
+	.bgblue2{background:#369fa4;}
+	.bgpurple{background:#363da2;}
+
+h1.graybg{margin: 0;font-size: 3em;line-height: 45px;position: relative;text-align: center;font-weight: normal;color: black;border-top: 1px solid #F8FDF8;background-image: -webkit-gradient(linear,0% 15%, 0% 100%, from(#F6F6F6), to(#EEE), color-stop(0.4,#F2F2F2));padding: 25px 0;}
+	h1.newstitle{font-size: 2.4em;line-height: 40px;}
+	.graybg a{left:48px;top:22px;position:absolute;}
+    .graybg .paper_title{margin:0 10px 0 90px;display: block;text-indent: 10px;}
+	h1.listtitle .paper_title{letter-spacing: 20px;text-align: center;margin: 0;}
+
+.newsmain{margin:0 auto;padding-bottom: 10px;}
+    .newsmain article{margin:25px 34px;font-size:2em;font-weight:normal;}
+    .newsmain article .image{margin: 25px auto;width: 500px;}
+	.newsmain article p{text-indent:2em;}
+	.newsmain section{margin:10px 0;}
+/*========newsmain 下的 table========*/
+.newsmain table {
+	*border-collapse: collapse; /* IE7 and lower */
+	border-spacing: 0;
+	width: 100%;
+	border: solid #ccc 1px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	-webkit-box-shadow: 0 1px 1px #ccc;
+	-moz-box-shadow: 0 1px 1px #ccc;
+	box-shadow: 0 1px 1px #ccc;
+}
+
+.newsmain tr {
+	-o-transition: all 0.1s ease-in-out;
+	-webkit-transition: all 0.1s ease-in-out;
+	-moz-transition: all 0.1s ease-in-out;
+	-ms-transition: all 0.1s ease-in-out;
+	transition: all 0.1s ease-in-out;
+}
+.newsmain td,
+.newsmain th {
+	border-left: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	padding: 10px;
+	text-align: left;
+}
+.newsmain th {
+	background-color: #dce9f9;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#ebf3fc), to(#dce9f9));
+	background-image: -webkit-linear-gradient(top, #ebf3fc, #dce9f9);
+	background-image: -moz-linear-gradient(top, #ebf3fc, #dce9f9);
+	background-image: -ms-linear-gradient(top, #ebf3fc, #dce9f9);
+	background-image: -o-linear-gradient(top, #ebf3fc, #dce9f9);
+	background-image: linear-gradient(top, #ebf3fc, #dce9f9);
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#ebf3fc, endColorstr=#dce9f9);
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#ebf3fc, endColorstr=#dce9f9)";
+	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+	-moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;
+	box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+	border-top: none;
+	text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+.newsmain td:first-child,
+.newsmain th:first-child {
+	border-left: none;
+}
+.newsmain th:first-child {
+	-moz-border-radius: 6px 0 0 0;
+	-webkit-border-radius: 6px 0 0 0;
+	border-radius: 6px 0 0 0;
+}
+.newsmain th:last-child {
+	-moz-border-radius: 0 6px 0 0;
+	-webkit-border-radius: 0 6px 0 0;
+	border-radius: 0 6px 0 0;
+}
+.newsmain tr:last-child td:first-child {
+	-moz-border-radius: 0 0 0 6px;
+	-webkit-border-radius: 0 0 0 6px;
+	border-radius: 0 0 0 6px;
+}
+.newsmain tr:last-child td:last-child {
+	-moz-border-radius: 0 0 6px 0;
+	-webkit-border-radius: 0 0 6px 0;
+	border-radius: 0 0 6px 0;
+}

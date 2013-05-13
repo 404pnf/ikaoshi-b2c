@@ -1,0 +1,7 @@
+<MKM version="2.0" imageFileUrl="file:///Library/WebServer/Documents/itest/www/mobile/images/header_tc_r_btn.png">
+  <Marks>
+    <ColorMark defaultDirection="9" colorSystem="hex" direction="10" color="16711680" targetColor="15461098" offsetX="25" offsetY="10" x="19" y="11"/>
+    <ColorMark defaultDirection="9" colorSystem="hex" direction="10" color="16711680" targetColor="16250871" offsetX="25" offsetY="10" x="14" y="2"/>
+    <ColorMark defaultDirection="9" colorSystem="hex" direction="10" color="16711680" targetColor="13882323" offsetX="25" offsetY="10" x="4" y="18"/>
+  </Marks>
+</MKM>

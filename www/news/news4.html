@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset=utf-8 />
+<meta name="format-detection" content="telephone=no"/>
+<title> 爱考试</title>
+
+<link href="css/news.css" rel="stylesheet" type="text/css">
+<script  type="text/javascript" src="js/jquery-1.4.2.js"></script>
+
+
+<script type="text/javascript">
+$(function(){
+	$(window.parent.document).find("#main").load(function(){
+		var main = $(window.parent.document).find("#main");
+		var thisheight = $(document).height()+30;
+		main.height(thisheight);
+		$(window.parent.document).scrollTop("0");
+	});
+
+});
+</script>
+<body>
+
+	<h1 class="title graybg newstitle"><a href="newslist.html" class="back fleft"><img src="images/back_left_black.png" alt="" /></a><span class="paper_title">2013年上半年全国大学英语四、六级考试时间</span></h1>
+	<section class="newsmain">
+		<article>
+			<figure class="image"><img alt="" src="images/p4.jpg" width="500px"/></figure>
+			<section>
+				<h3>四六级机考时间：</h3>
+				<ul>
+					<li>2013年4月27日CET4、6级机考试点考试实施时间安排</li>
+					<li>模拟测试时间：2013年4月15—19日</li>
+					<li>正式数据发布时间：2013年4月22—4月27日</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>四六级笔试时间：</h3>
+				<ul>
+					<li>2013年6月15日上午，英语四级考试（CET4），9时至11时20分；</li>
+					<li>2013年6月15日下午，英语六级考试（CET6）15时至17时20分。</li>
+				</ul>
+			</section>
+
+			<table>
+				<thead>
+					<tr><th>级别</th>	<th>考试时间</th>	<th>考试全程时间</th></tr>
+				</thead>
+				<tbody>
+					<tr>	<td>英语四级</td>	<td>9：00-11：20</td>	<td>140分钟</td>	</tr>
+					<tr>	<td>英语六级</td>	<td>15：00-17：20</td>	<td>140分钟</td>	</tr>
+				</tbody>
+			</table>
+
+		</article>
+
+	</section>
+
+</body>
+</html>

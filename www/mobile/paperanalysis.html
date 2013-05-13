@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset=utf-8 />
+<meta name="viewport" content="width=device-width;"/>
+
+<title>爱考试</title>
+
+<link type="text/css" rel="Stylesheet" href="../css/common.css" />
+<link type="text/css" rel="Stylesheet" href="../css/txegs.css" />
+<link type="text/css" rel="Stylesheet" href="../css/mobile.css" />
+
+
+<script  type="text/javascript" src="../libs/jquery/jquery-1.4.2.js"></script>
+<script  type="text/javascript" src="../libs/jquery/jquery.getURLparam.js"></script>
+
+<script  type="text/javascript" src="../libs/common/jquery.extend.js"></script>
+<script  type="text/javascript" src="../libs/tx/txgenerictools.js" ></script>
+<script  type="text/javascript" src="../libs/common/common.js"></script>
+
+<script type="text/javascript" src="../data/serial_number.js"></script>
+<link type="text/css" rel="stylesheet" href="../libs/jquery/jplayer.blue.monday.css"/>
+<script type="text/javascript" src="../libs/jquery/jquery.jplayer.min.js"></script>
+<script type="text/javascript" src="../libs/item/my.jplayer.js"></script>
+
+<script type="text/javascript" src="../libs/item/mobile.view_userresult.js"></script>
+
+<script type="text/javascript">
+var id = $.query.get('id');
+
+$(function(){
+	$(".paper_content").view_userresult(id,{operation:"detail",titleContent:".paper_title",user_id:user_id});
+});
+
+
+</script>
+</head>
+
+<body id="examlist">
+<div id="main">
+<div id="mainContent">
+
+	<div id="mainContentInner">
+		<div class="titlebar">
+			<div class="back fleft">
+				<input class="backbutton" type="button" value="返回" onclick="javascript:history.go(-1)">
+			</div>
+			<div class="paper_title title">
+
+			</div>
+		</div>
+
+		<div class="messages" id="globalmessage"></div>
+		<div class="paper_content content">
+			<div class="loadging"><img width="25px" height="25px" src="../images/loading.gif"></div>
+		</div>
+	</div><!---end mainContentInner-->
+
+</div><!---end mainContent-->
+</div>
+</body>
+</html>

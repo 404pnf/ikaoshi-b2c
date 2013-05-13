@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html lang="en-US" manifest="offline.manifest">
+<head>
+<meta charset=utf-8 />
+<meta name="format-detection" content="telephone=no"/>
+
+<title> 爱考试</title>
+
+<link href="style/base.css" rel="stylesheet" type="text/css">
+<link href="style/paper.css" rel="stylesheet" type="text/css">
+
+<script  type="text/javascript" src="../libs/jquery/jquery-1.4.2.js"></script>
+<script  type="text/javascript" src="../libs/jquery/jquery.getURLparam.js"></script>
+
+<script  type="text/javascript" src="js/jquery.extend.js"></script>
+<script  type="text/javascript" src="../libs/tx/txgenerictools.js" ></script>
+
+<script  type="text/javascript" src="js/common.js"></script>
+
+<script type="text/javascript" src="../data/serial_number.js"></script>
+<script type="text/javascript" src="../libs/item/jquery.timer.js"></script>
+<script type="text/javascript" src="../libs/jquery/jquery.jplayer.min.js"></script>
+<script type="text/javascript" src="../libs/item/my.jplayer.js"></script>
+<script type="text/javascript" src="../libs/jquery/jquery.form.js"></script>
+<script  type="text/javascript" src="js/tools.js"></script>
+
+<script type="text/javascript" src="../libs/item/mobile.view_userresult.js"></script>
+<script  type="text/javascript" src="../libs/item/mobile.viewpaper.js"></script>
+<script  type="text/javascript" src="../libs/item/jquery.createpaper1.js"></script>
+
+<script type="text/javascript">
+var sid = $.query.get('sid');
+var backto = $.query.get('backto');
+
+$(function(){
+	$(".main_exam").create_paper(sid,{titleContent:".paper_title",user_id:user_id,backto:encodeURIComponent(backto)});
+	if(backto.length>0)
+		$(".back").attr({"href":backto});
+
+});
+
+
+</script>
+</head>
+
+<body>
+	<section class="wrap">
+		<header id="header">
+			<figure class="usermsg fright">
+				<div class="userimg fleft"></div>
+				<a href="login.html" class="username">登录</a>
+			</figure>
+			<a href="index.html" class="logo"></a>
+		</header>
+		<section id="container">
+			<h1 class="title"><a href="javascript:history.go(-1)" class="back fleft"><img src="images/back_left.png" alt="" /></a><span class="paper_title">爱考试</span></h1>
+			<section class="main_exam">
+				<div class='tishi'><img width="25px" height="25px" src="../images/loading.gif"><br/><br/>系统正在为您生成试卷，请稍等。</div>
+			</section>
+		</section>
+	</section>
+</body>

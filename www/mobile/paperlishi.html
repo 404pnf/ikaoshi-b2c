@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html lang="en-US" manifest="offline.manifest">
+<head>
+<meta charset=utf-8 />
+<meta name="format-detection" content="telephone=no"/>
+
+<title> 爱考试</title>
+
+<link href="style/base.css" rel="stylesheet" type="text/css">
+<link href="style/paper.css" rel="stylesheet" type="text/css">
+
+<script  type="text/javascript" src="../libs/jquery/jquery-1.4.2.js"></script>
+<script  type="text/javascript" src="../libs/jquery/jquery.getURLparam.js"></script>
+
+<script  type="text/javascript" src="js/jquery.extend.js"></script>
+<script  type="text/javascript" src="../libs/tx/txgenerictools.js" ></script>
+
+<script  type="text/javascript" src="js/common.js"></script>
+
+<script type="text/javascript" src="../data/serial_number.js"></script>
+<script type="text/javascript" src="../libs/jquery/jquery.jplayer.min.js"></script>
+<script type="text/javascript" src="../libs/item/my.jplayer.js"></script>
+<script  type="text/javascript" src="js/tools.js"></script>
+
+<script type="text/javascript" src="../libs/item/mobile.view_userresult.js"></script>
+
+<script type="text/javascript">
+var id = $.query.get('id');
+
+$(function(){
+	$(".main_result").view_userresult(id,{operation:"lishi",titleContent:".paper_title",user_id:user_id});
+});
+
+
+
+</script>
+</head>
+<body>
+	<section class="wrap">
+		<header id="header">
+			<figure class="usermsg fright">
+				<div class="userimg fleft"></div>
+				<a href="login.html" class="username">登录</a>
+			</figure>
+			<a href="index.html" class="logo"></a>
+		</header>
+		<section id="container">
+			<h1 class="title"> <a href="javascript:history.go(-1)" class="back fleft"><img src="images/back_left.png" alt="" /></a><span class="paper_title">爱考试</span></h1>
+			<section class="main_exam main_result">
+				<div class='tishi'><img width="25px" height="25px" src="../images/loading.gif"></div>
+			</section>
+		</section>
+	</section>
+</body>
+</html>

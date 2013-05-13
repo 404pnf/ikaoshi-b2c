@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html lang="en-US" manifest="offline.manifest">
+<head>
+<meta charset=utf-8 />
+<meta name="format-detection" content="telephone=no"/>
+
+<title> 爱考试</title>
+
+<link href="style/base.css" rel="stylesheet" type="text/css">
+<link href="style/paper.css" rel="stylesheet" type="text/css">
+
+<script  type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+<script  type="text/javascript" src="../libs/jquery/jquery.getURLparam.js"></script>
+
+<script  type="text/javascript" src="js/jquery.extend.js"></script>
+<script  type="text/javascript" src="../libs/tx/txgenerictools.js" ></script>
+
+<script  type="text/javascript" src="js/common.js"></script>
+
+<script type="text/javascript" src="../data/serial_number.js"></script>
+<script type="text/javascript" src="../libs/jquery/jquery.jplayer.min.js"></script>
+<script type="text/javascript" src="../libs/item/my.jplayer.js"></script>
+<script  type="text/javascript" src="js/tools.js"></script>
+
+
+<script type="text/javascript" src="../libs/item/mobile.view_wrong_answer.js"></script>
+
+<script type="text/javascript">
+var uid = $.query.get('uid');
+if(user_id==0&&uid>0)
+	user_id = uid;
+if(user_id>0){
+
+	$(function(){
+		$(".main_userwrong").view_wrong_answer(user_id);
+	});
+
+}
+else{
+	$(".main_userwrong").html("您无权访问本页面");
+}
+
+
+</script>
+</head>
+<body>
+	<section class="wrap">
+		<header id="header">
+			<figure class="usermsg fright">
+				<div class="userimg fleft"></div>
+				<a href="login.html" class="username">登录</a>
+			</figure>
+			<a href="index.html" class="logo"></a>
+		</header>
+		<section id="container">
+			<h1 class="title"> <a href="index.html" class="back fleft"><img src="images/back_left.png" alt="" /></a><span class="paper_title">我的错题库</span><span class="edit">编辑</span></h1>
+			<section class="main_exam main_result main_userwrong">
+				<div class='tishi'><img width="25px" height="25px" src="../images/loading.gif"></div>
+			</section>
+		</section>
+	</section>
+</body>
+</html>

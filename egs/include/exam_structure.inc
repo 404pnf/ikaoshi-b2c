@@ -315,7 +315,7 @@ static function find_items_by_conditions($arr,$conditions,$check_parent,$num,$pa
                     $query .= " GROUP BY i.`item_id` ORDER BY ".$order_by." LIMIT ".$num;     //随机获得数据
             $result = $conn->query($query);
 
-    file_put_contents(aaa.txt, 'find_items_by_conditions:\r\n'.$query.'\r\n\r\n', FILE_APPEND);
+    file_put_contents("aaa.txt", 'find_items_by_conditions:\r\n'.$query.'\r\n\r\n', FILE_APPEND);
 
 	       if(DB::isError ($result)){
 		      die ("SELECTfailed: " . $result->getMessage () . "\n");

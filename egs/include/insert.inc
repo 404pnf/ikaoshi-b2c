@@ -997,7 +997,7 @@ static function item_type_insert($name,$description){
 
 			 // $paper_name = $arr['title']."-".date("YmdHi",time())."-".time()."-".($row->num+1);
 			 //试题的重命名 函数
-			 $paper_name = $arr['title']."-".($row->num+1);
+			 $paper_name = $arr['title']." ".($row->num+1);
 
 			  $sql = "INSERT INTO  `exam_info` (`paper_name`, `description`, `tid`, `sid`,`points`,`objective_points`, `time_limit`, `created`, `uid`, `status`)
                         SELECT '".$paper_name."','".$arr['description']."',".$arr['tid'].",".$sid.",".$arr['points'].",0,".$arr['time_limit'].",".time().",".$uid.",1
@@ -1008,7 +1008,7 @@ static function item_type_insert($name,$description){
 			}else{
 
 			 $sql = "INSERT INTO  `exam_info` ( `paper_name`, `description`, `tid`, `sid`, `points`, `objective_points`,`time_limit`, `created`, `uid`,  `status`)
-                      VALUES ('".$arr['title']."','".$arr['description']."',".$arr['tid'].",".$sid.",".$arr['points'].",0,".$arr['time_limit'].",".time().",".$uid.",1)";
+                      VALUES ('".$arr['title']." 1','".$arr['description']."',".$arr['tid'].",".$sid.",".$arr['points'].",0,".$arr['time_limit'].",".time().",".$uid.",1)";
 
 			}
 
@@ -1066,7 +1066,7 @@ WHERE esi.`sid` =".$sid;
 		        ON c.`parent`= p.`structure_id`
 	            WHERE p.`sid`=".$sid." GROUP BY p.`structure_id` ORDER BY p.`structure_id`,p.`parent` ";
 
-file_put_contents(aaa.txt, 'insert_exam_items_by_structure:\r\n'.$sql.'\r\n\r\n');
+file_put_contents("aaa.txt", 'insert_exam_items_by_structure:\r\n'.$sql.'\r\n\r\n');
 
 		$res = $conn->query($sql_sname);
 		if(DB::isError ($res)){

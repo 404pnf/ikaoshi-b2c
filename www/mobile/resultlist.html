@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html lang="en-US" _manifest="offline.manifest">
+<head>
+<meta charset=utf-8 />
+<meta name="format-detection" content="telephone=no"/>
+
+<title> 爱考试</title>
+
+<link href="style/base.css" rel="stylesheet" type="text/css">
+
+<script  type="text/javascript" src="../libs/jquery/jquery-1.4.2.js"></script>
+<script  type="text/javascript" src="../libs/jquery/jquery.getURLparam.js"></script>
+
+<script  type="text/javascript" src="js/jquery.extend.js"></script>
+<script  type="text/javascript" src="../libs/tx/txgenerictools.js" ></script>
+
+<script  type="text/javascript" src="js/common.js"></script>
+
+
+<script type="text/javascript">
+var uid = $.query.get('uid');
+var tids = $.query.get('tids');
+var titlename = $.query.get('titlename');
+if(user_id==0&&uid>0)
+	user_id = uid;
+
+$(function(){
+	if(user_id>0){
+		userlist();
+	}
+	else{
+		$(".result").html("您无权访问本页面");
+	}
+});
+
+function userlist(){
+
+	var url = "/itest/egs/mobile.php?c=paper&f=result_list";
+	var postdata = {uid:user_id,tids:tids};
+
+	postjson(url, postdata, "记录列表", function(data){
+		$(".result").html("");
+		if(data==null||data.length==0){
+			if(titlename.length>0)
+				$(".result").html("<div class='tishi'>没有 "+titlename+" 的历史记录，请从首页开始您的测试旅程吧！</div>");
+			else
+				$(".result").html("<div class='tishi'>没有您的历史记录，请从首页开始您的测试旅程吧！</div>");
+		}
+
+		else{
+			$.each(data,function(index,term_arr){
+				var tid=term_arr['tid'];
+				var exam_type=term_arr['exam_type'];
+				var section_html='<section class="s'+tid+'">'+
+									'<h2 class="sec_title">'+exam_type+' <span class="fright">得分/总分</span></h2>'+
+									'<ul class="list">'+
+									'</ul>'+
+								'</section>';
+				$(".result").append(section_html);
+				$.each(term_arr['list'],function(index,user_result_array){
+					var result_id = user_result_array['result_id'];
+					var paper_id = user_result_array['paper_id'];
+					var paper_name = user_result_array['paper_name'];
+					var user_score = parseInt(user_result_array['user_score']);
+					var objective_points = parseInt(user_result_array['objective_points']);
+					var exam_points = parseInt(user_result_array['exam_points']);
+
+					var listHtml='<li class="paper_list"><a href="paperlishi.html?id='+result_id+'">'+
+								'<span class="fright count">'+user_score+'/'+exam_points+'</span>'+
+								'<span class="paper_name">'+paper_name+'</span>'+
+							'</a></li>';
+					$(".s"+tid+" .list").append(listHtml);
+
+				});
+
+			});
+		}
+
+	});
+
+}
+
+
+</script>
+</head>
+
+<body>
+	<section class="wrap">
+		<header id="header">
+			<figure class="usermsg fright">
+				<div class="userimg fleft"></div>
+				<a href="login.html" class="username">登录</a>
+			</figure>
+			<a href="index.html" class="logo"></a>
+		</header>
+		<section id="container">
+
+			<h1 class="title graybg"><a href="resulttype.html" class="back fleft"><img src="images/back_left_black.png" alt="" /></a><span class="paper_title">历次测试记录</span></h1>
+			<section class="main_test result">
+				<div class='tishi'><img width="25px" height="25px" src="../images/loading.gif"></div>
+			</section>
+		</section>
+	</section>
+</body>
+</html>

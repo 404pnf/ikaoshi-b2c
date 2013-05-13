@@ -1,180 +1,82 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en-US" manifest="offline.manifest">
 <head>
 <meta charset=utf-8 />
+<meta name="format-detection" content="telephone=no"/>
 
+<title> 爱考试</title>
 
-<meta name="viewport" content="width=device-width;"/>
-
-<title>EGS测试系统</title>
-
-<link type="text/css" rel="Stylesheet" href="../css/common.css" />
-<link type="text/css" rel="Stylesheet" href="../css/txegs.css" />
-<link type="text/css" rel="Stylesheet" href="../css/mobile.css" />
-
+<link href="style/base.css" rel="stylesheet" type="text/css">
 
 <script  type="text/javascript" src="../libs/jquery/jquery-1.4.2.js"></script>
 <script  type="text/javascript" src="../libs/jquery/jquery.getURLparam.js"></script>
 
-<script  type="text/javascript" src="../libs/common/jquery.extend.js"></script>
+<script  type="text/javascript" src="js/jquery.extend.js"></script>
 <script  type="text/javascript" src="../libs/tx/txgenerictools.js" ></script>
 
-<script  type="text/javascript" src="../libs/common/common.js"></script>
-
+<script  type="text/javascript" src="js/common.js"></script>
 
 <script type="text/javascript">
-var url = "/itest/egs/"
-$.ajax({
-	url: url,
-	dataType: 'json',
-	//data: data,
-	timeout:200000,// 设置请求超时时间（毫秒）。
-	error: function (XMLHttpRequest, textStatus, errorThrown) {// 请求失败时调用函数。
-		alert(" 请求超时! textStatus: " + textStatus + ', errorThrown: ' + errorThrown);
-	 },
-	success: function(data)
-	{  //请求成功后回调函数。
-
-
-		try
-		{
-
-	$.each(data,function(index,item){
-		partname = item['partname'];
-		partlist = item['partlist'];
-
-		if(partname==op){
-			leftbanner +='<div class="parttitle"><div class="back fleft"><input class="backbutton" type="button" value="返回" onclick="javascript:history.go(-1)"></div><div class="title">'+partname+'</div></div>';
-			$.each(partlist,function(index,item){
-				term1 = item['term'];
-				content1 = item['content'];
-
-				leftbanner +='<div id="left'+(index+1)+'" class="leftrow">'+term1+'</div>';
-
-				listcontent +='<div  id="listcontent'+(index+1)+'" class="listcontent"> <div class="listtitle"><div class="back fleft"><input class="backbutton" type="button" value="返回列表"></div><div class="title">'+term1+'</div></div>';
-
-				detailcontent = '';
-
-				$.each(content1,function(index,item){
-
-					termclassid = index;
-					term2 = item['term'];
-					content2 = item['content'];
-
-					detailcontent +='<div  id="detailcontent'+(termclassid+1)+'" class="detailcontent"> <div class="detailtitle">'+term2+'</div> <ul class="detaillist">';
-
-					var  title = '',  id = 0, op =  '';
-
-					var i = 0;
-					$.each(content2,function(index,item){
-						i = i+1;
-						op = item['op'];
-						title = item['title'];
-						id = item['id'];
-						//alert(op+title+id);
-
-						line_class = 'row';
-						if(index==0)
-							line_class = 'row row-first';
-
-						detailcontent += '<li class="'+line_class+'"><a href="/itest/www/mobile.html?op='+op+'&id='+id+'&uid='+user_id+'" > '+ title +' </a></li>';
-
-					});
-					detailcontent +='</ul></div>';
-				});
-
-				listcontent += detailcontent+'</div>';
-
-
-			});
-		}
-	});
-			leftbanner += '</div>';
-
-			$('#leftFrame').html(leftbanner);
-			$('#mainContentInner').html(listcontent);
-
-			listanimation();
-
-
-		}
-		catch (err)
-		{
-			alert('服务器交互失败，请重试'+err);
-		}
-
-	}
-});
-
-}
-
+var sid = $.query.get('sid');
+var tname = $.query.get('tname');
+var num = 10;
+var backto = $.query.get('backto');
+var pathname = encodeURIComponent(location.href);
 
 $(function(){
-	// 处理从url过来的请求
-	var op = $.query.get('op'); //水平定位、真题模考、专项训练
-	var uid = $.query.get('uid');
-	//如果地址中没有给用户uid，则从当前cookie中获取
-	var user_id=0,temp_uid=tx.setCookie("uid");
-	if(temp_uid!=null)
-		user_id=temp_uid;
+	if(backto.length>0)
+		$(".back").attr({"href":backto});
 
-	uid = (uid!='' && uid != undefined && uid != null) ? uid:user_id;
+	var url = "/itest/egs/mobile.php?c=paper&f=list_by_sid";
+	var postdata = {sid:sid,num:num};
+	postjson(url, postdata, "试题列表", function(data){
+		if(data.length>0)
+			$("#list").html("");
+		$.each(data,function(index,paper_array){
 
-	if(op != '' && op != undefined && op != null)
-	{
-		if(op=='真题模考'||op=='专项训练')
-	   {
-				listMenu(op);
-		}
-		else{
-			//历史记录、最新试题等等
-		}
-	}
-	else{
-		//默认显示最新试题
-	}
+			var paper_id = paper_array['paper_id'];
+			var paper_name = paper_array['paper_name'];
+			var count = paper_array['count'];
+
+			var listHtml='<li class="paper_list"><a href="paper.html?id='+paper_id+'&backto='+pathname+'">'+
+							'<span class="fright count">'+count+'人挑战</span>'+
+							'<span class="paper_name">'+paper_name+'</span>'+
+						'</a></li>';
+			$("#list").append(listHtml);
+		});
+
+	});
+
+	$(".paper_title").html(tname);
+	var create_url = "create.html?sid="+sid+'&backto='+pathname;
+	$('<a id="create_btn" href="#" class="doexam">生成我的试卷 ></a>').attr({"href":create_url}).appendTo(".main_test");
+
 });
+
 
 </script>
 </head>
 
-<body >
-<div id="main">
-	<div id="mainInner">
+<body>
+	<section class="wrap">
+		<header id="header">
+			<figure class="usermsg fright">
+				<div class="userimg fleft"></div>
+				<a href="login.html" class="username">登录</a>
+			</figure>
+			<a href="index.html" class="logo"></a>
+		</header>
+		<section id="container">
 
-		<div id="leftFrame">
+			<h1 class="title graybg"><a href="javascript:history.go(-1)" class="back fleft"><img src="images/back_left_black.png" alt="" /></a><span class="paper_title">爱考试</span></h1>
+			<section class="main_test">
+				<h2 class="sec_title">精选试题</h2>
+				<ul id="list">
+					<li class="loading"><img width="25px" height="25px" src="../images/loading.gif"></li>
+				</ul>
 
-		</div>
-
-		<div id="mainContent">
-
-			<div id="mainContentInner">
-
-				<div class="loadging"><img width="25px" height="25px" src="images/loading.gif"></div>
-			</div><!---end mainContentInner-->
-
-		</div><!---end mainContent-->
-
-	</div><!---end mainInner-->
-</div><!---end main-->
-
+			</section>
+		</section>
+	</section>
 </body>
 </html>
-
-<script type="text/javascript">
-
- var _gaq = _gaq || [];
- _gaq.push(['_setAccount', 'UA-8352134-1']);
- _gaq.push(['_setDomainName', '.com.cn']);
- _gaq.push(['_trackPageview']);
-
- (function() {
-   var ga = document.createElement('script'); ga.type =
-'text/javascript'; ga.async = true;
-   ga.src = ('https:' == document.location.protocol ? 'https://ssl' :
-'http://www') + '.google-analytics.com/ga.js';
-   var s = document.getElementsByTagName('script')[0];
-s.parentNode.insertBefore(ga, s);
- })();
-
-</script>

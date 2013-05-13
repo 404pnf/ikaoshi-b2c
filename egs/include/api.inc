@@ -1417,15 +1417,20 @@ static function  query_paper_info_by_paper_id($type,$paper_id,$paper_name){
 				  $exam_type = '';
 				  $exam_type = self::query_exam_type('simple',$row->tid,'');
 
+				  $sql = "SELECT count(ii.item_id) count FROM exam_item ei
+						  JOIN item_info ii ON ei.item_id = ii.item_id AND (ii.basic_type=1 OR ii.basic_type=2)
+						  WHERE paper_id = ? ";
+				  $num = $conn->getOne($sql,array($paper_id));
+
 				  $arr[$row->paper_id] = array(
 				  	 "paper_name" => stripslashes(htmlspecialchars_decode($row->paper_name)),
 					  "description" => stripslashes(htmlspecialchars_decode($row->description)),
-					  //"exam_type" => $exam_type[$row->tid],
 					  "exam_type" => $exam_type[0]["name"],
 					  "term_id" => $row->tid,
 					  "sid" => $row->sid,
 					  "points" => $row->points,
 					  "time_limit" => $row->time_limit,
+		 			  "amount"=>$num,
 					  "created" => date("Y-m-d H:i:s",$row->created),
 					  "visited_times" => $row->visited_times,
 					  "uid" => $row->uid,
@@ -1434,6 +1439,7 @@ static function  query_paper_info_by_paper_id($type,$paper_id,$paper_name){
 
 
 		 }
+
 	  }
 	 }
 
@@ -1730,10 +1736,12 @@ static function  query_paper_detail_by_paper_id($paper_id){
     if($id>0){
         $type= !empty($type)?$type:'simple';
 
-   	  	$sql = "SELECT ur.`result_id`,ur.`uid`,ur.`paper_id`, ur.`time_used`,ur.`rate`,ur.`time_end`, ur.`score`, ur.`is_valid`,ei.`objective_points`,ei.`paper_id`,ei.`points`,ei.`paper_name`,ei.`sid`
+   	  	$sql = "SELECT ur.`result_id`,ur.`uid`,ur.`paper_id`, ur.`time_used`,ur.`rate`,ur.`time_end`, ur.`score`, ur.`is_valid`,
+   	  					ei.`objective_points`,ei.`paper_id`,ei.`points`,ei.`paper_name`,ei.`sid`,
+   	  					et.`tid`, et.`name` exam_type
 				FROM `user_results` ur
-				LEFT JOIN `exam_info` ei
-				ON ei.`paper_id`=ur.`paper_id`
+				LEFT JOIN `exam_info` ei ON ei.`paper_id`=ur.`paper_id`
+   	  			LEFT JOIN `exam_type` et ON et.`tid`=ei.`tid`
 				WHERE ur.`result_id`=".$id." AND ur.`is_valid`=1";
 
    	  	$res = $conn->query($sql);
@@ -1762,6 +1770,8 @@ static function  query_paper_detail_by_paper_id($paper_id){
 						  "user_score"=>$row->score,
 						  "objective_points"=>$row->objective_points,
 						  "exam_points"=>$row->points,
+	         				"tid"=>$row->tid,
+	         				"exam_type"=>$row->exam_type
 		    		);
 
 	         	}
@@ -1807,6 +1817,8 @@ static function  query_paper_detail_by_paper_id($paper_id){
 						  "user_score"=>$row->score,
 						  "objective_points"=>$row->objective_points,
 						  "exam_points"=>$row->points,
+		    				"tid"=>$row->tid,
+		    				"exam_type"=>$row->exam_type,
 						  "level" => $level,
 						  "resources" =>$resources
 					);
@@ -2440,12 +2452,12 @@ static function  query_user_diagnostic_report_by_result_id($result_id){
 
  	$arr = array();
  	$exam_info = self::query_user_results_by_result_id('detail', $result_id);
- 	$result_info = self::query_user_result_each_part_points($result_id);
+ 	//$result_info = self::query_user_result_each_part_points($result_id);
  	//$exam_attribute = self::query_user_attribute_results_by_result_id('detail', $result_id);
 
 	$arr = array(
-		"exam_info" => $exam_info[$result_id],
-		"result_info"=>$result_info
+		"exam_info" => $exam_info[$result_id]
+		//"result_info"=>$result_info,
 		//"exam_attribute" => $exam_attribute
 	);
 

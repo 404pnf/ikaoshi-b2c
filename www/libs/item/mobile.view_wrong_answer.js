@@ -10,7 +10,6 @@ var serial=serial_number;
 		},options||{});
 		var that=this;
 		$(that).addClass('user_result_content');
-		$(that).html('<div class="loadging"><img width="25px" height="25px" src="../images/loading.gif"></div>');
 
 
  if(settings.operation=='wrongAnswer'){
@@ -32,8 +31,6 @@ var serial=serial_number;
 		{  //请求成功后回调函数。
 
 			try{
-				$(settings.titleContent).html('<span id="title_f">错题库</span>');
-
 
 				//-----------错题库具体题目的输出--------------
 				var subques_array=resp;
@@ -47,8 +44,10 @@ var serial=serial_number;
 
 				$(that).html(output_items);
 
-				$(".jplayer").myjplayer();
+				needfun();
+				backToTop();
 
+				if(userwrong_edit)	userwrong_edit();
 			}catch (err)
 			{
 				resp = undefined;
@@ -144,16 +143,7 @@ function resultoutput_wronganswer(subques_array,options){
 
 
 		//-----为试题信息添加html标签------
-		var ques_pre='<div id="ques_display_'+item_id+'" class="ques_display ques_display_'+layout+'">';//默认显示所有试题
-		if(settings.operation=='wrongQues') //如果显示错题集
-		{
-			if((user_answer_is_correct!=undefined && user_answer_is_correct!=0)||(is_objective!=undefined && is_objective==0))
-			//主观题is_objective==0、没有做的题user_answer_is_correct==-1、做对的题user_answer_is_correct==1都不显示
-				ques_pre='<div id="ques_display_'+item_id+'" class="ques_user_answer_not_wrong ques_display ques_display_'+layout+'">';
-		}
-
-		//<input type="hidden" name="answer['+item_id+']" value="'+item_id+'"/>
-		var ques_suf='</div>';
+		var ques_display_class="ques_display ques_display_"+layout;
 
 		var ques_score='',ques_name='',ques_serial_name='',ques_serial_number='',ques_time_limit='',ques_points='',ques_body='',ques_description='',ques_answers='',ques_files='';
 
@@ -172,9 +162,10 @@ function resultoutput_wronganswer(subques_array,options){
 
 		if(description!=undefined&&description!='') ques_description='<div class="ques_description">'+description+'</div> ';
 
-		if(files!=undefined&&files!=''&&file_status==1)
+		if(file_status==1&&fileurl.length>0){
 			ques_files='<div class="jplayer_wrap"><a id="jplayer-'+item_id+'" class="mp3 jplayer notprint" src='+fileurl+'></a></div> ';
-
+			ques_display_class +=" hasmp3 ";
+		}
 
 
 		if(basic_type_id==4&&question_body!=undefined&&question_body!=''){
@@ -243,7 +234,7 @@ function resultoutput_wronganswer(subques_array,options){
 				if(answer["answer"]!=undefined)
 					answer_answer='<span class="answer_correct">'+answer["answer"]+'</span>';
 				if(answer["feedback"]!=undefined && answer["feedback"]!=null && answer["feedback"]!='')
-					answer_feedback='<div class="answer_analyse">   <label>【试题材料】</label> <span class="answer_analyse">'+answer["feedback"]+'</span>    </div>  ';
+					answer_feedback='<div class="answer_analyse">   <label>[试题材料]</label> <span>'+answer["feedback"]+'</span>    </div>  ';
 			});
 
 			ques_answers ='<div class="ques_answer">'+answer_feedback+'</div>';
@@ -260,24 +251,34 @@ function resultoutput_wronganswer(subques_array,options){
 
 				var serial_number={"1":"A) ","2":"B) ","3":"C) ","4":"D) ","5":"E) ","6":"F) ","7":"G) ","8":"H) ","9":"I) ","10":"J) ","11":"K) ","12":"L) ","13":"M) ","14":"N) ","15":"O) ","16":"P) ","17":"Q) ","18":"R) ","19":"S) ","20":"T) ","21":"U) ","22":"V) ","23":"W) ","24":"X) ","25":"Y) ","26":"Z) "};
 				var i=0;//为计算ABCD
+				var ques_answers_analyse ='';
+				ques_answers ='<div id="ques_answer">';
 
-				ques_answers +='<table id="ques_answer">  <thead><th class="answer_option">选项</th><th class="answer_analyse">答案解析</th></thead>  <tbody>';
 				$.each(answers_array,function(index,answer){
 					i++;
 					var answer_class='';
+					var options_img='';
 					if(answer['is_correct']==1) {
-						if(user_answer_is_correct==1)
+						if(user_answer_is_correct==1){
 							answer_class='right';
-						else
+						}
+						else{
 							answer_class='should';
+							options_img='<span class="options_img"></span>';
+						}
+						options_img='<span class="options_img"><img src="../images/correct.png"/></span>';
 					}
-					else
-						if(user_answer_is_correct==0&&user_answer==index)
-						//if(user_answer==index)
+					else if(user_answer_is_correct==0&&user_answer==index){
 							answer_class='myanswer';
-					ques_answers +='<tr><td class='+answer_class+'>'+serial_number[i]+answer["answer"]+'</td>    <td>'+answer["feedback"]+'</td>  </tr> ';
+							options_img='<span class="options_img"><img src="../images/wrong.png"/></span>';
+					}
+
+					ques_answers +='<div class="options '+answer_class+'"><span>'+serial_number[i]+answer["answer"]+'</span>'+options_img+'</div> ';
+					if(answer["feedback"].length>0) ques_answers_analyse += '<span >'+answer["feedback"]+'</span>';
 				});
-				ques_answers +='</tbody></table>';
+				ques_answers +='</div>';
+				if(ques_answers_analyse.length>0)
+					ques_answers = '<div class="answer_analyse">   <label>答案解析：</label>'+ques_answers_analyse+' </div>' +ques_answers;
 
 			}
 			else 	if(basic_type_id==2){
@@ -290,17 +291,17 @@ function resultoutput_wronganswer(subques_array,options){
 					if(answer["answer"]!=undefined)
 						answer_answer='<span class="answer_correct">'+answer["answer"]+'</span>';
 					if(answer["feedback"]!=undefined && answer["feedback"]!=null && answer["feedback"]!='')
-						answer_feedback='<div class="answer_analyse">   <label>【答案解析】</label> <span class="answer_analyse">'+answer["feedback"]+'</span>    </div>  ';
+						answer_feedback='<div class="answer_analyse">   <label>[答案解析]</label> <span >'+answer["feedback"]+'</span>    </div>  ';
 					});
 					if(is_objective==1) {
 						if(user_answer_is_correct==1)
-							ques_answers ='<div class="ques_answer correct"> <div class="answer_correct"><label>【正确答案】</label><span class="answer_correct answer_user">'+user_answer+'</span></div> '+answer_feedback+'</div>';
+							ques_answers ='<div class="ques_answer correct"> <div class="answer_correct"><label>[正确答案]</label><span class="answer_correct answer_user">'+user_answer+'</span></div> '+answer_feedback+'</div>';
 						else
-							ques_answers ='<div class="ques_answer"> <div class="answer_user"><label>【用户答案】</label><span class="answer_user">'+user_answer+'</span></div> <div class="answer_correct"> <label>【正确答案】</label>'+answer_answer+'</div>'+answer_feedback+'</div>';
+							ques_answers ='<div class="ques_answer"> <div class="answer_user"><label>[用户答案]</label><span class="answer_user">'+user_answer+'</span></div> <div class="answer_correct"> <label>[正确答案]</label>'+answer_answer+'</div>'+answer_feedback+'</div>';
 
 					}
 					else if(is_objective==0){
-							ques_answers ='<div class="ques_answer is_subjective">    	<div class="answer_user"> <label>【用户答案】</label><span class="answer_user">'+user_answer+'</span></div>	 <div class="answer_correct"> <label>【参考答案】</label>'+answer_answer+'</div> '+answer_feedback+'</div>';
+							ques_answers ='<div class="ques_answer is_subjective">    	<div class="answer_user"> <label>[用户答案]</label><span class="answer_user">'+user_answer+'</span></div>	 <div class="answer_correct"> <label>[参考答案]</label>'+answer_answer+'</div> '+answer_feedback+'</div>';
 
 
 					}
@@ -314,20 +315,9 @@ function resultoutput_wronganswer(subques_array,options){
 			//选择题与填空题在试题前面加"对勾"与"叉号"与分数
 			if(basic_type_id==1||basic_type_id==2){
 
-				var answer_img='';
-				if(is_objective==0) {
-					answer_img='<div class="answer_img is_subjective is_correct"></div>';
-				}
-				else{
-
-					if(user_answer_is_correct==1) answer_img='<div class="answer_img is_objective is_correct"></div>';
-					else answer_img='<div class="answer_img is_objective is_wrong"></div>';
-
-				}
-
 				ques_serial_number=++serial_total_view+'.&nbsp;';
 
-				ques_point_serial_name_body_answer='<div class="ques_point_serial_name_body">'+ques_files+'<span class="serial_total">'+ques_serial_name+ques_serial_number+'</span><div class="ques_content">'+answer_img+ques_body+ques_points+ques_score+ques_answers+'</div></div>';
+				ques_point_serial_name_body_answer='<div class="ques_point_serial_name_body">'+ques_files+'<span class="serial_total">'+ques_serial_name+ques_serial_number+'</span><div class="ques_content">'+ques_body+ques_answers+'</div></div>';
 			//ques_score提供值后，删除points_awarded
 			}
 
@@ -339,9 +329,12 @@ function resultoutput_wronganswer(subques_array,options){
 			basic_answer = "is_basic_answer";
 		}
 		if(settings.is_first_layout){
-			delete_btn = '<button href="javascript:void(0)" onclick="delete_wrong_answer('+item_id+')">移出错题库</button>';
+			delete_btn = '<a class="delete_btn" href="javascript:void(0)" onclick="delete_wrong_answer('+item_id+')">踢走</a>';
+			ques_display_class +=" is_first_layout ";
 		}
 
+		var ques_pre='<div id="ques_display_'+item_id+'" class="'+ques_display_class+'">';//默认显示所有试题
+		var ques_suf='</div>';
 		question +=ques_pre + delete_btn + '<div class="'+basic_answer+'">'+ques_point_serial_name_body_answer+'</div>';
 
 
@@ -357,18 +350,18 @@ function resultoutput_wronganswer(subques_array,options){
 }
 
 function delete_wrong_answer(item_id){
-	var msg = "确定将此题移出错题库？";
+	var msg =[ "确定踢走此题？","踢走","取消"];
 
 	confirmPop("", msg, function(){
 		var itemO = $("#ques_display_"+item_id).find(".is_basic_answer").parent(".ques_display");
 
 		var true_item_id = itemO[0].id.slice(13);
-		url = "/itest/egs/mobile.php?c=wrong_answer&f=delete&uid=5";
+		url = "/itest/egs/mobile.php?c=wrong_answer&f=delete&uid="+user_id;
 		var postdata = {item_id:true_item_id};
-		postjson(url, postdata, "移除错题库", function(data){
+		postjson(url, postdata, "移出错题库", function(data){
 			if(data>0){
 				//删除页面上的试题信息。
-				$("#ques_display_"+item_id).remove();
+				$("#ques_display_"+item_id).slideUp(500);
 			}
 		});
 

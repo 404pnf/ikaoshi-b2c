@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset=utf-8 />
+<meta name="format-detection" content="telephone=no"/>
+<title> 爱考试</title>
+
+<link href="css/news.css" rel="stylesheet" type="text/css">
+<script  type="text/javascript" src="js/jquery-1.4.2.js"></script>
+
+
+<script type="text/javascript">
+$(function(){
+	$(window.parent.document).find("#main").load(function(){
+		var main = $(window.parent.document).find("#main");
+		var thisheight = $(document).height()+30;
+		main.height(thisheight);
+		$(window.parent.document).scrollTop("0");
+	});
+
+});
+</script>
+
+</head>
+<body>
+
+	<h1 class="title graybg newstitle"><a href="newslist.html" class="back fleft"><img src="images/back_left_black.png" alt="" /></a><span class="paper_title">外研社在天津大学建立数字化示范基地</span></h1>
+	<section class="newsmain">
+		<article>
+			<figure class="image"><img alt="" src="images/p1.jpg" width="500px"/></figure>
+			<p>2012年10月19日，外语教学与研究出版社在天津大学举办“2012年高等教育数字化示范基地揭牌仪式暨外语教育数字化高层论坛”。本届高层论坛议题是“数字化助力高校外语教学”，聚集了40余位津地区外语领域的专家学者和部分大学英语教学改革示范院校的一线教学负责人共同探讨了高校英语教学未来的发展，对数字化教学手段与内容建设提出远见卓识，并且深入讨论研讨了数字化形势下教学改革与发展。</p>
+		</article>
+
+	</section>
+
+</body>
+</html>

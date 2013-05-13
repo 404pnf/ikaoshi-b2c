@@ -6,19 +6,76 @@ var serial=serial_number;
 		var settings=$.extend({
 			titleContent:'.title',
 			operation: 'detail',
-			uid : 0,
-			rebackUrl:'manage_exam.html'
+			user_id : 0,
+			backto:''
 		},options||{});
 		var that=this;
 		$(that).addClass('user_result_content');
-		$(that).html('<div class="loadging"><img width="25px" height="25px" src="images/loading.gif"></div>');
-
-		//alert('123'+settings.operation);
 
 
-if(settings.operation=='detail'){
+if(settings.operation=='result'){
 	//显示用户整个试卷历史记录
-	var sid = 0;
+	url = '/itest/egs/index.php?op=user_result_detail&id='+id;
+
+	$.ajax({
+		url: url,
+		dataType: 'json',
+		//data: data,
+		timeout:20000,// 设置请求超时时间（毫秒）。
+		error: function (XMLHttpRequest, textStatus, errorThrown) {// 请求失败时调用函数。
+			$(that).html(" 请求超时! textStatus: " + textStatus + ', errorThrown: ' + errorThrown);
+		 },
+		success: function(resp)
+		{  //请求成功后回调函数。
+
+			try{
+
+			$(that).addClass('main_result');
+			var output='';
+
+		//-----------试卷基本信息------------------
+			var paper_data=resp['paper_info'];
+			var sid=0,examType='';
+			$.each(paper_data,function(index,paper_array){
+				examType = paper_array['exam_type'];
+				sid = paper_array['sid'];
+			});
+			$(settings.titleContent).html(examType+" 成绩分析");
+
+		//-----------用户试卷信息的输出------------------
+			var user_results_array=resp['user_results_info'][id];
+
+			var score=parseFloat(user_results_array['user_score']).toFixed(0);
+			var objective_points=parseFloat(user_results_array['objective_points']).toFixed(0);;
+
+			output +='<div class="clearfix"> <div class="user_score">正确率：<span class="user_total_score">'+score+'</span>/'+objective_points+'</div>'+
+			'<a href="create.html?sid='+sid+'&backto='+settings.backto+'">再做一套</a>	</div>';
+			$(that).html(output);
+
+	//-----------试卷具体题目的输出--------------
+			var subques_array=resp['item'];
+
+			var output_items='<div class="paper">';
+			if(subques_array!=-1)	output_items +=resultoutput(subques_array,{operation:settings.operation});
+				output_items +='</div>';
+
+			$(that).append(output_items);
+
+			needfun();
+			backToTop();
+
+		}catch (err)
+		{
+			resp = undefined;
+			$(that).append('服务器交互失败，请重试'+err);
+		}
+
+		}
+	});
+
+}
+else if(settings.operation=='lishi'){
+	//显示用户整个试卷历史记录
 	url = '/itest/egs/index.php?op=user_result_detail&id='+id;
 
 	$.ajax({
@@ -35,47 +92,28 @@ if(settings.operation=='detail'){
 			try{
 			var output='';
 
-		//-----------试卷基本信息的输出------------------
+		//-----------试卷基本信息------------------
 			var paper_data=resp['paper_info'];
-
+			var paper_name='';
 			$.each(paper_data,function(index,paper_array){
-				var paper_name = paper_array['paper_name'];
-				var examType = paper_array['exam_type'];
-				var description = paper_array['description'];
-				var points = parseInt(paper_array['points']);
-				var time_limit = paper_array['time_limit'];
-				var sid = paper_array['sid'];
-
-
-				$(settings.titleContent).html('<span id="title_f">'+paper_name+'</span>');
+				paper_name = paper_array['paper_name'];
 			});
-
+			$(settings.titleContent).html(paper_name);
 
 		//-----------用户试卷信息的输出------------------
 			var user_results_array=resp['user_results_info'][id];
 
-			var uid=user_results_array['uid'];
-			var time_end=user_results_array['time_end'];
-			var time_used=user_results_array['time_used'];
-				var formattime = timeFormater(time_used);
-			var score=parseFloat(user_results_array['user_score']).toFixed(1);
-			var objective_points=parseFloat(user_results_array['objective_points']).toFixed(1);;
+			var score=parseFloat(user_results_array['user_score']).toFixed(0);
+			var objective_points=parseFloat(user_results_array['objective_points']).toFixed(0);;
 
-			//whx here
-			//user_level_resources = output_level_resources(user_results_array);
+			var user_score = '<div class="user_score">得分：'+score+'</span>/'+objective_points+'</div>';
+			var user_time_used = '<div class="user_time_used">用时：'+  timeFormater(user_results_array['time_used']) +'</div>';
 
-			output +='<div class="user_results_info"><div class="DiagnosticReport">	'+
-			'<a href="javascript:void(0)" onclick=\'$(".paper_content").view_userresult('+id+',{operation:"DiagnosticReport",titleContent:".paper_title",uid:'+settings.uid+'});return false;\'>诊断报告</a>	</div>'+
-			'<div class="user_score"><span class="score">得分：<span class="user_total_score">'+score+'</span>/'+objective_points+'</span></div></div>';
-
-//			output +='<div class="user_level_resources">'+user_level_resources+'</div>';
+			output +='<div class="clearfix">' +user_score + user_time_used + '</div>';
 
 			$(that).html(output);
 
-
-
-
-		//-----------试卷具体题目的输出--------------
+	//-----------试卷具体题目的输出--------------
 			var subques_array=resp['item'];
 
 			var output_items='<div class="paper">';
@@ -83,15 +121,9 @@ if(settings.operation=='detail'){
 				output_items +='</div>';
 
 			$(that).append(output_items);
-			//----------外加一个再做一套按钮--------------
-			$(that).append('<div id="fonts2"><a class="btn_05" href="javascript:void(0);" onclick=\'$(".paper_content").create_paper('+sid+',{titleContent:"'+settings.titleContent+'",user_id:"'+settings.user_id+'"});serial_total=0;clearInterval(timer);return false;\'>再做一套</a></div>');
 
-			$(".jplayer").myjplayer();
-
-			$(".serial_name_num_name").toggle(
-				function(){$(this).nextAll('.allSubques').slideUp('slow');},
-				function(){$(this).nextAll('.allSubques').slideDown('slow');}
-			);
+			needfun();
+			backToTop();
 
 		}catch (err)
 		{
@@ -103,7 +135,6 @@ if(settings.operation=='detail'){
 	});
 
 }
-
 else if(settings.operation=='DiagnosticReport'){
 	//显示用户试卷诊断报告 DiagnosticReport
 	url = '/itest/egs/index.php?op=user_diagnostic_report&id='+id;
@@ -122,25 +153,41 @@ else if(settings.operation=='DiagnosticReport'){
 			try
 			{
 	//--总分诊断报告
-		var output='';
+		var output='<div class="main_diagnosis">';
 		var paper_array=data['exam_info'];
-		var paper_name = '<div class="paper_name fleft">'+ paper_array['paper_name'] +'</div>';
+
+		var user_score = '<div class="user_score">得分：'+parseInt(paper_array['user_score'])+'</div>';
 		var user_time_used = '<div class="user_time_used">用时：'+  timeFormater(paper_array['time_used']) +'</div>';
 
-
-		$(settings.titleContent).html('<span id="title_f">'+paper_name+'</span>');
+		$(settings.titleContent).html(paper_array['exam_type']+" 诊断报告");
 
 		user_level_resources = output_level_resources(paper_array);
 
-		output +='<div class="clearfix">' + paper_name + user_time_used + '</div>';
+		output +='<div class="clearfix">' +user_score + user_time_used + '</div>';
 
 		output +='<div class="user_level_resources">'+user_level_resources+'</div>';
 
-		output +='<div class="user_result_operate"><a href="javascript:void(0)" onclick=\'serial_total=0;clearInterval(timer);$(".paper_content").view_userresult('+id+',{operation:"detail",titleContent:"'+settings.titleContent+'"});return false;\'>去看详细记录</a>'+
-					' <a href="/itest/www/mobile.html?op=user_wrong&uid='+settings.uid+'" >查看我的错题库</a></div>';
+
+		var opjs = 'javascript:(function(){$(\'.user_result_content\').view_userresult('+id+',{operation:\'result\',titleContent:\'.paper_title\',backto:\''+settings.backto+'\'})})()';
+		output +='<div class="user_result_operate">'+
+					'<a href="javascript:void(0)"  data-gotourl="'+opjs+'" data-needlogin="1">成绩分析</a>'+
+					'<a href="javascript:void(0)"  data-gotourl="userwrong.html" data-needlogin="1" >查看我的错题库</a></div>';
+		output +='</div>';
 
 		$(that).html(output);
 
+				/* 需要登录才能访问的链接 */
+				$('*[data-needlogin=1]').attr("data-gotourl",function(index, urlvalue){
+					if(urlvalue.length>0){
+						$(this).click(function(){
+							if(user_id == 0 || user_id == null || user_id == undefined)
+								confirmlogin(urlvalue);
+							else
+								location.href = urlvalue;
+
+						});
+					}
+				});
 
 		}
 
@@ -154,55 +201,9 @@ else if(settings.operation=='DiagnosticReport'){
 	});	//----end $.ajax()----
 
 }
-else if(settings.operation=='wrongAnswer'){
-	//显示用户错题库
 
 
-	url = '/itest/egs/wrong_answer.php?op=view&uid='+settings.uid;
-	//postdata = {uid:settings.uid};
-	$.ajax({
-		//type: 'POST',
-		url: url,
-		dataType: 'json',
-		//data: postdata,
-		timeout:20000,// 设置请求超时时间（毫秒）。
-		error: function (XMLHttpRequest, textStatus, errorThrown) {// 请求失败时调用函数。
-			$(that).html(" 请求超时! textStatus: " + textStatus + ', errorThrown: ' + errorThrown);
-		 },
-		success: function(resp)
-		{  //请求成功后回调函数。
-
-			try{
-				$(settings.titleContent).html('<span id="title_f">错题库</span>');
-
-
-				//-----------错题库具体题目的输出--------------
-				var subques_array=resp;
-
-				var output_items='<div class="paper">';
-				if(subques_array!=-1 && subques_array.length>0)
-					output_items +=resultoutput(subques_array,{operation:settings.operation});
-				else
-					output_items = '您还没有错题哦';
-				output_items +='</div>';
-
-				$(that).html(output_items);
-
-				$(".jplayer").myjplayer();
-
-			}catch (err)
-			{
-				resp = undefined;
-				$(that).append('服务器交互失败，请重试'+err);
-			}
-
-		}
-	});
-
-}
-
-
-}//---------end $.fn.view_userresult----
+};//---------end $.fn.view_userresult----
 })(jQuery);
 
 
@@ -211,49 +212,28 @@ else if(settings.operation=='wrongAnswer'){
 
 
 
-	function open_basetype(id, output, rebackUrl){
 
-		var title='<div class="title">您的做题结果</div>';
-		$.prompt(title+output,
-			{buttons: { 去看详细记录: true, 返回试卷列表: false},
-				focus: 0,
-				submit: function(v, m, f){
-					if(v){
-						paper_maincontent.view_userresult(id,{operation:"detail",titleContent:".paper_title"});
-					}
-					else
-					{
-						//区分普通用户和管理员
-						$('#mainContent').load(rebackUrl);
-					}
-					$.prompt.close();
-					return false;
-				}
-		 });
-	}
+function timeFormater(secondtime){
+	temtime=Math.abs(secondtime);
+	hours = Math.floor(temtime/3600);
+	minutes = Math.floor(temtime%3600/60);
+	seconds = Math.floor(temtime%60);
 
+	//if(maxtime<0) negetive='超时';
+	if(hours<10) hours='0'+hours;
+	if(minutes<10) minutes='0'+minutes;
+	if(seconds<10) seconds='0'+seconds;
 
-			function timeFormater(secondtime){
-				temtime=Math.abs(secondtime);
-				hours = Math.floor(temtime/3600);
-				minutes = Math.floor(temtime%3600/60);
-				seconds = Math.floor(temtime%60);
-
-				//if(maxtime<0) negetive='超时';
-				if(hours<10) hours='0'+hours;
-				if(minutes<10) minutes='0'+minutes;
-				if(seconds<10) seconds='0'+seconds;
-
-				var formatTime = hours+":"+minutes+":"+seconds;
-				return formatTime;
-			}
+	var formatTime = hours+":"+minutes+":"+seconds;
+	return formatTime;
+}
 
 var serial_total_view=0;//设置全局的题目编号
 
 function resultoutput(subques_array,options){
 	//用来递归显示所有试题的函数，加入了html标签，并且通过基本题型（basic_type）的判断，试题格式显示为不同的样式。
 	var settings=$.extend({
-			title_display : "yes",
+			title_display : "no",
 			operation:"detail"
 		},options||{});
 		//alert(settings.operation);
@@ -270,8 +250,9 @@ function resultoutput(subques_array,options){
 		var serial_name=items['serial_str'];
 
 		var serial_num_id=items['serial_num'];//数据库中存储的serial_num样式的id号
+		var serial_num = '';
 		if(serial_num_id!=undefined)
-			var serial_num=serial[serial_num_id][layout];//根据以上id从serial_number.js的serial_number数组中获取对应的样式表，并根据本题所属层级（layout）获得具体的样式编号。
+			serial_num=serial[serial_num_id][layout];//根据以上id从serial_number.js的serial_number数组中获取对应的样式表，并根据本题所属层级（layout）获得具体的样式编号。
 
 
 		var ques_array=items;
@@ -352,9 +333,12 @@ function resultoutput(subques_array,options){
 
 		if(description!=undefined&&description!='') ques_description='<div class="ques_description">'+description+'</div> ';
 
-		if(files!=undefined&&files!=''&&file_status==1)
+		if(file_status==1&&fileurl.length>0){
 			ques_files='<div class="jplayer_wrap"><a id="jplayer-'+item_id+'" class="mp3 jplayer notprint" src='+fileurl+'></a></div> ';
 
+			ques_pre='<div id="ques_display_'+item_id+'" class="ques_display hasmp3 ques_display_'+layout+'">';
+
+		}
 
 
 		if(basic_type_id==4&&question_body!=undefined&&question_body!=''){
@@ -391,21 +375,23 @@ function resultoutput(subques_array,options){
 
 
 
-
+		var ques_point_serial_name_body_answer = '';
 
 		if(basic_type_id==3){
 		//为描述类的题设定 本部分试题总分+特殊的编号+名称+body+description 的表现形式
 			if(settings.title_display == 'yes' && type_name!=undefined&&type_name!='')	ques_name='<span class="ques_name" > '+type_name+'</span>';
 
+			if(ques_body!=''&&ques_body!=undefined)
+				ques_body = '<div class="ques_body_description"><span class="description_label">Directions</span>'+ques_body+'</div>';
 
 			if(sum_score!=undefined)	ques_score='<span class="ques_score"> （分数/满分：'+sum_score+'/'+points+'）</span>';
-			if(ques_serial_name!=''||ques_serial_number!=''||ques_name!=''||ques_body!=''){
+			if(ques_serial_name!=''||ques_serial_number!=''||ques_name!=''){
 				if(ques_files != '')
-					ques_point_serial_name_body_answer ='<div class="clearfix">' + ques_files + '<div class="serial_name_num_name"><span class="fold_unfold_img">'+ques_serial_name+ques_serial_number+ques_name+ques_time_limit+ques_score+'</span></div></div><div class="ques_body_description">'+ques_body+'</div>';
+					ques_point_serial_name_body_answer ='<div class="clearfix">' + ques_files + '<div class="serial_name_num_name"><span class="fold_unfold_img">'+ques_serial_name+ques_serial_number+ques_name+ques_time_limit+ques_score+'</span></div></div>';
 				else
-					ques_point_serial_name_body_answer='<div class="serial_name_num_name"><span class="fold_unfold_img">'+ques_serial_name+ques_serial_number+ques_name+ques_time_limit+ques_score+'</span></div><div class="ques_body_description">'+ques_body+'</div>';
+					ques_point_serial_name_body_answer='<div class="serial_name_num_name"><span class="fold_unfold_img">'+ques_serial_name+ques_serial_number+ques_name+ques_time_limit+ques_score+'</span></div>';
 			}
-
+			ques_point_serial_name_body_answer = ques_point_serial_name_body_answer + ques_body;
 
 		}
 
@@ -422,7 +408,7 @@ function resultoutput(subques_array,options){
 				if(answer["answer"]!=undefined)
 					answer_answer='<span class="answer_correct">'+answer["answer"]+'</span>';
 				if(answer["feedback"]!=undefined && answer["feedback"]!=null && answer["feedback"]!='')
-					answer_feedback='<div class="answer_analyse">   <label>【试题材料】</label> <span class="answer_analyse">'+answer["feedback"]+'</span>    </div>  ';
+					answer_feedback='<div class="answer_analyse">   <label>[试题材料]</label> <span>'+answer["feedback"]+'</span>    </div>  ';
 			});
 
 			ques_answers ='<div class="ques_answer">'+answer_feedback+'</div>';
@@ -440,23 +426,44 @@ function resultoutput(subques_array,options){
 				var serial_number={"1":"A) ","2":"B) ","3":"C) ","4":"D) ","5":"E) ","6":"F) ","7":"G) ","8":"H) ","9":"I) ","10":"J) ","11":"K) ","12":"L) ","13":"M) ","14":"N) ","15":"O) ","16":"P) ","17":"Q) ","18":"R) ","19":"S) ","20":"T) ","21":"U) ","22":"V) ","23":"W) ","24":"X) ","25":"Y) ","26":"Z) "};
 				var i=0;//为计算ABCD
 
-				ques_answers +='<table id="ques_answer">  <thead><th class="answer_option">选项</th><th class="answer_analyse">答案解析</th></thead>  <tbody>';
+				var ques_answers_analyse ='';
+				ques_answers ='<div id="ques_answer">';
+
 				$.each(answers_array,function(index,answer){
 					i++;
 					var answer_class='';
+					var options_img='';
 					if(answer['is_correct']==1) {
-						if(user_answer_is_correct==1)
+						if(user_answer_is_correct==1){
 							answer_class='right';
-						else
+						}
+						else{
 							answer_class='should';
+							options_img='<span class="options_img"></span>';
+						}
+						options_img='<span class="options_img"><img src="../images/correct.png"/></span>';
 					}
-					else
-						if(user_answer_is_correct==0&&user_answer==index)
-						//if(user_answer==index)
+					else if(user_answer_is_correct==0&&user_answer==index){
 							answer_class='myanswer';
-					ques_answers +='<tr><td class='+answer_class+'>'+serial_number[i]+answer["answer"]+'</td>    <td>'+answer["feedback"]+'</td>  </tr> ';
+							options_img='<span class="options_img"><img src="../images/wrong.png"/></span>';
+					}
+
+					ques_answers +='<div class="options '+answer_class+'"><span>'+serial_number[i]+answer["answer"]+'</span>'+options_img+'</div> ';
+					if(answer["feedback"].length>0) {
+						ques_answers_analyse += '<span>'+answer["feedback"]+'</span>';
+
+						if(ques_body.length>0)
+							ques_answers_analyse =  '<div class="answer_analyse">   <label>答案解析：</label>'+ques_answers_analyse+' </div>';
+						else
+							ques_answers_analyse =  '<span class="answer_analyse">   <label>答案解析：</label>'+ques_answers_analyse+' </span>';
+
+					}
+
 				});
-				ques_answers +='</tbody></table>';
+				ques_answers +='</div>';
+
+				if(ques_answers_analyse.length>0)	ques_answers = ques_answers_analyse+ques_answers;
+
 
 			}
 			else 	if(basic_type_id==2){
@@ -469,17 +476,17 @@ function resultoutput(subques_array,options){
 					if(answer["answer"]!=undefined)
 						answer_answer='<span class="answer_correct">'+answer["answer"]+'</span>';
 					if(answer["feedback"]!=undefined && answer["feedback"]!=null && answer["feedback"]!='')
-						answer_feedback='<div class="answer_analyse">   <label>【答案解析】</label> <span class="answer_analyse">'+answer["feedback"]+'</span>    </div>  ';
+						answer_feedback='<div class="answer_analyse">   <label>答案解析:</label> <span>'+answer["feedback"]+'</span>    </div>  ';
 					});
 					if(is_objective==1) {
 						if(user_answer_is_correct==1)
-							ques_answers ='<div class="ques_answer correct"> <div class="answer_correct"><label>【正确答案】</label><span class="answer_correct answer_user">'+user_answer+'</span></div> '+answer_feedback+'</div>';
+							ques_answers ='<div class="ques_answer correct"> <div class="answer_correct"><label>正确答案:</label><span class="answer_correct answer_user">'+user_answer+'</span></div> '+answer_feedback+'</div>';
 						else
-							ques_answers ='<div class="ques_answer"> <div class="answer_user"><label>【用户答案】</label><span class="answer_user">'+user_answer+'</span></div> <div class="answer_correct"> <label>【正确答案】</label>'+answer_answer+'</div>'+answer_feedback+'</div>';
+							ques_answers ='<div class="ques_answer"> <div class="answer_user"><label>用户答案:</label><span class="answer_user">'+user_answer+'</span></div> <div class="answer_correct"> <label>正确答案:</label>'+answer_answer+'</div>'+answer_feedback+'</div>';
 
 					}
 					else if(is_objective==0){
-							ques_answers ='<div class="ques_answer is_subjective">    	<div class="answer_user"> <label>【用户答案】</label><span class="answer_user">'+user_answer+'</span></div>	 <div class="answer_correct"> <label>【参考答案】</label>'+answer_answer+'</div> '+answer_feedback+'</div>';
+							ques_answers ='<div class="ques_answer is_subjective">    	<div class="answer_user"> <label>用户答案:</label><span class="answer_user">'+user_answer+'</span></div>	 <div class="answer_correct"> <label>参考答案:</label>'+answer_answer+'</div> '+answer_feedback+'</div>';
 
 
 					}
@@ -496,19 +503,19 @@ function resultoutput(subques_array,options){
 				var answer_img='';
 				if(is_objective==0) {
 
-					answer_img='<span class="answer_img is_subjective is_correct"><img src="images/icon_Subjective.gif"/></span>';
+					answer_img='<span class="answer_img is_subjective is_correct"></span>';
 
 				}
 				else{
 
-					if(user_answer_is_correct==1) answer_img='<span class="is_objective is_correct"><img src="images/icon_right.gif"/></span>';
-					else answer_img='<span class="is_objective is_wrong"><img src="images/icon_wrong.gif"/></span>';
+					if(user_answer_is_correct==1) answer_img='<span class="answer_img is_objective is_correct"></span>';
+					else answer_img='<span class="answer_img is_objective is_wrong"></span>';
 
 				}
 
 				ques_serial_number=++serial_total_view+'.&nbsp;';
 
-				ques_point_serial_name_body_answer='<div class="ques_point_serial_name_body">'+ques_files+'<span class="serial_total">'+ques_serial_name+ques_serial_number+'</span><div class="ques_content">'+answer_img+ques_body+ques_points+ques_score+ques_answers+'</div></div>';
+				ques_point_serial_name_body_answer='<div class="ques_point_serial_name_body">'+ques_files+'<span class="serial_total">'+ques_serial_name+ques_serial_number+'</span><div class="ques_content">'+answer_img+ques_body+ques_answers+'</div></div>';
 			//ques_score提供值后，删除points_awarded
 			}
 
@@ -547,7 +554,7 @@ function output_level_resources(user_results_array){
 
 
 		if(level_name != undefined && level_name !='' && level_description != undefined && level_description != ''){//评语
-			user_level ='<div class="user_level"><span class="level_name">'+level_name+':</span><span class="level_description">'+level_description+'</span></div>';
+			user_level ='<div class="user_level"><div class="level_name_bg"><span class="level_name">'+level_name+':</span></div><span class="level_description">'+level_description+'</span></div>';
 		}
 	}
 

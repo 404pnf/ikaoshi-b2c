@@ -1,0 +1,90 @@
+
+/**** 做题页面 *****/
+
+/*  试卷基本信息  */
+.main_exam{font-size:1.6em;color:#828282;margin:40px 0px 140px;line-height:1.5em;}
+	.score,.atime{font-size:1.4em;color:#5EA3D3;margin:10px 30px;}
+		.main_exam .score a{width:112px;line-height:40px;font-size:1.2em;line-height:40px;padding:0px;}
+		.main_exam .submit{width: 155px;line-height: 50px;font-size: 1.3em;margin: 40px;}
+		.atime {width: 350px;position: relative;}
+		.main_exam .atime a{display: inline;font-size: 1em;line-height: 29px;padding: 4px 13px 4px 7px;margin-left: 10px;}
+	/*  试卷试题内容  */
+	.main_exam .paper{font-size:1.6em;line-height:1.6em;font-weight: normal;margin: 0 30px;}
+	.ques_display {padding: 5px 0px;z-index: 10;position:relative;}
+		.description_label{display: block;background: url(../images/direction.png) no-repeat;color: white;width: 207px;text-indent: 15px;line-height: 44px;}
+			.description_label.right{background: url(../images/direction_02.png) no-repeat;}
+		.ques_body_description{margin: 15px 0 5px;}
+		.ques_body br{display:none;}
+
+		/*mp3 播放器样式*/
+		.hasmp3{margin-left: 50px;}
+		.mp3 {left: -13px;position: absolute;top: 11px;opacity: 0;}
+			a.jp-play, a.jp-pause {height: 40px;width: 40px;background-size:40px 40px;position: absolute;top: 10px;left: -50px;font-size: 0;}
+			a.jp-play {background: url("../images/play.png") no-repeat scroll  0 0 transparent;}
+			a.jp-pause {background: url("../images/pause.png") no-repeat scroll 0 0 transparent;}
+
+
+		/*part section 等标题字体*/
+		.serial_name_num_name{cursor: pointer;background: none repeat scroll 0 0 #FAEEBC;font-size: 1.4em;line-height: 2.0em;margin-top: 8px;padding-left: 10px;clear: both;position: relative;}
+			.ques_display_part  .serial_name_num{font-size: 1.3em;text-align: center;}
+			.ques_time_limit{position: absolute;right: 1em;height: 2em;bottom: 1px;}
+
+		/*填空题的input为下划线*/
+		input.underline_blank{border:0;border-bottom:1px solid #333;}
+			/*  input框大小的调整  */
+			.ques_answer input.underline_blank_12{width:85px;}
+			.ques_answer input.underline_blank_20{width:100px;}
+			.ques_answer input.underline_blank_100{width:400px;}
+			.ques_answer textarea{width:400px;height:150px;}
+
+		/*选择填空题的数字序号*/
+		.serial_total{position:absolute;}
+		.ques_content{margin-left: 1.6em;}
+
+		/*上一题、下一题按钮控制*/
+		.disprev,.disnext{float:left;display:block;width:157px;height:64px;background:#7CB4CB;border-radius:12px;color:#FFF;font-size:2em;text-align:center;line-height:64px;border:0;margin:30px 10px;}
+		.disnext{float:right;}
+
+
+/*  诊断报告页 */
+.main_diagnosis{margin:28px;}
+	.main_diagnosis .clearfix{height: 71px;}
+		.main_diagnosis .user_score,.main_diagnosis .user_time_used{color:#348ECA;margin:20px;float:left;font-size:1.5em;}
+		.user_time_used{float:right;}
+	.user_level{background: url("../images/huabian.png") repeat-x -10px 0;margin-top: 35px;padding-top: 1px;}
+		.user_level .level_name_bg{background: url("../images/flagbg.png") no-repeat 0px top;margin-left: -5px;padding-top: 9px;margin-top: 45px;height: 35px;position: relative;}
+		.user_level_resources .level_name{color: white;font-size: 1.5em;padding: 0 20px;margin: 15px 0 0px 5px;background: #CA79C6;height: 37px;display: inline;line-height: 1em;}
+		.user_level_resources .level_description{display:block;font-size:1.5em;color:#939393;padding:25px 20px;line-height: 1.5em;}
+	.user_result_operate a{float:left;margin:35px 20px 140px;}
+
+
+/*  用户结果页 */
+	.main_result .clearfix{height: 1.5em;margin:30px;}
+		.clearfix .user_score,.clearfix .user_time_used{font-size:1.5em;color:#5EA3D3;float:left;}
+		.main_result .clearfix a{float: right;width: 140px;line-height: 40px;font-size: 1.5em;padding: 0;font-family: "宋体";border-radius: 8px;}
+			.clearfix .user_time_used{float:right;}
+	/* 用户答案 */
+	.serial_total{position:absolute;}
+	.main_result .hasmp3 .ques_display{margin-left: -50px;}
+	.main_result .ques_content {margin-left: 1.4em;}
+		.ques_content .answer_img{width:45px;height:48px;display:block;background: url("../images/wrong.png") no-repeat scroll left center transparent;float:left;}
+			.ques_content .answer_img.is_wrong{background: url("../images/wrong.png") no-repeat scroll left center transparent;}
+			.ques_content .answer_img.is_correct{background: url("../images/correct.png") no-repeat scroll left center transparent;}
+			.ques_content .answer_img.is_subjective{background: url("../images/icon_Subjective.gif") no-repeat scroll left center transparent;}
+		.ques_content .answer_analyse{margin-top:5px;}
+			.ques_answer .answer_analyse label,.ques_answer .answer_correct label,.ques_answer .answer_user label{color:#76B4C3;}
+			.answer_analyse p{text-indent:0px;}
+		.hasmp3 #ques_answer{top: -5px;position: relative;}
+			#ques_answer label{margin-left:0.5em;}
+			#ques_answer .options{line-height: 2em;}
+		/*选择题 用户答案、正确答案的样式*/
+		#ques_answer .should,#ques_answer .right{color: #86AE4B;}
+		#ques_answer .myanswer{color: #A2422A;}
+		#ques_answer img{vertical-align:middle;margin-bottom:10px;}
+		#ques_answer .options_img{margin-left:10px;}
+
+/* 错题库 */
+	.main_userwrong{margin-top:90px}
+		.edit{top: 90px;position: absolute;right: 40px;color: #797979;font-size: 0.8em;background: url(../images/edit.png) no-repeat left center;padding: 0 0 0 45px;}
+		.delete_btn{width: 98px;line-height: 38px;font-size: 1.1em;padding: 0;position: absolute;left: -120px;display:none;}
+			.hasmp3 .delete_btn{left: -170px;}

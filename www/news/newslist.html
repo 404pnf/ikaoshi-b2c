@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset=utf-8 />
+<meta name="format-detection" content="telephone=no"/>
+<title> 爱考试</title>
+
+<link href="css/news.css" rel="stylesheet" type="text/css">
+<script  type="text/javascript" src="js/jquery-1.4.2.js"></script>
+
+
+<script type="text/javascript">
+$(function(){
+	$(window.parent.document).find("#main").load(function(){
+		var main = $(window.parent.document).find("#main");
+		var thisheight = $(document).height()+30;
+		main.height(thisheight);
+	});
+	$(".back").attr({"href":"http://"+parent.location.host+"/itest/www/mobile/index.html"});
+});
+</script>
+
+</head>
+<body>
+
+	<h1 class="title graybg listtitle"><a href="javascript:history.go(-1)" class="back fleft" target="_parent"><img src="images/back_left_black.png" alt="" /></a><span class="paper_title">资讯</span></h1>
+	<section class="cover">
+		<ul>
+			<li class="textbg bgorange1 borderstyle1"><a href="news1.html" class="pd">外研社在天津大学建立数字化示范基地</a></li>
+			<li class="boxsm borderstyle1"><a href="news1.html"><img src="images/list_p1.png" alt="" height="200"/></a></li>
+		</ul>
+		<ul>
+			<li class="textsm bgblue1 borderstyle2"><a href="news2.html" class="pd">2013年外研社在鲁东大学建立数字化示范基地</a></li>
+			<li class="boxbig borderstyle2"><a href="news2.html"><img src="images/list_p2.png" alt="" height="200"/></a></li>
+		</ul>
+		<ul>
+			<li class="boxsm borderstyle3"><a href="news3.html"><img src="images/list_p3.png" alt="" height="200"/></a></li>
+			<li class="textbg bggreen borderstyle3"><a href="news3.html" class="pd">外研社iTEST俄语专业测试与训练系统正式发布</a></li>
+		</ul>
+		<ul>
+			<li class="boxbig borderstyle4"><a href="news4.html"><img src="images/list_p4.png" alt="" height="200"/></a></li>
+			<li class="textsm bgblue2 borderstyle4"><a href="news4.html" class="pd">2013年上半年全国大学英语四、六级考试时间</a></li>
+		</ul>
+	</section>
+</body>
+</html>

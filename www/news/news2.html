@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset=utf-8 />
+<meta name="format-detection" content="telephone=no"/>
+<title> 爱考试</title>
+
+<link href="css/news.css" rel="stylesheet" type="text/css">
+<script  type="text/javascript" src="js/jquery-1.4.2.js"></script>
+
+
+<script type="text/javascript">
+$(function(){
+	$(window.parent.document).find("#main").load(function(){
+		var main = $(window.parent.document).find("#main");
+		var thisheight = $(document).height()+30;
+		main.height(thisheight);
+		$(window.parent.document).scrollTop("0");
+	});
+
+});
+</script>
+<body>
+
+	<h1 class="title graybg newstitle"><a href="newslist.html" class="back fleft"><img src="images/back_left_black.png" alt="" /></a><span class="paper_title">2013年外研社在鲁东大学建立数字化示范基地</span></h1>
+	<section class="newsmain">
+		<article>
+			<figure class="image"><img alt="" src="images/p2.jpg" width="500px"/></figure>
+			<p>2013年3月22日，外语教学与研究出版社在鲁东大学举办“2013年数字化外语教学示范基地揭牌仪式暨信息时代的外语教学变革研讨会”，本届高层论坛议题是“信息时代的外语教学变革”，聚集了85位山东地区外语领域的专家学者和大学英语教学改革示范院校的一线教学负责人，深入探讨了信息时代高校外语教学的发展趋势以及如何提高外语教师教育技术应用能力、加强高校外语数字资源建设、优化高校外语教学与自主学习模式等主题。</p>
+		</article>
+
+	</section>
+
+</body>
+</html>
