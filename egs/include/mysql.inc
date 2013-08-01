@@ -5,10 +5,15 @@ class DB_CONNECT{
 
  public static function db_conn(){
 	if(!self::$DBInstance){
-		$dsn =  "mysql://sge:sgeshiegs@localhost/egs_itest";
+		$dsn =  "mysql://sge:sgeshiegs@localhost/egs-b2c";
 		self::$DBInstance = & DB::connect($dsn);
-		self::$DBInstance->setFetchMode(DB_FETCHMODE_OBJECT);
-		self::$DBInstance->query('set names utf8');
+		if(!DB::isError(self::$DBInstance)){
+			self::$DBInstance->setFetchMode(DB_FETCHMODE_OBJECT);
+			self::$DBInstance->query('set names utf8');
+		}
+		else{
+			die(self::$DBInstance->getMessage());
+		}
 	}
 	return self::$DBInstance;
 }
