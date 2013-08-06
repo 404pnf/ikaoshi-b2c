@@ -123,6 +123,31 @@ class MobileUser{
 	}
 
 
+	/**
+	 * 散户(普通)用户通过客户端入口登录,模仿itest用户验证方式
+	 * @param unknown_type $username
+	 * @param unknown_type $password
+	 * @return multitype:number
+	 */
+	public function free_login($username, $password){
+		$arr = array("status" => 0);
+
+		if(!empty($username) && !empty($password)){
+
+			$conn = DB_CONNECT::db_conn();
+			$sql = "SELECT `uid`,`username`, `password`,`role` FROM `users` WHERE username=? LIMIT 1";
+
+			$conn->setFetchMode(DB_FETCHMODE_ASSOC);
+			$user = $conn->getRow($sql,array($username));
+
+			$pass = md5($user['password']);
+			if(!DB::isError ($user)&&!empty($user) && $pass == $password){
+				$arr=$user;
+				$arr['status'] = 1;
+			}
+		}
+		return $arr;
+	}
 
 
 
