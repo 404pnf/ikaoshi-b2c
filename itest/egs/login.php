@@ -6,7 +6,7 @@ require_once 'include/mobile_user.php';
 
 	$username = $_REQUEST['username'];
 	$password = $_REQUEST['password'];
-	$arr = $mu->backstage_login($username, $password);
+	$arr = $mu->free_login($username, $password);
 	if($arr['status']==1){
 		$arr['status'] = 'success';
 		$arr['message'] = '成功';
