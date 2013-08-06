@@ -141,7 +141,8 @@ class MobileUser{
 			$user = $conn->getRow($sql,array($username));
 
 			$pass = md5($user['password']);
-			if(!DB::isError ($user)&&!empty($user) && $pass == $password){
+			unset($user['password']);
+			if(!DB::isError ($user)&&!empty($user) && strtoupper($pass) == strtoupper($password)){
 				$arr=$user;
 				$arr['status'] = 1;
 			}
