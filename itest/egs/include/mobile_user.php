@@ -47,9 +47,9 @@ class MobileUser{
 
 			if($res->code == DB_ERROR_ALREADY_EXISTS){
 			//如果插入已有数据，则更新
-				$sql = "UPDATE `users` SET `username` = ? , `password` = ? , `userole` = ?, `classinfor` = ?
+				$sql = "UPDATE `users` SET `username` = ? , `userole` = ?, `classinfor` = ?
 						WHERE  `itestid` = ? ";
-				$res = $conn->query($sql,array($username,$password,$userole,$classinfor, $itestuserid));
+				$res = $conn->query($sql,array($username,$userole,$classinfor, $itestuserid));
 
 				if(!DB::isError($res)){
 					$userid_sql = "SELECT `uid` FROM `users` WHERE `itestid` = ? ";
