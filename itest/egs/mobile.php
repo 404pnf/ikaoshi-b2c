@@ -30,6 +30,13 @@ switch($class){
 				$password = $_REQUEST['password'];
 				$arr = $mu->backstage_login($username, $password);
 				break;
+			case "regist":
+				$username = $_REQUEST['username'];
+				$password = $_REQUEST['password'];
+				$truename = $_REQUEST['truename'];
+				$email = $_REQUEST['email'];
+				$arr = $mu->regist($username, $password, $truename, $email);
+				break;
 		}
 		break;
 	case "paper":
