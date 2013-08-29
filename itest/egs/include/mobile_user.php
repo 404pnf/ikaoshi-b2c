@@ -70,6 +70,39 @@ class MobileUser{
 		return $arr;
 
 	}
+	
+	public function regist($username, $password, $truename, $email){
+		$status = "0";
+		$uid = "0";
+
+		if(!empty($username) && !empty($password) && !empty($email)){
+
+			$conn = DB_CONNECT::db_conn();
+			$sql = "INSERT INTO `users`
+				(`username`,`password`,`email`,`role`)
+				VALUES(?,?,?,2)";
+			$res = $conn->query($sql,array($username,$password,$email));
+
+			if($res->code == DB_ERROR_ALREADY_EXISTS){
+				$userid_sql = "SELECT count(*) FROM `users` WHERE `username` = ? ";
+				$c = $conn->getOne($userid_sql,array($username));
+				if($c >0)
+					$status = 3;//用户名重复
+				else
+					$status = 4;//邮箱重复
+			}
+			elseif(!DB::isError($res)){
+				$status = "1";
+				$uid = mysql_insert_id();
+			}
+		}
+		$arr = array('status'=>$status,
+					'uid'=>$uid,
+					"username" => $username,
+					"role" => "2");
+		return $arr;
+
+	}
 
 
 	/**
