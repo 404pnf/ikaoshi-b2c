@@ -46,7 +46,7 @@ body{ font-size:100%; background-color:#828282;}
 .i_register>div{padding:3px 0;}
 .label{ float:left; clear:both; font-family:"黑体"; color:#505050; font-size:100%;}
 .line_o{ clear:both; margin-bottom:10px; line-height:160%; overflow:hidden;}
-.tip{color:#c26e4c; font-size:50%; width:100%%;float:right; display:block; text-align:left}
+.tip{color:#c26e4c; font-size:50%; width:100%;float:right; display:block; text-align:left}
 .fright{ float:right;}
 .oh{ overflow:hidden}
 .clear{ clear:both}
@@ -75,6 +75,14 @@ input[type="text"],input[type="password"]{ width:100%; padding:5px; background-c
 @media screen and (min-device-height:1025px){
 	.i_register{ margin:170px auto 0 auto; padding-top:100px; padding-bottom:70px}
 	}
+@media only screen and (-webkit-min-device-pixel-ratio:1.5) {
+	.i_register{ margin:0px auto; padding:25px 10px; width:100%}
+	.kuan{width:68%;}
+	.treaty{width:90%;}
+	input[type="text"],input[type="password"]{
+		float:left;
+	}
+}
 
 </style>
 
@@ -98,7 +106,7 @@ function MM_preloadImages() { //v3.0
 <div class="line_o"> <label class="label"><span class="red">*</span>账　　号：</label><span class="kuan"><input id="username" type="text" name="username"/><p class="tip">请使用英文字母和阿拉伯数字及下划线，长度5-18个字符</p></span></div>
 <div class="line_o"> <label class="label"><span class="red">*</span>密　　码：</label><span class="kuan"><input id="password" type="password" name="password" ><p class="tip">密码长度6-32个字符</p></span></div>
 <div class="line_o"><label class="label"><span class="red">*</span>密码确认：</label><span class="kuan"><input id="password2" type="password"  value=""><p class="tip">请再次输入密码</p></span></div>
-<div class="line_o"> <label class="label"><span class="red">&nbsp;</span>姓　　名：</label><span class="kuan"><input id="truename" type="text" name="truename" value=""></span></div>
+<div class="line_o"> <label class="label"><span class="red">&nbsp;</span> 姓　　名：</label><span class="kuan"><input id="truename" type="text" name="truename" value=""></span></div>
 <div class="line_o"> <label class="label"><span class="red">*</span>电子邮箱：</label><span class="kuan"><input id="email" type="text" name="email" value="" ></span></div>
 
 <div class="line_o oh"> <label class="label"><span class="red">*</span>用户协议： </label>
