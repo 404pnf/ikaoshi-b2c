@@ -15,11 +15,17 @@
 <script  type="text/javascript" src="../libs/tx/txgenerictools.js" ></script>
 
 <script  type="text/javascript" src="js/common.js"></script>
+<style>
+.choice_school{
+	display:none;
+}
+</style>
 <script type="text/javascript">
-var hostname = location.hostname;
+//var hostname = location.hostname;
 $(function(){
 	//if(hostname=="m.itest.fltrp.com")
-		//$(".choice_school").show();
+	if(user_id ==undefined || user_id == 0)
+		$(".choice_school").show();
 });
 </script>
 </head>
