@@ -102,13 +102,13 @@ body{position:relative;font-size: 12px;}
 	/* 大分类页 */
 	.main_testcate{overflow:auto;margin:0px auto 140px;}
 		.main_testcate ul{overflow:auto;margin:0 auto;}
-		.main_testcate li{line-height:104px;background:#FFF; border-radius:10px;box-shadow: 0 1px 2px #aaa;margin: 30px 25px;}
+		.main_testcate li{line-height:124px;background:#FFF; border-radius:10px;box-shadow: 0 1px 2px #aaa;margin: 50px 25px;}
 		.main_testcate li a{display:block;height:100%;font-size:3em;color:#333;letter-spacing:.12em;text-indent:5em;}
-		.main_testcate a.e1{background:url("../images/lev1.png") no-repeat 74px 16px ;}
-		.main_testcate a.e2{background:url("../images/lev2.png") no-repeat 76px 21px ;}
-		.main_testcate a.e3{background:url("../images/lev3.png") no-repeat 76px 21px ;}
-		.main_testcate a.e4{background:url("../images/lev4.png") no-repeat 74px 16px ;}
-		.main_testcate a.e5{background:url("../images/lev5.png") no-repeat 74px 16px ;}
+			.main_testcate a.e1{background:url("../images/lev1.png") no-repeat 74px 26px ;}
+			.main_testcate a.e2{background:url("../images/lev2.png") no-repeat 76px 31px ;}
+			.main_testcate a.e3{background:url("../images/lev3.png") no-repeat 76px 31px ;}
+			.main_testcate a.e4{background:url("../images/lev4.png") no-repeat 74px 26px ;}
+			.main_testcate a.e5{background:url("../images/lev5.png") no-repeat 74px 26px ;}
 
 	/* 试卷列表页 */
 	h1.graybg{color:black;line-height:89px;border-top:1px solid #F8FDF8;background-image: -webkit-gradient(linear,0% 15%, 0% 100%, from(#F6F6F6), to(#EEEEEE), color-stop(0.4,#F7F7F7));margin-bottom:2px;border-bottom:1px solid #efefef;}
