@@ -79,9 +79,9 @@ class MobileUser{
 
 			$conn = DB_CONNECT::db_conn();
 			$sql = "INSERT INTO `users`
-				(`username`,`password`,`email`,`role`,`itestid`)
-				VALUES(?,?,?,2,?)";
-			$res = $conn->query($sql,array($username,$password,$email,$username));
+				(`username`,`password`,`email`,`role`,`itestid`,`truename`)
+				VALUES(?,?,?,2,?,?)";
+			$res = $conn->query($sql,array($username,$password,$email,$username,$truename));
 
 			if($res->code == DB_ERROR_ALREADY_EXISTS){
 				$userid_sql = "SELECT count(*) FROM `users` WHERE `username` = ? ";
