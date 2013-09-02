@@ -1,6 +1,7 @@
 CACHE MANIFEST
 # 2012-04-23 v1.0.7
 
+CACHE
 images/back_left_black.png
 images/back_left.png
 images/book_icon.png
@@ -64,6 +65,7 @@ images/zixun.png
 
 NETWORK:
 *
+style/base.css
 
 FALLBACK:
 
