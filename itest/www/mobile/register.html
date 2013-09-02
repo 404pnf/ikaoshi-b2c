@@ -47,6 +47,7 @@ body{ font-size:100%; background-color:#828282;}
 .label{ float:left; clear:both; font-family:"黑体"; color:#505050; font-size:100%;}
 .line_o{ clear:both; margin-bottom:10px; line-height:160%; overflow:hidden;}
 .tip{color:#c26e4c; font-size:50%; width:100%;float:right; display:block; text-align:left}
+.center{text-align:center;}
 .fright{ float:right;}
 .oh{ overflow:hidden}
 .clear{ clear:both}
@@ -59,6 +60,7 @@ input[type="text"],input[type="password"]{ width:100%; padding:5px; background-c
 .content_z{ font-family:"黑体"; color:#484848;}
 .succ{ display:block; text-align:center; font-weight:bold; color:#505050; line-height:190%;}
 .tip_1{color:#c26e4c; font-size:80%; text-align:center; line-height:220%}
+
 @media screen and (max-device-width:800px){
 	.i_register{ width:75%; padding-left:10%; padding-right:10%;}
 	}
@@ -76,6 +78,18 @@ input[type="text"],input[type="password"]{ width:100%; padding:5px; background-c
 	.i_register{ margin:170px auto 0 auto; padding-top:100px; padding-bottom:70px}
 	}
 @media only screen and (-webkit-min-device-pixel-ratio:1.5) {
+/* iPhone4 */
+	.i_register{ margin:0px auto; padding:25px 10px; width:93%}
+	.kuan{width:68%;}
+	.treaty{width:93%;}
+	input[type="text"],input[type="password"]{
+		float:left;
+	}
+	.tip{font-size:80%}
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) and (max-device-width: 1136px) {
+/* iPhone5 */
 	.i_register{ margin:0px auto; padding:25px 10px; width:93%}
 	.kuan{width:68%;}
 	.treaty{width:93%;}
@@ -104,9 +118,9 @@ function MM_preloadImages() { //v3.0
 <div class="i_register">
 <form id="RegistrationForm">
 
-<div class="line_o"> <label class="label"><span class="red">*</span>账　　号：</label><span class="kuan"><input id="username" type="text" name="username"/><p class="tip">请使用英文字母和阿拉伯数字及下划线，长度5-18个字符</p></span></div>
-<div class="line_o"> <label class="label"><span class="red">*</span>密　　码：</label><span class="kuan"><input id="password" type="password" name="password" ><p class="tip">密码长度6-32个字符</p></span></div>
-<div class="line_o"><label class="label"><span class="red">*</span>密码确认：</label><span class="kuan"><input id="password2" type="password"  value=""><p class="tip">请再次输入密码</p></span></div>
+<div class="line_o"> <label class="label"><span class="red">*</span>账　　号：</label><span class="kuan"><input id="username" type="text" name="username"/><p class="tip">（请使用英文字母和阿拉伯数字及下划线，长度5-18个字符）</p></span></div>
+<div class="line_o"> <label class="label"><span class="red">*</span>密　　码：</label><span class="kuan"><input id="password" type="password" name="password" ><p class="tip">（密码长度6-32个字符）</p></span></div>
+<div class="line_o"><label class="label"><span class="red">*</span>密码确认：</label><span class="kuan"><input id="password2" type="password"  value=""><p class="tip">（请再次输入密码）</p></span></div>
 <div class="line_o"> <label class="label"><span class="red">&nbsp;</span> 姓　　名：</label><span class="kuan"><input id="truename" type="text" name="truename" value=""></span></div>
 <div class="line_o"> <label class="label"><span class="red">*</span>电子邮箱：</label><span class="kuan"><input id="email" type="text" name="email" value="" ></span></div>
 
@@ -203,6 +217,7 @@ function MM_preloadImages() { //v3.0
 <p>本用户协议根据现行中华人民共和国法律法规制定。如发生本网站用户协议与中华人民共和国法律相抵触时，则这些条款将完全按法律规定重新解释，本用户协议的其它条款仍对本网站和用户具有法律约束力。</p>
 </div></div>
 <div class="clear"><input type="submit" value=" "  class="btn"></div> 
+<div class="tip center">小伙伴们~快快关注爱考试微博"爱考试FLTRP"</div> 
 </form>
 </div>
 
