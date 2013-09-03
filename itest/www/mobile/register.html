@@ -1,7 +1,7 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset=utf-8 />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
 <title> 爱考试</title>
 <style type="text/css">
 
@@ -52,15 +52,17 @@ body{ font-size:100%; background-color:#828282;}
 .oh{ overflow:hidden}
 .clear{ clear:both}
 .btn{ background:url(images/reg_btn_03.jpg) no-repeat; width:60%;-o-background-size:contain;-webkit-background-size: contain;-moz-background-size:contain;background-size:contain; border:none; padding-top:50px; overflow:hidden; margin:20px auto 0 auto; display:block; height:0px; cursor:pointer}
-input[type="text"],input[type="password"]{ width:100%; padding:5px; background-color:#f5f5f5; border:1px #afadad solid; float:left}
+input[type="text"],input[type="password"]{ width:100%; padding:4px; background-color:#f5f5f5; border:1px #afadad solid; float:left}
 .red{ color:#F00;font-family: "SimSun";padding-right: 4px;}
 .kuan{ display:block; float:left; width:75%;}
 	.kuan input[name="randcode"]{ width:70%}
 	.treaty{width:71%; height:100px; overflow:auto; border:1px gray solid; padding: 8px 8px 8px 8px; color:#484848; font-size:90%}
 .content_z{ font-family:"黑体"; color:#484848;}
-.succ{ display:block; text-align:center; font-weight:bold; color:#505050; line-height:190%;}
-.tip_1{color:#c26e4c; font-size:80%; text-align:center; line-height:220%}
-
+.succ{ display: block;font-weight: bold;color: #505050;line-height: 1.9em;font-family:"黑体";}
+.tip_1{ color: #505050;line-height: 1.5em;font-size: 1.5em;margin: 5px 0 11px;font-family:"黑体";}
+.djBackground{background-color: #000;width: 100%;height: 100%;position: absolute;top: 0;left: 0;opacity: 0.6;}
+.djDefault{text-align: left;padding: 44px 4%;height: 180px;margin: 0px auto;position: absolute;background: white;left: 35%;top: 25%;width: 22%;}
+a.weibo,a.weibo:visited,a.weibo:active{color: #C26E4C;}
 @media screen and (max-device-width:800px){
 	.i_register{ width:75%; padding-left:10%; padding-right:10%;}
 	}
@@ -83,9 +85,13 @@ input[type="text"],input[type="password"]{ width:100%; padding:5px; background-c
 	.kuan{width:68%;}
 	.treaty{width:93%;}
 	input[type="text"],input[type="password"]{
-		float:left;
+		float:left;font-size: 1.1em;
 	}
 	.tip{font-size:80%}
+	.djDefault{	padding: 12% 12% 0px; left: 3.5%;	top: 20%; margin:0 auto;width:69%}
+	.succ{font-size:1.5em; line-height: 1.9em;}
+	.tip_1{line-height: 1.5em;font-size: 0.95em;margin: 5px 0 11px;}
+	.weibo img{width:65px;}
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) and (max-device-width: 1136px) {
@@ -94,9 +100,13 @@ input[type="text"],input[type="password"]{ width:100%; padding:5px; background-c
 	.kuan{width:68%;}
 	.treaty{width:93%;}
 	input[type="text"],input[type="password"]{
-		float:left;
+		float:left;font-size: 1.1em;
 	}
 	.tip{font-size:80%}
+	.djDefault{	padding: 12% 12% 0px; left: 3.5%;	top: 20%; margin:0 auto;width:69%}
+	.succ{font-size:1.5em; line-height: 1.9em;}
+	.tip_1{line-height: 1.5em;font-size: 0.95em;margin: 5px 0 11px;}
+	.weibo img{width:65px;}
 }
 
 </style>
@@ -217,11 +227,11 @@ function MM_preloadImages() { //v3.0
 <p>本用户协议根据现行中华人民共和国法律法规制定。如发生本网站用户协议与中华人民共和国法律相抵触时，则这些条款将完全按法律规定重新解释，本用户协议的其它条款仍对本网站和用户具有法律约束力。</p>
 </div></div>
 <div class="clear"><input type="submit" value=" "  class="btn"></div> 
-<div class="tip center">小伙伴们~快快关注爱考试微博"爱考试FLTRP"</div> 
 </form>
 </div>
 
 </div>
+<!--<div class="djBackground"></div><div class="djDefault"><h1 class="succ">注册成功！</h1><div class="tip_1">小伙伴们～<br>关注微博 <a class="weibo" href="http://weibo.com/itest2013" target="_blank">爱考试FLTRP</a> 等你哦～</div><div><a class="weibo" href="http://weibo.com/itest2013" target="_blank"><img width="75px" src="images/guanzhu.png"></a></div></div>-->
 </body>
 
 </html>
@@ -288,9 +298,11 @@ $(function(){
        		//var info = eval('('+data+')'); //把JSON字符串转化成js对象info 
         //alert(data.status);
 		  	if(data.status==1){
-		  		var html = '<div class=djDefault style="padding-top: 24px; padding-bottom:10px; height: 180px;  margin-left:0px;"><div class="succ">注册成功！</div><div class="succ">账号：'+data.username+'</div><div class="tip_1">可用此账号登录爱考试</div></div>'
+		  		var html = '<div class="djBackground"></div><div class="djDefault"><h1 class="succ">注册成功！</h1><div class="tip_1">小伙伴们～<br>关注微博 <a class="weibo" href="http://weibo.com/itest2013" target="_blank">爱考试FLTRP</a> 等你哦～</div><div><a class="weibo" href="http://weibo.com/itest2013" target="_blank"><img width="75px" src="images/guanzhu.png"></a></div></div>';
 		  		
-		  		$(".i_register").html(html);
+		  		$("body").append(html).scrollTop(0);
+		  		$(".djBackground").height($("html").height());
+		  		
 			}else if(data.status==3){
 				alert('您注册的帐号已存在！');
 			}else if(data.status==4){
