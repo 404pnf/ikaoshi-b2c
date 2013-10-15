@@ -6,4 +6,5 @@ if (!$link) {
 }
 echo 'Connected successfully';
 mysql_close($link); */
-echo 'It Works!';
+
+header('Location: '.'/itest/www/mobile/index.html');
